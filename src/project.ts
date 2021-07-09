@@ -1,4 +1,4 @@
-import { ApiEndpoint, BaseResponse, ErrorResponse, Model, Type } from './api'
+import { ApiEndpoint, BaseResponse, ErrorResponse, Model, Type, Validator, Required, IsEmail } from './api'
 import { AxiosRequestConfig, AxiosResponse } from 'axios'
 
 export class Newsentry {
@@ -66,3 +66,25 @@ export class ProjectApiEndpoint extends ApiEndpoint {
     404: 'Эндпойнт не найден в классе новостей'
   }
 }
+
+export const FeedbackFormValidator = new Validator({
+  email: [
+    [Required, 'Это кастомное сообщение'],
+    IsEmail
+  ]
+}, (
+  validator: Validator,
+  form: any,
+  flag: boolean,
+  checks: { [ code: string ]: { [ code: string ] : boolean } },
+  errors: { [ code: string ]: string[] }
+) => {
+  const customErrors = []
+
+  if (!checks.email?.Required && !checks.email?.IsEmail) {
+    flag = true
+    customErrors.push('Вы не можете отправить форму, потому что заполнили ее верно')
+  }
+
+  return { flag, errors, commonErrors: customErrors }
+})
