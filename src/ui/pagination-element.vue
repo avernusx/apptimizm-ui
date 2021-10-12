@@ -1,3 +1,4 @@
+<script lang="tsx">
 interface ISlotsPaginationElementProps {
   page: number
   pages: number
@@ -32,7 +33,7 @@ function isRoutesPaginationElementProps (props: IPaginationElementProps): props 
   return 'routeName' in props
 }
 
-const PaginationElement = (props: IPaginationElementProps, context: any) : JSX.Element => {
+const PaginationElement = (props: IPaginationElementProps, context: any) => {
   const page = Number(props.page)
   const pages = Number(props.pages)
 
@@ -86,3 +87,12 @@ const PaginationElement = (props: IPaginationElementProps, context: any) : JSX.E
 }
 
 export default PaginationElement
+</script>
+
+<style lang="sass" scoped>
+.pagination
+  display: flex
+  .page, .prev, .next
+    cursor: pointer
+    padding: 4px
+</style>
