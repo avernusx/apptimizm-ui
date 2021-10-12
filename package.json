@@ -1,7 +1,6 @@
 {
   "name": "apptimizm-ui",
   "version": "0.0.2",
-  "private": true,
   "main": "./dist/apptimizm-ui.common.js",
   "types": "./src/index.d.ts",
   "scripts": {
