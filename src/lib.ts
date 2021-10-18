@@ -4,6 +4,7 @@ import DefaultTable from './ui/default-table.vue'
 import HiddenInput from './ui/hidden-input.vue'
 import LineLoaderSmall from './ui/line-loader-small.vue'
 import ListSelect from './ui/list-select.vue'
+import MultipleRelationSelect from './ui/relation-select-multiple.vue'
 import NumberInput from './ui/number-input.vue'
 import PaginationElement from './ui/pagination-element.vue'
 import RadioButton from './ui/radio-button.vue'
@@ -18,6 +19,7 @@ export {
   HiddenInput,
   LineLoaderSmall,
   ListSelect,
+  MultipleRelationSelect,
   NumberInput,
   PaginationElement,
   RadioButton,
