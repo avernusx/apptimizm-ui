@@ -16,6 +16,7 @@ class Props {
   responseTotalKey = prop<string>({ default: 'total' })
   searchKey = prop<string>({ default: 'search' })
   titleKey = prop<string>({ default: 'name' })
+  idKey = prop<string>({ default: 'id' })
   errors = prop<string[]>({ default: () => [] })
 }
 
@@ -53,7 +54,7 @@ export default class RelationSelect extends Vue.with(Props) {
   }, 500)
 
   toggleItem (item: any) {
-    this.modelValue.id !== item.id ? this.select(item) : this.deselect()
+    this.modelValue[this.idKey] !== item[this.idKey] ? this.select(item) : this.deselect()
   }
 
   select (item: any) {
