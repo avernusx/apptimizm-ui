@@ -3,7 +3,6 @@ import { Vue, prop } from 'vue-class-component'
 import { LocationAsRelativeRaw } from 'vue-router'
 import debounce from 'lodash/debounce'
 import PaginationElement from './pagination-element.vue'
-import HiddenInput from './hidden-input.vue'
 import IAxiosInterface from '../IAxiosInterface'
 
 type TableHeader = {
@@ -113,7 +112,7 @@ export default class DefaultTable extends Vue.with(Props) {
               <td>
                 {
                   h.search
-                    ? <HiddenInput placeholder={h.name} modelValue={this.params[h.search]} onValueChange={(v: string) => { h.search && (this.params[h.search] = v); this.loadPage(1) }}/>
+                    ? <input class="table-input" type="text" value={this.params[h.search]} placeholder={h.name} onInput={(e: any) => { h.search && (this.params[h.search] = e.target?.value); this.loadPage(1) }}/>
                     : h.name
                 }
               </td>
