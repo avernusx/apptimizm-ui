@@ -7770,8 +7770,10 @@ var default_tablevue_type_script_lang_tsx_Props = function Props() {
     required: true
   });
   this.itemConverter = prop({
-    default: function _default(item) {
-      return item;
+    default: function _default() {
+      return function (item) {
+        return item;
+      };
     }
   });
   this.defaultFilter = prop({
