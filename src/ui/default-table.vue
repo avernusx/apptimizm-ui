@@ -109,7 +109,7 @@ export default class DefaultTable extends Vue.with(Props) {
         <table class="default-table">
           <thead>
             { this.headers.map((h: TableHeader) => (
-              <td>
+              <td class={h.search ? 'search' : ''}>
                 {
                   h.search
                     ? <input class="table-input" type="text" value={this.params[h.search]} placeholder={h.name} onInput={(e: any) => { h.search && (this.params[h.search] = e.target?.value); this.loadPage(1) }}/>
