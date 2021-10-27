@@ -13,6 +13,7 @@ type TableHeader = {
 class Props {
   add = prop<LocationAsRelativeRaw>({ default: undefined })
   axios = prop<IAxiosInterface>({ required: true })
+  itemConverter= prop<(item: any) => any>({ default: (item: any) => item })
 
   defaultFilter = prop({
     type: Object,
@@ -69,7 +70,7 @@ export default class DefaultTable extends Vue.with(Props) {
     this.isLoading = true
     const response = (await this.axios.get(this.endpoint, { params })).data
     this.count = response[this.responseTotalKey]
-    this.items = response[this.responseItemsKey]
+    this.items = response[this.responseItemsKey].map((i: any) => this.itemConverter(i))
     this.pages = Math.ceil(this.count / this.perPage)
     this.isLoading = false
     this.$forceUpdate()
