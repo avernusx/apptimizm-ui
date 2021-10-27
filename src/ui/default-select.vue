@@ -78,7 +78,7 @@ export default class DefaultSelect extends Vue.with(Props) {
 </script>
 
 <style lang="sass" scoped>
-@import '../style/variables.sass'
+@import '../variables.sass'
 
 .default-select
   position: relative

@@ -1,6 +1,6 @@
 {
   "name": "apptimizm-ui",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "main": "./dist/apptimizm-ui.common.js",
   "types": "./src/index.d.ts",
   "scripts": {
