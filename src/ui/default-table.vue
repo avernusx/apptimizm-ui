@@ -13,7 +13,7 @@ type TableHeader = {
 class Props {
   add = prop<LocationAsRelativeRaw>({ default: undefined })
   axios = prop<IAxiosInterface>({ required: true })
-  itemConverter= prop<(item: any) => any>({ default: (item: any) => item })
+  itemConverter = prop<(item: any) => any>({ default: () => (item: any) => item })
 
   defaultFilter = prop({
     type: Object,
