@@ -7760,6 +7760,11 @@ var default_tablevue_type_script_lang_tsx_Props = function Props() {
   this.axios = prop({
     required: true
   });
+  this.itemConverter = prop({
+    default: function _default(item) {
+      return item;
+    }
+  });
   this.defaultFilter = prop({
     type: Object,
     default: function _default() {
@@ -7813,6 +7818,8 @@ var default_tablevue_type_script_lang_tsx_DefaultTable = /*#__PURE__*/function (
     _this.items = [];
     _this.params = {};
     _this.debouncedLoad = debounce_default()( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+      var _this2 = this;
+
       var params, response;
       return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
@@ -7832,7 +7839,9 @@ var default_tablevue_type_script_lang_tsx_DefaultTable = /*#__PURE__*/function (
             case 4:
               response = _context.sent.data;
               this.count = response[this.responseTotalKey];
-              this.items = response[this.responseItemsKey];
+              this.items = response[this.responseItemsKey].map(function (i) {
+                return _this2.itemConverter(i);
+              });
               this.pages = Math.ceil(this.count / this.perPage);
               this.isLoading = false;
               this.$forceUpdate();
@@ -7862,7 +7871,7 @@ var default_tablevue_type_script_lang_tsx_DefaultTable = /*#__PURE__*/function (
     key: "created",
     value: function () {
       var _created = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-        var _this2 = this;
+        var _this3 = this;
 
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
@@ -7871,7 +7880,7 @@ var default_tablevue_type_script_lang_tsx_DefaultTable = /*#__PURE__*/function (
                 this.headers.filter(function (h) {
                   return h.search;
                 }).forEach(function (h) {
-                  h.search && (_this2.params[h.search] = '');
+                  h.search && (_this3.params[h.search] = '');
                 });
                 _context2.next = 3;
                 return this.load();
@@ -7940,26 +7949,28 @@ var default_tablevue_type_script_lang_tsx_DefaultTable = /*#__PURE__*/function (
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this4 = this;
 
       return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("table", {
         "class": "default-table"
       }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("thead", null, [this.headers.map(function (h) {
-        return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("td", null, [h.search ? Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("input", {
+        return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("td", {
+          "class": h.search ? 'search' : ''
+        }, [h.search ? Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("input", {
           "class": "table-input",
           "type": "text",
-          "value": _this3.params[h.search],
+          "value": _this4.params[h.search],
           "placeholder": h.name,
           "onInput": function onInput(e) {
             var _e$target;
 
-            h.search && (_this3.params[h.search] = (_e$target = e.target) === null || _e$target === void 0 ? void 0 : _e$target.value);
+            h.search && (_this4.params[h.search] = (_e$target = e.target) === null || _e$target === void 0 ? void 0 : _e$target.value);
 
-            _this3.loadPage(1);
+            _this4.loadPage(1);
           }
         }, null) : h.name]);
       })]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("tbody", null, [this.items.map(function (item) {
-        return _this3.line(item);
+        return _this4.line(item);
       })])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
         "class": "default-table-footer"
       }, [this.pages > 1 && Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(pagination_element, {
@@ -7967,7 +7978,7 @@ var default_tablevue_type_script_lang_tsx_DefaultTable = /*#__PURE__*/function (
         "pages": this.pages,
         "onEvents": true,
         "onPageChange": function onPageChange(i) {
-          return _this3.loadPage(i);
+          return _this4.loadPage(i);
         }
       }, null), this.add && Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
         "class": "default-table-buttons"
