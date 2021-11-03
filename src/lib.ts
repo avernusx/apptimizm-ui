@@ -3,6 +3,7 @@ import DefaultSelect from './ui/default-select.vue'
 import DefaultSelectMultiple from './ui/default-select-multiple.vue'
 import DefaultTable from './ui/default-table.vue'
 import HiddenInput from './ui/hidden-input.vue'
+import LineLoader from './ui/line-loader.vue'
 import LineLoaderSmall from './ui/line-loader-small.vue'
 import ListSelect from './ui/list-select.vue'
 import MultipleRelationSelect from './ui/relation-select-multiple.vue'
@@ -19,6 +20,7 @@ export {
   DefaultSelectMultiple,
   DefaultTable,
   HiddenInput,
+  LineLoader,
   LineLoaderSmall,
   ListSelect,
   MultipleRelationSelect,
