@@ -14,6 +14,7 @@ class Props {
   add = prop<LocationAsRelativeRaw>({ default: undefined })
   axios = prop<IAxiosInterface>({ required: true })
   itemConverter = prop<(item: any) => any>({ default: () => (item: any) => item })
+  scrollPagination = prop<boolean>({ default: false })
 
   defaultFilter = prop({
     type: Object,
@@ -70,7 +71,8 @@ export default class DefaultTable extends Vue.with(Props) {
     this.isLoading = true
     const response = (await this.axios.get(this.endpoint, { params })).data
     this.count = response[this.responseTotalKey]
-    this.items = response[this.responseItemsKey].map((i: any) => this.itemConverter(i))
+    const items = response[this.responseItemsKey].map((i: any) => this.itemConverter(i))
+    this.items = this.scrollPagination ? [...this.items, ...items] : items
     this.pages = Math.ceil(this.count / this.perPage)
     this.isLoading = false
     this.$forceUpdate()
@@ -87,6 +89,18 @@ export default class DefaultTable extends Vue.with(Props) {
   async created () {
     this.headers.filter(h => h.search).forEach(h => { h.search && (this.params[h.search] = '') })
     await this.load()
+  }
+
+  mounted () {
+    if (!this.scrollPagination) return
+    const observer = new IntersectionObserver((entries) => {
+      if (this.page < this.pages && entries[0].isIntersecting && !this.isLoading) {
+        this.loadPage(this.page + 1)
+      }
+    }, {
+      threshold: 0
+    })
+    observer.observe(this.$refs.lazyLoadTrigger as HTMLElement)
   }
 
   load () {
@@ -124,7 +138,8 @@ export default class DefaultTable extends Vue.with(Props) {
           </tbody>
         </table>
         <div class="default-table-footer">
-          { this.pages > 1 && <PaginationElement page={this.page} pages={this.pages} onEvents={true} onPageChange={(i) => this.loadPage(i)}/> }
+          { this.scrollPagination && <div class="lazy-load-trigger" ref="lazyLoadTrigger"/> }
+          { !this.scrollPagination && this.pages > 1 && <PaginationElement page={this.page} pages={this.pages} onEvents={true} onPageChange={(i) => this.loadPage(i)}/> }
           { this.add && <div class="default-table-buttons">
             <router-link to={this.add} class="default-table-add-button">Добавить</router-link>
           </div> }

@@ -7445,9 +7445,90 @@ var default_select_multiplevue_type_style_index_0_id_97ea9e0c_lang_sass_scoped_t
 default_select_multiplevue_type_script_lang_tsx_DefaultSelectMultiple.__scopeId = "data-v-97ea9e0c"
 
 /* harmony default export */ var default_select_multiple = (default_select_multiplevue_type_script_lang_tsx_DefaultSelectMultiple);
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js
+function arrayLikeToArray_arrayLikeToArray(arr, len) {
+  if (len == null || len > arr.length) len = arr.length;
+
+  for (var i = 0, arr2 = new Array(len); i < len; i++) {
+    arr2[i] = arr[i];
+  }
+
+  return arr2;
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
+
+function arrayWithoutHoles_arrayWithoutHoles(arr) {
+  if (Array.isArray(arr)) return arrayLikeToArray_arrayLikeToArray(arr);
+}
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.symbol.js
 var es_symbol = __webpack_require__("a4d3");
 
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.symbol.description.js
+var es_symbol_description = __webpack_require__("e01a");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.to-string.js
+var es_object_to_string = __webpack_require__("d3b7");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.symbol.iterator.js
+var es_symbol_iterator = __webpack_require__("d28b");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.iterator.js
+var es_array_iterator = __webpack_require__("e260");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.iterator.js
+var es_string_iterator = __webpack_require__("3ca3");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/web.dom-collections.iterator.js
+var web_dom_collections_iterator = __webpack_require__("ddb0");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.from.js
+var es_array_from = __webpack_require__("a630");
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
+
+
+
+
+
+
+
+
+function iterableToArray_iterableToArray(iter) {
+  if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
+}
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.slice.js
+var es_array_slice = __webpack_require__("fb6a");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.function.name.js
+var es_function_name = __webpack_require__("b0c0");
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
+
+
+
+
+
+
+function unsupportedIterableToArray_unsupportedIterableToArray(o, minLen) {
+  if (!o) return;
+  if (typeof o === "string") return arrayLikeToArray_arrayLikeToArray(o, minLen);
+  var n = Object.prototype.toString.call(o).slice(8, -1);
+  if (n === "Object" && o.constructor) n = o.constructor.name;
+  if (n === "Map" || n === "Set") return Array.from(o);
+  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return arrayLikeToArray_arrayLikeToArray(o, minLen);
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
+function nonIterableSpread_nonIterableSpread() {
+  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js
+
+
+
+
+function toConsumableArray_toConsumableArray(arr) {
+  return arrayWithoutHoles_arrayWithoutHoles(arr) || iterableToArray_iterableToArray(arr) || unsupportedIterableToArray_unsupportedIterableToArray(arr) || nonIterableSpread_nonIterableSpread();
+}
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.filter.js
 var es_array_filter = __webpack_require__("4de4");
 
@@ -7521,9 +7602,6 @@ function objectSpread2_objectSpread2(target) {
 
   return target;
 }
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.to-string.js
-var es_object_to_string = __webpack_require__("d3b7");
-
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.promise.js
 var es_promise = __webpack_require__("e6cf");
 
@@ -7572,14 +7650,14 @@ var runtime = __webpack_require__("96cf");
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.number.constructor.js
 var es_number_constructor = __webpack_require__("a9e3");
 
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.concat.js
+var es_array_concat = __webpack_require__("99af");
+
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.regexp.exec.js
 var es_regexp_exec = __webpack_require__("ac1f");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.search.js
 var es_string_search = __webpack_require__("841c");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.function.name.js
-var es_function_name = __webpack_require__("b0c0");
 
 // EXTERNAL MODULE: ./node_modules/lodash/debounce.js
 var debounce = __webpack_require__("b047");
@@ -7751,6 +7829,8 @@ pagination_elementvue_type_script_lang_tsx.__scopeId = "data-v-d1bc0f52"
 
 
 
+
+
 var default_tablevue_type_script_lang_tsx_Props = function Props() {
   _classCallCheck(this, Props);
 
@@ -7766,6 +7846,9 @@ var default_tablevue_type_script_lang_tsx_Props = function Props() {
         return item;
       };
     }
+  });
+  this.scrollPagination = prop({
+    default: false
   });
   this.defaultFilter = prop({
     type: Object,
@@ -7822,7 +7905,7 @@ var default_tablevue_type_script_lang_tsx_DefaultTable = /*#__PURE__*/function (
     _this.debouncedLoad = debounce_default()( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
       var _this2 = this;
 
-      var params, response;
+      var params, response, items;
       return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
@@ -7841,14 +7924,15 @@ var default_tablevue_type_script_lang_tsx_DefaultTable = /*#__PURE__*/function (
             case 4:
               response = _context.sent.data;
               this.count = response[this.responseTotalKey];
-              this.items = response[this.responseItemsKey].map(function (i) {
+              items = response[this.responseItemsKey].map(function (i) {
                 return _this2.itemConverter(i);
               });
+              this.items = this.scrollPagination ? [].concat(toConsumableArray_toConsumableArray(this.items), toConsumableArray_toConsumableArray(items)) : items;
               this.pages = Math.ceil(this.count / this.perPage);
               this.isLoading = false;
               this.$forceUpdate();
 
-            case 10:
+            case 11:
             case "end":
               return _context.stop();
           }
@@ -7902,6 +7986,21 @@ var default_tablevue_type_script_lang_tsx_DefaultTable = /*#__PURE__*/function (
       return created;
     }()
   }, {
+    key: "mounted",
+    value: function mounted() {
+      var _this4 = this;
+
+      if (!this.scrollPagination) return;
+      var observer = new IntersectionObserver(function (entries) {
+        if (_this4.page < _this4.pages && entries[0].isIntersecting && !_this4.isLoading) {
+          _this4.loadPage(_this4.page + 1);
+        }
+      }, {
+        threshold: 0
+      });
+      observer.observe(this.$refs.lazyLoadTrigger);
+    }
+  }, {
     key: "load",
     value: function load() {
       this.debouncedLoad();
@@ -7951,7 +8050,7 @@ var default_tablevue_type_script_lang_tsx_DefaultTable = /*#__PURE__*/function (
   }, {
     key: "render",
     value: function render() {
-      var _this4 = this;
+      var _this5 = this;
 
       return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("table", {
         "class": "default-table"
@@ -7961,26 +8060,29 @@ var default_tablevue_type_script_lang_tsx_DefaultTable = /*#__PURE__*/function (
         }, [h.search ? Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("input", {
           "class": "table-input",
           "type": "text",
-          "value": _this4.params[h.search],
+          "value": _this5.params[h.search],
           "placeholder": h.name,
           "onInput": function onInput(e) {
             var _e$target;
 
-            h.search && (_this4.params[h.search] = (_e$target = e.target) === null || _e$target === void 0 ? void 0 : _e$target.value);
+            h.search && (_this5.params[h.search] = (_e$target = e.target) === null || _e$target === void 0 ? void 0 : _e$target.value);
 
-            _this4.loadPage(1);
+            _this5.loadPage(1);
           }
         }, null) : h.name]);
       })]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("tbody", null, [this.items.map(function (item) {
-        return _this4.line(item);
+        return _this5.line(item);
       })])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
         "class": "default-table-footer"
-      }, [this.pages > 1 && Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(pagination_element, {
+      }, [this.scrollPagination && Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "lazy-load-trigger",
+        "ref": "lazyLoadTrigger"
+      }, null), !this.scrollPagination && this.pages > 1 && Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(pagination_element, {
         "page": this.page,
         "pages": this.pages,
         "onEvents": true,
         "onPageChange": function onPageChange(i) {
-          return _this4.loadPage(i);
+          return _this5.loadPage(i);
         }
       }, null), this.add && Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
         "class": "default-table-buttons"
@@ -8101,84 +8203,6 @@ var line_loader_smallvue_type_style_index_0_id_8bc1b012_lang_sass_scoped_true = 
 line_loader_smallvue_type_script_lang_tsx.__scopeId = "data-v-8bc1b012"
 
 /* harmony default export */ var line_loader_small = (line_loader_smallvue_type_script_lang_tsx);
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js
-function arrayLikeToArray_arrayLikeToArray(arr, len) {
-  if (len == null || len > arr.length) len = arr.length;
-
-  for (var i = 0, arr2 = new Array(len); i < len; i++) {
-    arr2[i] = arr[i];
-  }
-
-  return arr2;
-}
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
-
-function arrayWithoutHoles_arrayWithoutHoles(arr) {
-  if (Array.isArray(arr)) return arrayLikeToArray_arrayLikeToArray(arr);
-}
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.symbol.description.js
-var es_symbol_description = __webpack_require__("e01a");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.symbol.iterator.js
-var es_symbol_iterator = __webpack_require__("d28b");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.iterator.js
-var es_array_iterator = __webpack_require__("e260");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.iterator.js
-var es_string_iterator = __webpack_require__("3ca3");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/web.dom-collections.iterator.js
-var web_dom_collections_iterator = __webpack_require__("ddb0");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.from.js
-var es_array_from = __webpack_require__("a630");
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
-
-
-
-
-
-
-
-
-function iterableToArray_iterableToArray(iter) {
-  if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
-}
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.slice.js
-var es_array_slice = __webpack_require__("fb6a");
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
-
-
-
-
-
-
-function unsupportedIterableToArray_unsupportedIterableToArray(o, minLen) {
-  if (!o) return;
-  if (typeof o === "string") return arrayLikeToArray_arrayLikeToArray(o, minLen);
-  var n = Object.prototype.toString.call(o).slice(8, -1);
-  if (n === "Object" && o.constructor) n = o.constructor.name;
-  if (n === "Map" || n === "Set") return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return arrayLikeToArray_arrayLikeToArray(o, minLen);
-}
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
-function nonIterableSpread_nonIterableSpread() {
-  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js
-
-
-
-
-function toConsumableArray_toConsumableArray(arr) {
-  return arrayWithoutHoles_arrayWithoutHoles(arr) || iterableToArray_iterableToArray(arr) || unsupportedIterableToArray_unsupportedIterableToArray(arr) || nonIterableSpread_nonIterableSpread();
-}
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.concat.js
-var es_array_concat = __webpack_require__("99af");
-
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/ts-loader??ref--15-3!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/ui/radio-button.vue?vue&type=script&lang=tsx
 
 /* harmony default export */ var radio_buttonvue_type_script_lang_tsx = (function (props, context) {
