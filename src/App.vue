@@ -1,21 +1,51 @@
-<template>
-  <div>
-    <div>
-      <DefaultInput v-model="form.email" :errors="['Ошибка 1', 'Ошибка 2']" placeholder="Название инпута"/>
-      <button @click="submit">Отправить</button>
-    </div>
-    <div v-for="(error, idx) in errors" :key="idx">{{ error }}</div>
-  </div>
-</template>
+<script lang="tsx">
+import { Vue } from 'vue-class-component'
+import ModalForm from './ui/modal-form.vue'
+import PopupWindow from './ui/popup-window.vue'
 
-<script lang="ts">
-import { Options, Vue } from 'vue-class-component'
-import DefaultInput from 'apptimizm-ui'
-
-@Options({
-  components: { DefaultInput }
-})
 export default class App extends Vue {
+  isVisible = true
+
+  confirm () {
+    console.log('CONFIRM')
+    this.isVisible = false
+  }
+
+  cancel () {
+    console.log('CANCEL')
+    this.isVisible = false
+  }
+
+  customAction () {
+    console.log('custom action')
+  }
+
+  render () {
+    const formContent = () => {
+      return (
+        <div>Вопрос</div>
+      )
+    }
+
+    const buttons = () => {
+      return (
+        <div onClick={this.customAction}>Кастомная кнопка</div>
+      )
+    }
+
+    return (
+      <div>
+        { this.isVisible && (
+          <PopupWindow
+            close={this.cancel}
+            header='Заголовок'
+          >
+            <div>xxx</div>
+          </PopupWindow>
+        ) }
+      </div>
+    )
+  }
 }
 </script>
 
