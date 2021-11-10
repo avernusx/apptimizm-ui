@@ -24,10 +24,12 @@ export default (props: IDefaultInputProps, context: any) => {
   const cls = (errors.length ? 'default-input with-errors' : 'default-input') + ' ' + props.class
 
   return (
-    <div class={cls}>
-      <input type={ props.password ? 'password' : 'text' } value={props.modelValue} onInput={onChange} onBlur={onBlur} onFocusout={onBlur}/>
-      { props.placeholder && <div class="placeholder">{props.placeholder}</div> }
-      { errors.map(error => <div class="error">{error}</div>) }
+    <div>
+      <div class={cls}>
+        <input type={ props.password ? 'password' : 'text' } value={props.modelValue} onInput={onChange} onBlur={onBlur} onFocusout={onBlur}/>
+        { props.placeholder && <div class="placeholder">{props.placeholder}</div> }
+        { errors.map(error => <div class="error">{error}</div>) }
+      </div>
     </div>
   )
 }
