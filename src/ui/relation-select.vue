@@ -107,30 +107,32 @@ export default class RelationSelect extends Vue.with(Props) {
 
   render () {
     return (
-      <div class={this.isActive ? 'relation-select-multiple opened' : 'relation-select-multiple'} onClick={(event: Event) => event.stopPropagation()}>
-        <svg class="dropdown-arrow" onClick={() => { this.isActive = !this.isActive }} width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path fill-rule="evenodd" clip-rule="evenodd" d="M4.19013 6.56522C4.49929 6.25605 5.00055 6.25605 5.30971 6.56522L9.49992 10.7554L13.6901 6.56522C13.9993 6.25605 14.5005 6.25605 14.8097 6.56522C15.1189 6.87438 15.1189 7.37564 14.8097 7.6848L10.0597 12.4348C9.75055 12.744 9.24929 12.744 8.94013 12.4348L4.19013 7.6848C3.88096 7.37564 3.88096 6.87438 4.19013 6.56522Z" fill="#9DA6B6"/>
-        </svg>
-        { this.isActive ? <input type='text' value={this.search} onInput={(v: Event) => { this.search = (v.target as HTMLFormElement).value; this.reload() }}/>
-          : (
-            <div class="selected-list-short" onClick={() => { this.isActive = true }}>
-              <span>{ this.modelValue[this.titleKey] }</span>
-            </div>
-          )
-        }
-        { this.placeholder && <div class="placeholder">{this.placeholder}</div> }
-        <div class="dropdown" style={this.isActive ? 'display: block;' : 'display: none;'}>
-          { this.isLoading && <LineLoader/> }
-          <div class="items-list">
-            { this.items.map((item: any) => (
-              <div class="item" onClick={() => this.toggleItem(item)}>
-                <span>{ item[this.titleKey] }</span>
+      <div>
+        <div class={this.isActive ? 'relation-select opened' : 'relation-select'} onClick={(event: Event) => event.stopPropagation()}>
+          <svg class="dropdown-arrow" onClick={() => { this.isActive = !this.isActive }} width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M4.19013 6.56522C4.49929 6.25605 5.00055 6.25605 5.30971 6.56522L9.49992 10.7554L13.6901 6.56522C13.9993 6.25605 14.5005 6.25605 14.8097 6.56522C15.1189 6.87438 15.1189 7.37564 14.8097 7.6848L10.0597 12.4348C9.75055 12.744 9.24929 12.744 8.94013 12.4348L4.19013 7.6848C3.88096 7.37564 3.88096 6.87438 4.19013 6.56522Z" fill="#9DA6B6"/>
+          </svg>
+          { this.isActive ? <input type='text' value={this.search} onInput={(v: Event) => { this.search = (v.target as HTMLFormElement).value; this.reload() }}/>
+            : (
+              <div class="selected-list-short" onClick={() => { this.isActive = true }}>
+                <span>{ this.modelValue[this.titleKey] }</span>
               </div>
-            )) }
-            <div ref="lazyLoadTrigger"/>
+            )
+          }
+          { this.placeholder && <div class="placeholder">{this.placeholder}</div> }
+          <div class="dropdown" style={this.isActive ? 'display: block;' : 'display: none;'}>
+            { this.isLoading && <LineLoader/> }
+            <div class="items-list">
+              { this.items.map((item: any) => (
+                <div class="item" onClick={() => this.toggleItem(item)}>
+                  <span>{ item[this.titleKey] }</span>
+                </div>
+              )) }
+              <div ref="lazyLoadTrigger"/>
+            </div>
           </div>
+          { this.errors.map(error => <div class="error">{error}</div>) }
         </div>
-        { this.errors.map(error => <div class="error">{error}</div>) }
       </div>
     )
   }
@@ -140,7 +142,7 @@ export default class RelationSelect extends Vue.with(Props) {
 <style lang="sass" scoped>
 @import '../variables.sass'
 
-.relation-select-multiple
+.relation-select
   position: relative
   &.opened
     input
