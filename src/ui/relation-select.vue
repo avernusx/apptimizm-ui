@@ -112,7 +112,6 @@ export default class RelationSelect extends Vue.with(Props) {
   }
 
   render () {
-    console.log('RR', this.params)
     return (
       <div>
         <div class={this.isActive ? 'relation-select opened' : 'relation-select'} onClick={(event: Event) => event.stopPropagation()}>
