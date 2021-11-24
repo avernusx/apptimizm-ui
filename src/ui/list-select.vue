@@ -59,13 +59,6 @@ class Props {
   })
 }
 
-Options({
-  watch: {
-    params () {
-      this.reload()
-    }
-  }
-})
 export default class ListSelect extends Vue.with(Props) {
   items: any[] = []
   page = 0
@@ -141,6 +134,12 @@ export default class ListSelect extends Vue.with(Props) {
     this.page = 0
     this.pages = 0
     this.load()
+  }
+
+  created () {
+    this.$watch('params', () => {
+      this.reload()
+    })
   }
 
   mounted () {

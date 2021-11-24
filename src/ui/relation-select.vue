@@ -20,13 +20,6 @@ class Props {
   errors = prop<string[]>({ default: () => [] })
 }
 
-Options({
-  watch: {
-    params () {
-      this.reload()
-    }
-  }
-})
 export default class RelationSelect extends Vue.with(Props) {
   items: any[] = []
   page = 0
@@ -47,11 +40,24 @@ export default class RelationSelect extends Vue.with(Props) {
     params[this.searchKey] = this.search
     const response = (await this.axios.get(this.endpoint, { params })).data
     if (id !== this.requestId) return
-    this.items = [...this.items, ...response[this.responseItemsKey]]
-    this.count = response[this.responseTotalKey]
-    this.pages = Math.ceil(response[this.responseTotalKey] / this.perPage)
+    if (Array.isArray(response)) {
+      this.items = [...this.items, ...response]
+      this.count = response.length
+      this.pages = 1
+    } else {
+      this.items = [...this.items, ...response[this.responseItemsKey]]
+      this.count = response[this.responseTotalKey]
+      this.pages = Math.ceil(response[this.responseTotalKey] / this.perPage)
+    }
+    
     this.isLoading = false
   }, 500)
+
+  created () {
+    this.$watch('params', () => {
+      this.reload()
+    })
+  }
 
   toggleItem (item: any) {
     this.modelValue[this.idKey] !== item[this.idKey] ? this.select(item) : this.deselect()
@@ -106,6 +112,7 @@ export default class RelationSelect extends Vue.with(Props) {
   }
 
   render () {
+    console.log('RR', this.params)
     return (
       <div>
         <div class={this.isActive ? 'relation-select opened' : 'relation-select'} onClick={(event: Event) => event.stopPropagation()}>

@@ -1,6 +1,6 @@
 {
   "name": "apptimizm-ui",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "main": "./dist/apptimizm-ui.common.js",
   "types": "./src/index.d.ts",
   "scripts": {
@@ -63,7 +63,8 @@
     "rules": {
       "no-useless-constructor": 0,
       "new-cap": 0,
-      "@typescript-eslint/no-empty-function": 0
+      "@typescript-eslint/no-empty-function": 0,
+      "no-use-before-define": ["error", { "classes": false }]
     },
     "overrides": [
       {

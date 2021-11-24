@@ -87,6 +87,9 @@ export default class DefaultTable extends Vue.with(Props) {
   }
 
   async created () {
+    this.$watch('headers', () => { this.loadPage(1) })
+    this.$watch('defaultFilter', () => { this.loadPage(1) })
+
     this.headers.filter(h => h.search).forEach(h => { h.search && (this.params[h.search] = '') })
     await this.load()
   }
