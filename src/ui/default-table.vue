@@ -15,6 +15,7 @@ class Props {
   axios = prop<IAxiosInterface>({ required: true })
   itemConverter = prop<(item: any) => any>({ default: () => (item: any) => item })
   scrollPagination = prop<boolean>({ default: false })
+  gap = prop<boolean>({ default: false })
 
   defaultFilter = prop({
     type: Object,
@@ -80,6 +81,9 @@ export default class DefaultTable extends Vue.with(Props) {
 
   getFilter () {
     const params = {} as { [code: string] : string }
+    for (const key in this.defaultFilter) {
+      if (this.defaultFilter[key] !== '') params[key] = this.defaultFilter[key]
+    }
     for (const key in this.params) {
       if (this.params[key] !== '') params[key] = this.params[key]
     }
@@ -124,23 +128,26 @@ export default class DefaultTable extends Vue.with(Props) {
   render () {
     return (
       <div>
-        <table class="default-table">
-          <thead>
-            { this.headers.map((h: TableHeader) => (
-              <td class={h.search ? 'search' : ''}>
-                {
-                  h.search
-                    ? <input class="table-input" type="text" value={this.params[h.search]} placeholder={h.name} onInput={(e: any) => { h.search && (this.params[h.search] = e.target?.value); this.loadPage(1) }}/>
-                    : h.name
-                }
-              </td>
-            )) }
-          </thead>
-          <tbody>
+        <div class="apptimizm-ui-default-table">
+          <div class="apptimizm-ui-default-table-head">
+            <div class="apptimizm-ui-default-table-row">
+              { this.headers.map((h: TableHeader) => (
+                <div class={h.search ? 'search apptimizm-ui-default-table-cell' : 'apptimizm-ui-default-table-cell'}>
+                  {
+                    h.search
+                      ? <input class="table-input" type="text" value={this.params[h.search]} placeholder={h.name} onInput={(e: any) => { h.search && (this.params[h.search] = e.target?.value); this.loadPage(1) }}/>
+                      : h.name
+                  }
+                </div>
+              )) }
+            </div>
+          </div>
+          { this.gap && <div class="apptimizm-ui-default-table-gap"/> }
+          <div class="apptimizm-ui-default-table-body">
             { this.items.map((item: any) => this.line(item)) }
-          </tbody>
-        </table>
-        <div class="default-table-footer">
+          </div>
+        </div>
+        <div class="apptimizm-ui-default-table-footer">
           { this.scrollPagination && <div class="lazy-load-trigger" ref="lazyLoadTrigger"/> }
           { !this.scrollPagination && this.pages > 1 && <PaginationElement page={this.page} pages={this.pages} onEvents={true} onPageChange={(i) => this.loadPage(i)}/> }
           { this.add && <div class="default-table-buttons">
@@ -152,3 +159,18 @@ export default class DefaultTable extends Vue.with(Props) {
   }
 }
 </script>
+
+<style lang="sass">
+.apptimizm-ui-default-table
+  display: table
+.apptimizm-ui-default-table-head
+  display: table-header-group
+.apptimizm-ui-default-table-gap
+  display: table-row
+.apptimizm-ui-default-table-body
+  display: table-row-group
+.apptimizm-ui-default-table-row
+  display: table-row
+.apptimizm-ui-default-table-cell
+  display: table-cell
+</style>

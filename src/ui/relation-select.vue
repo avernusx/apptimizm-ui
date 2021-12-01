@@ -49,7 +49,7 @@ export default class RelationSelect extends Vue.with(Props) {
       this.count = response[this.responseTotalKey]
       this.pages = Math.ceil(response[this.responseTotalKey] / this.perPage)
     }
-    
+
     this.isLoading = false
   }, 500)
 
