@@ -21,7 +21,7 @@ export default (props: IDefaultInputProps, context: any) => {
   }
 
   const errors = Array.isArray(props.errors) ? props.errors : []
-  const cls = (errors.length ? 'default-input with-errors' : 'default-input') + ' ' + props.class
+  const cls = (errors.length ? 'default-input with-errors' : 'default-input')
 
   return (
     <div>

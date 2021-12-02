@@ -1,6 +1,6 @@
 {
   "name": "apptimizm-ui",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "main": "./dist/apptimizm-ui.common.js",
   "types": "./src/index.d.ts",
   "scripts": {
@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@types/lodash": "^4.14.172",
+    "apptimizm-ui": "0.0.17",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "vue": "^3.0.0",
@@ -64,7 +65,12 @@
       "no-useless-constructor": 0,
       "new-cap": 0,
       "@typescript-eslint/no-empty-function": 0,
-      "no-use-before-define": ["error", { "classes": false }]
+      "no-use-before-define": [
+        "error",
+        {
+          "classes": false
+        }
+      ]
     },
     "overrides": [
       {
