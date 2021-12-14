@@ -16,6 +16,7 @@ class Props {
   itemConverter = prop<(item: any) => any>({ default: () => (item: any) => item })
   scrollPagination = prop<boolean>({ default: false })
   gap = prop<boolean>({ default: false })
+  additionalButtons = prop<(c: DefaultTable) => JSX.Element>({})
 
   defaultFilter = prop({
     type: Object,
@@ -150,9 +151,10 @@ export default class DefaultTable extends Vue.with(Props) {
         <div class="apptimizm-ui-default-table-footer">
           { this.scrollPagination && <div class="lazy-load-trigger" ref="lazyLoadTrigger"/> }
           { !this.scrollPagination && this.pages > 1 && <PaginationElement page={this.page} pages={this.pages} onEvents={true} onPageChange={(i) => this.loadPage(i)}/> }
-          { this.add && <div class="default-table-buttons">
-            <router-link to={this.add} class="default-table-add-button">Добавить</router-link>
-          </div> }
+          <div class="default-table-buttons">
+            { this.additionalButtons && this.additionalButtons(this) }
+            { this.add && <router-link to={this.add} class="default-table-add-button">Добавить</router-link> }
+          </div>
         </div>
       </div>
     )

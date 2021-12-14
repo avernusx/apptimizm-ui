@@ -6,8 +6,7 @@ interface IRadioButtonProps {
 
 export default (props: IRadioButtonProps, context: any) => {
   const onClick = () => {
-    context.emit('update:modelValue')
-    props.onClick && props.onClick()
+    props.onClick ? props.onClick() : context.emit('update:modelValue')
   }
 
   const cls = props.modelValue ? 'radio-button active' : 'radio-button'
