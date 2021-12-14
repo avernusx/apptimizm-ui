@@ -16,7 +16,7 @@ class Props {
   itemConverter = prop<(item: any) => any>({ default: () => (item: any) => item })
   scrollPagination = prop<boolean>({ default: false })
   gap = prop<boolean>({ default: false })
-  additionalButtons = prop<(c: DefaultTable) => JSX.Element>({})
+  additionalButtons? = prop<(c: DefaultTable) => JSX.Element>({})
 
   defaultFilter = prop({
     type: Object,
