@@ -17,6 +17,7 @@ class Props {
   scrollPagination = prop<boolean>({ default: false })
   gap = prop<boolean>({ default: false })
   additionalButtons? = prop<(c: DefaultTable) => JSX.Element>({})
+  paginationType = prop<string>({ default: 'page' })
 
   defaultFilter = prop({
     type: Object,
@@ -64,11 +65,15 @@ export default class DefaultTable extends Vue.with(Props) {
   items: any[] = []
   params: { [code: string]: string } = {}
   debouncedLoad = debounce(async function (this: DefaultTable) {
-    const params = {
+    const params = (this.paginationType === 'page' ? {
       ...this.getFilter(),
       per_page: this.perPage,
       page: this.page
-    }
+    } : {
+      ...this.getFilter(),
+      limit: this.perPage,
+      offset: (this.page - 1) * this.perPage
+    })
     // if (this.sort) params.ordering = this.sort
     this.isLoading = true
     const response = (await this.axios.get(this.endpoint, { params })).data

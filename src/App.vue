@@ -2,6 +2,7 @@
 import { Vue } from 'vue-class-component'
 import ModalForm from './ui/modal-form.vue'
 import PopupWindow from './ui/popup-window.vue'
+import DefaultTable from './ui/default-table.vue'
 
 export default class App extends Vue {
   isVisible = true
