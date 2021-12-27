@@ -17,6 +17,7 @@ class Props {
   responseTotalKey = prop<string>({ default: 'total' })
   searchKey = prop<string>({ default: 'search' })
   titleKey = prop<string>({ default: 'name' })
+  idKey = prop<string>({ default: 'id' })
   errors = prop<string[]>({ default: () => [] })
 }
 
@@ -48,7 +49,7 @@ export default class ListSelect extends Vue.with(Props) {
   }, 500)
 
   toggleItem (item: any) {
-    !this.modelValue.find((i: any) => i.id === item.id) ? this.select(item) : this.deselect(item)
+    !this.modelValue.find((i: any) => i[this.idKey] === item[this.idKey]) ? this.select(item) : this.deselect(item)
   }
 
   select (item: any) {
@@ -59,7 +60,7 @@ export default class ListSelect extends Vue.with(Props) {
   }
 
   deselect (item: any) {
-    item = this.modelValue.find((i: any) => i.id === item.id)
+    item = this.modelValue.find((i: any) => i[this.idKey] === item[this.idKey])
     this.modelValue.splice(this.modelValue.indexOf(item), 1)
     this.$emit('input', this.modelValue)
     this.$emit('update:modelValue', this.modelValue)
@@ -122,7 +123,7 @@ export default class ListSelect extends Vue.with(Props) {
     const itemCard = (item: any) => {
       return (
         <div class="item" onClick={() => this.toggleItem(item)}>
-          <RadioButton modelValue={this.modelValue.find((i: any) => i.id === item.id)} onClick={() => {}}/>
+          <RadioButton modelValue={this.modelValue.find((i: any) => i[this.idKey] === item[this.idKey])} onClick={() => {}}/>
           <span>{ item[this.titleKey] }</span>
         </div>
       )
