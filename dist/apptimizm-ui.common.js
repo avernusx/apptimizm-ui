@@ -279,6 +279,17 @@ exports.f = DESCRIPTORS ? $getOwnPropertyDescriptor : function getOwnPropertyDes
 
 /***/ }),
 
+/***/ "09e7":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_9_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_9_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_9_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_9_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_v16_dist_index_js_ref_0_1_relation_select_multiple_vue_vue_type_style_index_0_id_5bb5d2d9_lang_sass_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("ab53");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_9_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_9_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_9_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_9_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_v16_dist_index_js_ref_0_1_relation_select_multiple_vue_vue_type_style_index_0_id_5bb5d2d9_lang_sass_scoped_true__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_9_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_9_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_9_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_9_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_v16_dist_index_js_ref_0_1_relation_select_multiple_vue_vue_type_style_index_0_id_5bb5d2d9_lang_sass_scoped_true__WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+
+
+/***/ }),
+
 /***/ "0c05":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1033,17 +1044,6 @@ function objectToString(value) {
 }
 
 module.exports = objectToString;
-
-
-/***/ }),
-
-/***/ "2a03":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_9_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_9_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_9_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_9_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_v16_dist_index_js_ref_0_1_relation_select_multiple_vue_vue_type_style_index_0_id_7d1bdb22_lang_sass_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("efe2");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_9_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_9_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_9_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_9_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_v16_dist_index_js_ref_0_1_relation_select_multiple_vue_vue_type_style_index_0_id_7d1bdb22_lang_sass_scoped_true__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_9_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_9_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_9_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_9_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_v16_dist_index_js_ref_0_1_relation_select_multiple_vue_vue_type_style_index_0_id_7d1bdb22_lang_sass_scoped_true__WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
 
 
 /***/ }),
@@ -4498,6 +4498,13 @@ if (isForced(NUMBER, !NativeNumber(' 0o1') || !NativeNumber('0b1') || NativeNumb
 
 /***/ }),
 
+/***/ "ab53":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
 /***/ "ac1f":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6345,13 +6352,6 @@ module.exports = function (it) {
   return it !== undefined && (Iterators.Array === it || ArrayPrototype[ITERATOR] === it);
 };
 
-
-/***/ }),
-
-/***/ "efe2":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -8809,6 +8809,9 @@ var relation_select_multiplevue_type_script_lang_tsx_Props = function Props() {
   this.titleKey = prop({
     default: 'name'
   });
+  this.idKey = prop({
+    default: 'id'
+  });
   this.errors = prop({
     default: function _default() {
       return [];
@@ -8892,8 +8895,10 @@ var relation_select_multiplevue_type_script_lang_tsx_ListSelect = /*#__PURE__*/f
   _createClass(ListSelect, [{
     key: "toggleItem",
     value: function toggleItem(item) {
+      var _this2 = this;
+
       !this.modelValue.find(function (i) {
-        return i.id === item.id;
+        return i[_this2.idKey] === item[_this2.idKey];
       }) ? this.select(item) : this.deselect(item);
     }
   }, {
@@ -8907,8 +8912,10 @@ var relation_select_multiplevue_type_script_lang_tsx_ListSelect = /*#__PURE__*/f
   }, {
     key: "deselect",
     value: function deselect(item) {
+      var _this3 = this;
+
       item = this.modelValue.find(function (i) {
-        return i.id === item.id;
+        return i[_this3.idKey] === item[_this3.idKey];
       });
       this.modelValue.splice(this.modelValue.indexOf(item), 1);
       this.$emit('input', this.modelValue);
@@ -8926,34 +8933,34 @@ var relation_select_multiplevue_type_script_lang_tsx_ListSelect = /*#__PURE__*/f
   }, {
     key: "created",
     value: function created() {
-      var _this2 = this;
+      var _this4 = this;
 
       this.$watch('params', function () {
-        _this2.reload();
+        _this4.reload();
       });
     }
   }, {
     key: "mounted",
     value: function mounted() {
-      var _this3 = this;
+      var _this5 = this;
 
       this.load();
       var observer = new IntersectionObserver(function (entries) {
-        if (_this3.page < _this3.pages && entries[0].isIntersecting) {
-          _this3.page++;
+        if (_this5.page < _this5.pages && entries[0].isIntersecting) {
+          _this5.page++;
 
-          _this3.load();
+          _this5.load();
         }
       }, {
         threshold: 0,
         root: this.$refs.resultsList
       });
       this.$nextTick(function () {
-        observer.observe(_this3.$refs.lazyLoadTrigger);
-        _this3.observer = observer;
+        observer.observe(_this5.$refs.lazyLoadTrigger);
+        _this5.observer = observer;
       });
       document.addEventListener('click', function (event) {
-        _this3.isActive = false;
+        _this5.isActive = false;
       });
     }
   }, {
@@ -8964,15 +8971,15 @@ var relation_select_multiplevue_type_script_lang_tsx_ListSelect = /*#__PURE__*/f
   }, {
     key: "render",
     value: function render() {
-      var _this4 = this;
+      var _this6 = this;
 
       var selectedCard = function selectedCard(item) {
         return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
           "class": "selected-card",
           "onClick": function onClick() {
-            return _this4.toggleItem(item);
+            return _this6.toggleItem(item);
           }
-        }, [item[_this4.titleKey], Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("svg", {
+        }, [item[_this6.titleKey], Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("svg", {
           "width": "12",
           "height": "12",
           "viewBox": "0 0 12 12",
@@ -8995,14 +9002,14 @@ var relation_select_multiplevue_type_script_lang_tsx_ListSelect = /*#__PURE__*/f
         return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
           "class": "item",
           "onClick": function onClick() {
-            return _this4.toggleItem(item);
+            return _this6.toggleItem(item);
           }
         }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(radio_button, {
-          "modelValue": _this4.modelValue.find(function (i) {
-            return i.id === item.id;
+          "modelValue": _this6.modelValue.find(function (i) {
+            return i[_this6.idKey] === item[_this6.idKey];
           }),
           "onClick": function onClick() {}
-        }, null), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("span", null, [item[_this4.titleKey]])]);
+        }, null), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("span", null, [item[_this6.titleKey]])]);
       };
 
       return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
@@ -9013,7 +9020,7 @@ var relation_select_multiplevue_type_script_lang_tsx_ListSelect = /*#__PURE__*/f
       }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("svg", {
         "class": "dropdown-arrow",
         "onClick": function onClick() {
-          _this4.isActive = !_this4.isActive;
+          _this6.isActive = !_this6.isActive;
         },
         "width": "19",
         "height": "19",
@@ -9029,14 +9036,14 @@ var relation_select_multiplevue_type_script_lang_tsx_ListSelect = /*#__PURE__*/f
         "type": 'text',
         "value": this.search,
         "onInput": function onInput(v) {
-          _this4.search = v.target.value;
+          _this6.search = v.target.value;
 
-          _this4.reload();
+          _this6.reload();
         }
       }, null) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
         "class": "selected-list-short",
         "onClick": function onClick() {
-          _this4.isActive = true;
+          _this6.isActive = true;
         }
       }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("span", {
         "class": "and-more"
@@ -9071,15 +9078,15 @@ var relation_select_multiplevue_type_script_lang_tsx_ListSelect = /*#__PURE__*/f
 
 // CONCATENATED MODULE: ./src/ui/relation-select-multiple.vue?vue&type=script&lang=tsx
  
-// EXTERNAL MODULE: ./src/ui/relation-select-multiple.vue?vue&type=style&index=0&id=7d1bdb22&lang=sass&scoped=true
-var relation_select_multiplevue_type_style_index_0_id_7d1bdb22_lang_sass_scoped_true = __webpack_require__("2a03");
+// EXTERNAL MODULE: ./src/ui/relation-select-multiple.vue?vue&type=style&index=0&id=5bb5d2d9&lang=sass&scoped=true
+var relation_select_multiplevue_type_style_index_0_id_5bb5d2d9_lang_sass_scoped_true = __webpack_require__("09e7");
 
 // CONCATENATED MODULE: ./src/ui/relation-select-multiple.vue
 
 
 
 
-relation_select_multiplevue_type_script_lang_tsx_ListSelect.__scopeId = "data-v-7d1bdb22"
+relation_select_multiplevue_type_script_lang_tsx_ListSelect.__scopeId = "data-v-5bb5d2d9"
 
 /* harmony default export */ var relation_select_multiple = (relation_select_multiplevue_type_script_lang_tsx_ListSelect);
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/ts-loader??ref--15-3!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/ui/number-input.vue?vue&type=script&lang=tsx
