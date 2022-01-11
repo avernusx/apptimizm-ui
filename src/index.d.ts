@@ -8,6 +8,7 @@ import LineLoaderSmall from './ui/line-loader-small.vue'
 import ListSelect from './ui/list-select.vue'
 import ModalForm from './ui/modal-form.vue'
 import MultipleRelationSelect from './ui/relation-select-multiple.vue'
+import MultipleFileUpload from './ui/multiple-file-upload/multiple-file-upload'
 import NumberInput from './ui/number-input.vue'
 import PaginationElement from './ui/pagination-element.vue'
 import PopupWindow from './ui/popup-window.vue'
@@ -27,6 +28,7 @@ export {
   ListSelect,
   ModalForm,
   MultipleRelationSelect,
+  MultipleFileUpload,
   NumberInput,
   PaginationElement,
   PopupWindow,

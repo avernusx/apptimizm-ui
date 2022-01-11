@@ -1,0 +1,75 @@
+.apptimizm-ui-multiple-upload
+
+.apptimizm-ui-multiple-upload-drop-area
+  align-items: center
+  border: 1px dashed #DCDEE4
+  cursor: pointer
+  display: flex
+  flex-direction: column
+  padding: 16px
+  position: relative
+  input[type="file"]
+    cursor: pointer
+    height: 100%
+    opacity: 0
+    position: absolute
+    width: 100%
+.apptimizm-ui-multiple-upload-drop-area-icon
+  background: url(./assets/upload.svg)
+  height: 32px
+  width: 32px
+.apptimizm-ui-multiple-upload-drop-area-text-1
+  color: rgba(36, 42, 47, 0.75)
+  font-size: 16px
+  line-height: 32px
+.apptimizm-ui-multiple-upload-drop-area-text-2
+  color: rgba(36, 42, 47, 0.3)
+  font-size: 12px
+  line-height: 16px
+.apptimizm-ui-multiple-upload-actions
+  font-size: 14px
+  margin: 16px 0px
+  > span
+    display: inline-block
+    margin-right: 16px
+  > span:nth-child(2)
+    color: rgba(36, 42, 47, 0.5)
+    cursor: pointer
+.apptimizm-ui-multiple-upload-files
+  align-items: center
+  display: flex
+.apptimizm-ui-multiple-upload-file
+  align-items: center
+  display: flex
+  flex-direction: column
+  padding: 8px
+  text-decoration: none
+.apptimizm-ui-multiple-upload-file-image
+  background-image: url(./assets/file.svg)
+  background-position: center center
+  background-size: cover
+  border-radius: 4px
+  height: 80px
+  overflow: hidden
+  position: relative
+  width: 80px
+  &:hover
+    .apptimizm-ui-multiple-upload-file-remove
+      opacity: 1
+.apptimizm-ui-multiple-upload-file-remove
+  background-color: rgba(36, 42, 47, 0.75)
+  background-image: url(./assets/remove.svg)
+  background-size: cover
+  border-radius: 8px
+  cursor: pointer
+  height: 16px
+  opacity: 0
+  position: absolute
+  transition: 0.4s
+  right: 4px
+  top: 4px
+  width: 16px
+.apptimizm-ui-multiple-upload-file-text
+  color: rgba(36, 42, 47, 0.75)
+  font-size: 12px
+  line-height: 16px

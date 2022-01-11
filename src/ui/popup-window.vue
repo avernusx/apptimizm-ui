@@ -24,7 +24,7 @@ export default (props: IPopupWindowProps, context: any) => {
 </script>
 
 <style lang="sass" scoped>
-@import '../styles.sass'
+@import '../default-styles.sass'
 
 .apptimizm-ui-popup-window
   &-background

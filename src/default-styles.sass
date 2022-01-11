@@ -1,0 +1,95 @@
+@import './variables.sass'
+
+.default-button
+	border-radius: 5px
+	cursor: pointer
+	font-size: 14px
+	padding: 0px 20px
+	text-align: center
+	height: $input-height
+	line-height: $input-height
+	white-space: nowrap
+	&.disabled
+		color: white
+		background-color: #9DA6B6
+
+.dark-hoverable-background
+	color: white
+	background-color: #9DA6B6
+	transition: 0.4s
+	&:hover
+		background-color: #838B99
+
+.light-hoverable-background
+	color: #535A66
+	background-color: #F8F8FF
+	transition: 0.4s
+	&:hover
+		background-color: #ECECF5
+
+.primary-button
+	@extend .default-button
+	background-color: $primary-color
+	color: white
+	font-weight: bold
+	transition: 0.4s
+	&:hover
+		background-color: darken($primary-color, 10%)
+
+.secondary-button
+	@extend .default-button
+	background-color: $secondary-color
+	color: white
+	font-weight: bold
+	transition: 0.4s
+	&:hover
+		background-color: darken($secondary-color, 10%)
+
+.light-button
+	@extend .default-button
+	@extend .light-hoverable-background
+
+.dark-button
+	@extend .default-button
+	@extend .dark-hoverable-background
+
+@for $i from 2 through 6
+  .primary-grid-#{$i}
+    display: grid
+    grid-template-columns: repeat($i, 1fr)
+    grid-column-gap: 2*$step
+    grid-row-gap: 2*$step
+
+@for $i from 1 through 5
+  .m-#{$i}
+    margin: $i*$step
+  .mh-#{$i}
+    margin-left: $i*$step
+    margin-right: $i*$step
+  .mv-#{$i}
+    margin-top: $i*$step
+    margin-bottom: $i*$step
+  .mb-#{$i}
+    margin-bottom: $i*$step
+  .mt-#{$i}
+    margin-top: $i*$step
+  .ml-#{$i}
+    margin-left: $i*$step
+  .mr-#{$i}
+    margin-right: $i*$step
+  .p-#{$i}
+    padding: $i*$step
+  .ph-#{$i}
+    padding-left: $i*$step
+    padding-right: $i*$step
+  .pv-#{$i}
+    padding-top: $i*$step
+    padding-bottom: $i*$step
+  .pb-#{$i}
+    padding-bottom: $i*$step
+  .pt-#{$i}
+    padding-top: $i*$step
+  .pl-#{$i}
+    padding-left: $i*$step
+  .pr-#{$i}
+    padding-right: $i*$step

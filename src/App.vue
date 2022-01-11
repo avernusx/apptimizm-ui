@@ -1,50 +1,37 @@
 <script lang="tsx">
 import { Vue } from 'vue-class-component'
-import ModalForm from './ui/modal-form.vue'
-import PopupWindow from './ui/popup-window.vue'
-import DefaultTable from './ui/default-table.vue'
+import axios from 'axios'
+import MultipleFileUpload, { FileData } from './ui/multiple-file-upload/multiple-file-upload'
 
 export default class App extends Vue {
-  isVisible = true
-
-  confirm () {
-    console.log('CONFIRM')
-    this.isVisible = false
-  }
-
-  cancel () {
-    console.log('CANCEL')
-    this.isVisible = false
-  }
-
-  customAction () {
-    console.log('custom action')
-  }
+  files = [
+    {
+      id: '1',
+      name: '11.jpg',
+      file: 'https://ic.pics.livejournal.com/imhotype/24051864/433166/433166_original.png',
+      extension: 'png'
+    },
+    {
+      id: '2',
+      name: '22.jpg',
+      file: 'https://ic.pics.livejournal.com/imhotype/24051864/433166/433166_original.png',
+      extension: 'pdf'
+    },
+    {
+      id: '3',
+      name: '233.jpg',
+      file: 'https://ic.pics.livejournal.com/imhotype/24051864/433166/433166_original.png',
+      extension: 'pdf'
+    }
+  ]
 
   render () {
-    const formContent = () => {
-      return (
-        <div>Вопрос</div>
-      )
-    }
-
-    const buttons = () => {
-      return (
-        <div onClick={this.customAction}>Кастомная кнопка</div>
-      )
-    }
-
     return (
-      <div>
-        { this.isVisible && (
-          <PopupWindow
-            close={this.cancel}
-            header='Заголовок'
-          >
-            <div>xxx</div>
-          </PopupWindow>
-        ) }
-      </div>
+      <MultipleFileUpload
+        apiService={axios}
+        files={this.files}
+        onUpload={(files: FileData[]) => { this.files = files }}
+      />
     )
   }
 }
