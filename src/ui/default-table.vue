@@ -97,8 +97,8 @@ export default class DefaultTable extends Vue.with(Props) {
   }
 
   async created () {
-    this.$watch('headers', () => { this.loadPage(1) })
-    this.$watch('defaultFilter', () => { this.loadPage(1) })
+    this.$watch('headers', () => { this.reload() })
+    this.$watch('defaultFilter', () => { this.reload() })
 
     this.headers.filter(h => h.search).forEach(h => { h.search && (this.params[h.search] = '') })
     await this.load()
@@ -123,6 +123,11 @@ export default class DefaultTable extends Vue.with(Props) {
   loadPage (i: number) {
     this.page = i
     this.load()
+  }
+
+  reload () {
+    this.items = []
+    this.loadPage(1)
   }
 
   async delete (item: any) {
