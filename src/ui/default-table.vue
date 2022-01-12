@@ -146,7 +146,7 @@ export default class DefaultTable extends Vue.with(Props) {
                 <div class={h.search ? 'search apptimizm-ui-default-table-cell' : 'apptimizm-ui-default-table-cell'}>
                   {
                     h.search
-                      ? <input class="table-input" type="text" value={this.params[h.search]} placeholder={h.name} onInput={(e: any) => { h.search && (this.params[h.search] = e.target?.value); this.loadPage(1) }}/>
+                      ? <input class="table-input" type="text" value={this.params[h.search]} placeholder={h.name} onInput={(e: any) => { h.search && (this.params[h.search] = e.target?.value); this.reload() }}/>
                       : h.name
                   }
                 </div>
