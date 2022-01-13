@@ -1,7 +1,7 @@
 <script lang="tsx">
 import { Vue } from 'vue-class-component'
 import axios from 'axios'
-import MultipleFileUpload, { FileData } from './ui/multiple-file-upload/multiple-file-upload'
+import Calendar from './ui/calendars/period-calendar/period-calendar'
 
 export default class App extends Vue {
   files = [
@@ -27,11 +27,7 @@ export default class App extends Vue {
 
   render () {
     return (
-      <MultipleFileUpload
-        apiService={axios}
-        files={this.files}
-        onUpload={(files: FileData[]) => { this.files = files }}
-      />
+      <Calendar/>
     )
   }
 }
