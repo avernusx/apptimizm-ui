@@ -4,6 +4,7 @@ import axios from 'axios'
 import Calendar from './ui/calendars/period-calendar/period-calendar'
 import RadioButton from './ui/radio-button.vue'
 import DefaultTable from './ui/default-table.vue'
+import RelationSelectMultiple from './ui/multiple-relation-select/multiple-relation-select.vue'
 
 export default class App extends Vue {
   files = [
@@ -26,6 +27,8 @@ export default class App extends Vue {
       extension: 'pdf'
     }
   ]
+
+  items: any[] = []
 
   render () {
     const line = () => {
@@ -52,6 +55,13 @@ export default class App extends Vue {
           endpoint="https://rusradio.ru/api/news/news"
           line={line}
           headers={headers}
+        />
+        <RelationSelectMultiple
+          axios={axios}
+          endpoint="https://rusradio.ru/api/news/news"
+          modelValue={this.items}
+          placeholder={''}
+          onValueChange={(items: any) => { this.items = items }}
         />
       </div>
     )

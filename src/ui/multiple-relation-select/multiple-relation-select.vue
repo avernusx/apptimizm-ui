@@ -1,9 +1,9 @@
 <script lang="tsx">
 import { Vue, Options, prop } from 'vue-class-component'
 import debounce from 'lodash/debounce'
-import LineLoader from './line-loader-small.vue'
-import RadioButton from './radio-button.vue'
-import IAxiosInterface from '../IAxiosInterface'
+import LineLoader from '../line-loader-small.vue'
+import RadioButton from '../radio-button.vue'
+import IAxiosInterface from '../../IAxiosInterface'
 
 class Props {
   axios = prop<IAxiosInterface>({ required: true })
@@ -66,11 +66,22 @@ export default class ListSelect extends Vue.with(Props) {
     this.onValueChange && this.onValueChange(this.modelValue)
   }
 
+  clear () {
+    this.modelValue.splice(0)
+    this.$emit('input', this.modelValue)
+    this.$emit('update:modelValue', this.modelValue)
+    this.onValueChange && this.onValueChange(this.modelValue)
+  }
+
   reload () {
     this.items = []
     this.page = 0
     this.pages = 0
     this.load()
+  }
+
+  open () {
+    this.isActive = true
   }
 
   created () {
@@ -107,22 +118,11 @@ export default class ListSelect extends Vue.with(Props) {
   }
 
   render () {
-    const selectedCard = (item: any) => {
-      return (
-        <div class="selected-card" onClick={() => this.toggleItem(item)}>
-          { item[this.titleKey] }
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M9.35355 2.64645C9.54882 2.84171 9.54882 3.15829 9.35355 3.35355L3.35355 9.35355C3.15829 9.54882 2.84171 9.54882 2.64645 9.35355C2.45118 9.15829 2.45118 8.84171 2.64645 8.64645L8.64645 2.64645C8.84171 2.45118 9.15829 2.45118 9.35355 2.64645Z" fill="#242A2F"/>
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M2.64645 2.64645C2.84171 2.45118 3.15829 2.45118 3.35355 2.64645L9.35355 8.64645C9.54882 8.84171 9.54882 9.15829 9.35355 9.35355C9.15829 9.54882 8.84171 9.54882 8.64645 9.35355L2.64645 3.35355C2.45118 3.15829 2.45118 2.84171 2.64645 2.64645Z" fill="#242A2F"/>
-          </svg>
-        </div>
-      )
-    }
-
     const itemCard = (item: any) => {
+      const isSelected = this.modelValue.find((i: any) => i[this.idKey] === item[this.idKey])
       return (
-        <div class="item" onClick={() => this.toggleItem(item)}>
-          <RadioButton modelValue={this.modelValue.find((i: any) => i[this.idKey] === item[this.idKey])} onValueChange={() => {}}/>
+        <div class={`item ${isSelected ? 'is-selected' : ''}`} onClick={() => this.toggleItem(item)}>
+          <RadioButton modelValue={isSelected} onValueChange={() => {}}/>
           <span>{ item[this.titleKey] }</span>
         </div>
       )
@@ -130,24 +130,22 @@ export default class ListSelect extends Vue.with(Props) {
 
     return (
       <div>
-        <div class={this.isActive ? 'relation-select-multiple opened' : 'relation-select-multiple'} onClick={(event: Event) => event.stopPropagation()}>
+        <div class={this.isActive ? 'relation-select-multiple opened' : 'relation-select-multiple'} onClick={(event: Event) => { event.stopPropagation(); this.open() }}>
           <svg class="dropdown-arrow" onClick={() => { this.isActive = !this.isActive }} width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" clip-rule="evenodd" d="M4.19013 6.56522C4.49929 6.25605 5.00055 6.25605 5.30971 6.56522L9.49992 10.7554L13.6901 6.56522C13.9993 6.25605 14.5005 6.25605 14.8097 6.56522C15.1189 6.87438 15.1189 7.37564 14.8097 7.6848L10.0597 12.4348C9.75055 12.744 9.24929 12.744 8.94013 12.4348L4.19013 7.6848C3.88096 7.37564 3.88096 6.87438 4.19013 6.56522Z" fill="#9DA6B6"/>
           </svg>
           { this.isActive ? <input type='text' value={this.search} onInput={(v: Event) => { this.search = (v.target as HTMLFormElement).value; this.reload() }}/>
-            : (
-              <div class="selected-list-short" onClick={() => { this.isActive = true }}>
-                <span class="and-more">всего { this.modelValue.length }</span>
-                { this.modelValue.map((item: any) => selectedCard(item)) }
-              </div>
-            )
+            : this.modelValue.length > 0 && <div class="selected-card">
+              Выбрано: { this.modelValue.length }
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={() => this.clear()}>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M9.35355 2.64645C9.54882 2.84171 9.54882 3.15829 9.35355 3.35355L3.35355 9.35355C3.15829 9.54882 2.84171 9.54882 2.64645 9.35355C2.45118 9.15829 2.45118 8.84171 2.64645 8.64645L8.64645 2.64645C8.84171 2.45118 9.15829 2.45118 9.35355 2.64645Z" fill="#242A2F"/>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M2.64645 2.64645C2.84171 2.45118 3.15829 2.45118 3.35355 2.64645L9.35355 8.64645C9.54882 8.84171 9.54882 9.15829 9.35355 9.35355C9.15829 9.54882 8.84171 9.54882 8.64645 9.35355L2.64645 3.35355C2.45118 3.15829 2.45118 2.84171 2.64645 2.64645Z" fill="#242A2F"/>
+              </svg>
+            </div>
           }
           { this.placeholder && <div class="placeholder">{this.placeholder}</div> }
           <div class="dropdown" style={this.isActive ? 'display: block;' : 'display: none;'}>
             { this.isLoading && <LineLoader/> }
-            { Boolean(this.modelValue.length) && <div class="selected-list">
-              { this.modelValue.map((item: any) => selectedCard(item))}
-            </div> }
             <div class="items-list">
               { this.items.map((item: any) => itemCard(item)) }
               <div ref="lazyLoadTrigger"/>
@@ -162,10 +160,12 @@ export default class ListSelect extends Vue.with(Props) {
 </script>
 
 <style lang="sass" scoped>
-@import '../variables.sass'
+@import '../../variables.sass'
 
 .relation-select-multiple
   background: white
+  cursor: pointer
+  height: 5*$step
   position: relative
   &.opened
     input
