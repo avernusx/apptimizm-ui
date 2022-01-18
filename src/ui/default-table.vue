@@ -1,6 +1,7 @@
 <script lang="tsx">
 import { Vue, prop } from 'vue-class-component'
 import { LocationAsRelativeRaw } from 'vue-router'
+import LineLoader from './line-loader.vue'
 import debounce from 'lodash/debounce'
 import PaginationElement from './pagination-element.vue'
 import IAxiosInterface from '../IAxiosInterface'
@@ -139,6 +140,7 @@ export default class DefaultTable extends Vue.with(Props) {
   render () {
     return (
       <div>
+        { this.isLoading && <LineLoader/> }
         <div class="apptimizm-ui-default-table">
           <div class="apptimizm-ui-default-table-head">
             <div class="apptimizm-ui-default-table-row">
@@ -158,6 +160,7 @@ export default class DefaultTable extends Vue.with(Props) {
             { this.items.map((item: any) => this.line(item)) }
           </div>
         </div>
+        { this.isLoading && <LineLoader/> }
         <div class="apptimizm-ui-default-table-footer">
           { this.scrollPagination && <div class="lazy-load-trigger" ref="lazyLoadTrigger"/> }
           { !this.scrollPagination && this.pages > 1 && <PaginationElement page={this.page} pages={this.pages} onEvents={true} onPageChange={(i) => this.loadPage(i)}/> }

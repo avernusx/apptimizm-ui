@@ -3,6 +3,7 @@ import { Vue } from 'vue-class-component'
 import axios from 'axios'
 import Calendar from './ui/calendars/period-calendar/period-calendar'
 import RadioButton from './ui/radio-button.vue'
+import DefaultTable from './ui/default-table.vue'
 
 export default class App extends Vue {
   files = [
@@ -27,10 +28,31 @@ export default class App extends Vue {
   ]
 
   render () {
+    const line = () => {
+      return (
+        <div class="apptimizm-ui-default-table-row">
+          <div class="apptimizm-ui-default-table-cell">
+            111
+          </div>
+          <div class="apptimizm-ui-default-table-row">
+            222
+          </div>
+        </div>
+      )
+    }
+
+    const headers = [{ name: '1' }, { name: '2' }]
+
     return (
       <div>
         <Calendar/>
         <RadioButton modelValue={true} onValueChange={() => { console.log('CLICK') }}/>
+        <DefaultTable
+          axios={axios}
+          endpoint="https://rusradio.ru/api/news/news"
+          line={line}
+          headers={headers}
+        />
       </div>
     )
   }
