@@ -2,6 +2,7 @@
 import { Vue } from 'vue-class-component'
 import axios from 'axios'
 import Calendar from './ui/calendars/period-calendar/period-calendar'
+import RadioButton from './ui/radio-button.vue'
 
 export default class App extends Vue {
   files = [
@@ -27,7 +28,10 @@ export default class App extends Vue {
 
   render () {
     return (
-      <Calendar/>
+      <div>
+        <Calendar/>
+        <RadioButton modelValue={true} onValueChange={() => { console.log('CLICK') }}/>
+      </div>
     )
   }
 }

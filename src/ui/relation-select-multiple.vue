@@ -21,7 +21,6 @@ class Props {
   errors = prop<string[]>({ default: () => [] })
 }
 
-
 export default class ListSelect extends Vue.with(Props) {
   items: any[] = []
   page = 0
@@ -123,7 +122,7 @@ export default class ListSelect extends Vue.with(Props) {
     const itemCard = (item: any) => {
       return (
         <div class="item" onClick={() => this.toggleItem(item)}>
-          <RadioButton modelValue={this.modelValue.find((i: any) => i[this.idKey] === item[this.idKey])} onClick={() => {}}/>
+          <RadioButton modelValue={this.modelValue.find((i: any) => i[this.idKey] === item[this.idKey])} onValueChange={() => {}}/>
           <span>{ item[this.titleKey] }</span>
         </div>
       )
