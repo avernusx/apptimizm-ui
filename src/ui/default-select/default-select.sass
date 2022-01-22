@@ -1,0 +1,73 @@
+@import '../../variables.sass'
+
+.apptimizm-ui-default-select
+  cursor: pointer
+  position: relative
+  &.selected
+    .apptimizm-ui-default-select-placeholder
+      opacity: 0
+  &.opened
+    .apptimizm-ui-default-select-dropdown-arrow
+      transform: rotate(180deg)
+  .apptimizm-ui-select
+    background: white
+    border: 1px solid #DCDEE4
+    border-radius: 4px
+    box-sizing: border-box
+    font-size: 14px
+    height: 5*$step
+    line-height: 2*$step
+    position: relative
+    width: 100%
+  .apptimizm-ui-default-select-constant-placeholder
+    position: absolute
+    width: 100%
+    top: 0
+    left: 0
+    color: $placeholder-gray
+    font-size: 14px
+    padding: 1.5*$step 4.5*$step 1.5*$step 1.5*$step
+    transition: $time
+  .apptimizm-ui-default-select-value, .apptimizm-ui-default-select-placeholder
+    color: rgba(36, 42, 47, 0.3)
+    font-size: 14px
+    line-height: 2*$step
+    padding: 12px 24px
+
+  .apptimizm-ui-default-select-dropdown-arrow, .apptimizm-ui-default-select-reset
+    right: 1.5*$step
+    top: 1.5*$step
+    position: absolute
+    cursor: pointer
+    &:hover
+      & > *
+        fill: $primary-color
+
+  .apptimizm-ui-default-select-dropdown-arrow
+    background: url(./assets/dropdown-arrow.svg) center center no-repeat
+    height: 16px
+    transition: 0.4s
+    width: 16px
+
+  .apptimizm-ui-default-select-dropdown
+    background: white
+    border-top: none
+    border-radius: 0.5*$step
+    box-shadow: 0px 4px 4px rgba(61, 63, 73, 0.16), 0px 8px 16px rgba(61, 63, 73, 0.08)
+    box-sizing: border-box
+    position: absolute
+    top: 5*$step + 4px
+    width: 100%
+    z-index: 10
+
+  .apptimizm-ui-default-select-items-list
+    max-height: 250px
+    overflow-y: scroll
+    .apptimizm-ui-default-select-item
+      cursor: pointer
+      display: flex
+      padding: 1.5*$step
+      align-items: center
+      justify-content: space-between
+      &:hover, &.active
+        background: rgba(100, 208, 218, 0.2)

@@ -1,7 +1,7 @@
 .apptimizm-ui-double-calendar
-  display: flex
-  > div
-    margin: 0px 8px
+  column-gap: 56px
+  display: grid
+  grid-template-columns: auto auto
 .apptimizm-ui-calendar
   font-size: 14px
   width: 280px
@@ -9,23 +9,40 @@
   cursor: pointer
   display: grid
   grid-template-columns: repeat(7, 40px)
+  column-gap: 0px
   row-gap: 4px
 .apptimizm-ui-calendar-day
+  box-sizing: border-box
   line-height: 32px
   height: 32px
   padding: 0px 4px
   text-align: center
-  width: 32px
+  width: 40px
   &.faded
     color: rgba(36, 42, 47, 0.3)
   &.in-period
     background: rgba(100, 208, 218, 0.2)
   &.selected
     background: #64D0DA
-.apptimizm-ui-calendar-head, .apptimizm-ui-calendar-month, .apptimizm-ui-calendar-year
+.apptimizm-ui-calendar-head
   align-items: center
   display: flex
   justify-content: space-between
+  margin-bottom: 16px
+.apptimizm-ui-calendar-month
+  align-items: center
+  column-gap: 8px
+  display: grid
+  font-weight: 600
+  grid-template-columns: 16px 98px 16px
+  margin-left: 10px
+.apptimizm-ui-calendar-year
+  align-items: center
+  column-gap: 8px
+  display: grid
+  font-weight: 600
+  grid-template-columns: 16px 48px 16px
+  margin-right: 6px
 .apptimizm-ui-calendar-arrow-left
   background: url(./assets/arrow.svg)
   cursor: pointer

@@ -2,10 +2,29 @@ import { defineComponent, PropType, ref, Ref, computed } from 'vue'
 import moment, { Moment } from 'moment'
 import { Calendar, CalendarDay, useCalendar } from '../composables'
 
+moment.locale('ru')
+
 import '../calendar.sass'
 
 export default defineComponent({
-  setup () {
+  props: {
+    start: {
+      type: Object as PropType<Moment>
+    },
+    end: {
+      type: Object as PropType<Moment>
+    },
+    onSetStart: {
+      type: Function as PropType<(date: Moment|null) => void>,
+      required: true
+    },
+    onSetEnd: {
+      type: Function as PropType<(date: Moment|null) => void>,
+      required: true
+    }
+  },
+
+  setup (props) {
     const startCalendar = useCalendar()
     const endCalendar = useCalendar(moment().add(1, 'month'))
 
@@ -16,16 +35,23 @@ export default defineComponent({
     const setPeriod = (day: CalendarDay) => {
       if (!startOfPeriod.value && !endOfPeriod.value) {
         startOfPeriod.value = moment(day.date)
+        props.onSetStart(moment(startOfPeriod.value))
       } else if (startOfPeriod.value && startOfPeriod.value.isSame(day.date, 'day')) {
         startOfPeriod.value = null
+        props.onSetStart(null)
       } else if (endOfPeriod.value && endOfPeriod.value.isSame(day.date, 'day')) {
         endOfPeriod.value = null
+        props.onSetEnd(null)
       } else if (startOfPeriod.value && day.date.isAfter(startOfPeriod.value)) {
         endOfPeriod.value = moment(day.date)
+        props.onSetEnd(moment(endOfPeriod.value))
       } else if (endOfPeriod.value && day.date.isBefore(endOfPeriod.value)) {
         startOfPeriod.value = moment(day.date)
+        props.onSetStart(moment(startOfPeriod.value))
       }
     }
+
+    const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)
 
     return () => {
       const calendarTemplate = (c: Calendar) => (
@@ -33,12 +59,12 @@ export default defineComponent({
           <div class="apptimizm-ui-calendar-head">
             <div class="apptimizm-ui-calendar-month">
               <div class="apptimizm-ui-calendar-arrow-left" onClick={() => c.prevMonth()}/>
-              { c.date.value.format('MM') }
+              <div>{ capitalize(c.date.value.format('MMMM')) }</div>
               <div class="apptimizm-ui-calendar-arrow-right" onClick={() => c.nextMonth()}/>
             </div>
             <div class="apptimizm-ui-calendar-year">
               <div class="apptimizm-ui-calendar-arrow-left" onClick={() => c.prevYear() }/>
-              { c.date.value.format('YYYY') }
+              <div>{ c.date.value.format('YYYY') }</div>
               <div class="apptimizm-ui-calendar-arrow-right" onClick={() => c.nextYear()}/>
             </div>
           </div>
