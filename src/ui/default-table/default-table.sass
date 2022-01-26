@@ -1,15 +1,63 @@
 .apptimizm-ui-default-table
   display: table
+  background: white
+  font-size: 14px
+  width: 100%
 .apptimizm-ui-default-table-head
+  background: rgba(36, 42, 47, 0.04)
   display: table-header-group
+  .apptimizm-ui-default-table-cell
+    vertical-align: middle
+    .apptimizm-ui-default-table-header-cell-inner
+      align-items: center
+      display: flex
+      > div:nth-child(2)
+        flex-grow: 2
 .apptimizm-ui-default-table-gap
   display: table-row
 .apptimizm-ui-default-table-body
   display: table-row-group
 .apptimizm-ui-default-table-row
   display: table-row
+  >.apptimizm-ui-default-table-cell:nth-child(1)
+    padding-left: 32px
+    &.with-sort
+      padding-left: 16px
+    &.with-search
+      padding-left: 24px
+    &.with-sort.with-search
+      padding-left: 16px  
 .apptimizm-ui-default-table-cell
+  border-bottom: 1px solid rgba(36, 42, 47, 0.04)
   display: table-cell
+  padding: 16px
+  &.with-sort
+    padding-left: 0px
+    .apptimizm-ui-default-table-cell-sort
+      margin-right: 8px
+  &.with-search
+    padding-left: 8px
+  &.with-sort.with-search
+    padding-left: 0px
+    .apptimizm-ui-default-table-cell-sort
+      margin-left: -4px
+      margin-right: 4px
+.apptimizm-ui-default-table-footer
+  background: white
+  padding: 16px
+.apptimizm-ui-default-table-filter-head
+  align-items: center
+  display: flex
+  margin-bottom: 8px
+.apptimizm-ui-default-table-filter-count
+  font-size: 14px
+  font-weight: 600
+  margin-right: 16px
+.apptimizm-ui-default-table-filter-clear
+  color: rgba(36, 42, 47, 0.3)
+  cursor: pointer
+  font-size: 12px
+  font-weight: 600
 .apptimizm-ui-default-table-filter-param
   background-color: rgba(100, 208, 218, 0.2)
   background-image: url(./assets/cross.svg)
@@ -19,5 +67,90 @@
   cursor: pointer
   display: inline-block
   font-size: 14px
+  margin-bottom: 8px
+  margin-right: 8px
   padding: 4px 24px 4px 8px
+  > span:nth-child(1)
+    color: #21C2D1
+    font-weight: 600
+  > span:nth-child(2)
+    font-weight: 600
+.apptimizm-ui-default-table-cell-sort
+  background: url(./assets/sort.svg) center center no-repeat
+  cursor: pointer
+  height: 16px
+  width: 8px
   
+// Фильтры
+.apptimizm-ui-default-table
+  // Строка
+  .apptimizm-ui-default-table-search-string
+    background-color: rgba(0, 0, 0, 0)
+    background-image: url(./assets/search.svg)
+    background-position: right 8px center
+    background-repeat: no-repeat
+    border: none
+    border-radius: 4px
+    cursor: pointer
+    height: 40px
+    line-height: 40px
+    margin: -16px 0px -16px 0px
+    padding: 0px 8px
+    &::placeholder
+      color: #3c383d
+      opacity: 1
+    &:focus
+      background-color: rgba(36, 42, 47, 0.04)
+      outline: none
+  // RelationSelect
+  .apptimizm-ui-relation-select
+    margin: -16px 0px -16px 0px
+  .apptimizm-ui-relation-select-selected
+    background-image: url(./assets/arrow-down.svg)
+    background-position: right 8px center
+    background-repeat: no-repeat
+    border: none
+    line-height: 40px
+    padding: 0px 8px
+    padding-right: 32px
+    white-space: nowrap
+  .apptimizm-ui-relation-select input
+    background-color: rgba(36, 42, 47, 0.04)
+    background-image: url(./assets/arrow-down.svg)
+    background-position: right 16px center
+    background-repeat: no-repeat
+    border: none
+    border-radius: 4px
+    padding-left: 10px
+    padding-right: 32px
+    &::placeholder
+      font-size: 13px
+  // Календарь
+  .apptimizm-ui-default-table-filter-calendar
+    background-color: rgba(0, 0, 0, 0)
+    background-image: url(./assets/calendar.svg)
+    background-position: right 16px center
+    background-repeat: no-repeat
+    height: 40px
+    margin: -16px 0px
+    padding-left: 8px
+    padding-right: 40px
+    position: relative
+    width: 100%
+    .apptimizm-ui-default-table-filter-calendar-date
+      line-height: 40px
+      white-space: nowrap
+    &:hover
+      .apptimizm-ui-default-table-filter-calendar-area
+        display: block
+  .apptimizm-ui-default-table-filter-calendar-area
+    background: white
+    border-radius: 4px
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.04)
+    display: none
+    padding: 16px
+    position: absolute
+    z-index: 10
+
+  
+    

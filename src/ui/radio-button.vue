@@ -1,12 +1,12 @@
 <script lang="tsx">
 interface IRadioButtonProps {
   modelValue?: boolean,
-  onValueChange?: () => void
+  onClick?: () => void
 }
 
 export default (props: IRadioButtonProps, context: any) => {
   const onClick = () => {
-    props.onValueChange ? props.onValueChange() : context.emit('update:modelValue')
+    props.onClick ? props.onClick() : context.emit('update:modelValue')
   }
 
   const cls = props.modelValue ? 'radio-button active' : 'radio-button'

@@ -1,4 +1,4 @@
-import { defineComponent, PropType, ref, Ref, computed } from 'vue'
+import { defineComponent, PropType, ref, Ref, watch } from 'vue'
 import moment, { Moment } from 'moment'
 import { Calendar, CalendarDay, useCalendar } from '../composables'
 
@@ -9,10 +9,10 @@ import '../calendar.sass'
 export default defineComponent({
   props: {
     start: {
-      type: Object as PropType<Moment>
+      type: Object as PropType<Moment|null>
     },
     end: {
-      type: Object as PropType<Moment>
+      type: Object as PropType<Moment|null>
     },
     onSetStart: {
       type: Function as PropType<(date: Moment|null) => void>,
@@ -28,8 +28,8 @@ export default defineComponent({
     const startCalendar = useCalendar()
     const endCalendar = useCalendar(moment().add(1, 'month'))
 
-    const startOfPeriod: Ref<Moment|null> = ref(null)
-    const endOfPeriod: Ref<Moment|null> = ref(null)
+    const startOfPeriod: Ref<Moment|null> = ref(props.start ? moment(props.start) : null)
+    const endOfPeriod: Ref<Moment|null> = ref(props.end ? moment(props.end) : null)
     const hoverDay: Ref<Moment|null> = ref(null)
 
     const setPeriod = (day: CalendarDay) => {
@@ -50,6 +50,14 @@ export default defineComponent({
         props.onSetStart(moment(startOfPeriod.value))
       }
     }
+
+    watch(() => props.start, (v) => {
+      if (typeof (v) !== 'undefined') startOfPeriod.value = v
+    })
+
+    watch(() => props.end, (v) => {
+      if (typeof (v) !== 'undefined') endOfPeriod.value = v
+    })
 
     const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)
 

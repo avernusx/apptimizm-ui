@@ -1,10 +1,7 @@
 <script lang="tsx">
 import { Vue } from 'vue-class-component'
 import axios from 'axios'
-import Calendar from './ui/calendars/period-calendar/period-calendar'
-import RadioButton from './ui/radio-button.vue'
-import DefaultTable from './ui/default-table.vue'
-import RelationSelectMultiple from './ui/multiple-relation-select/multiple-relation-select.vue'
+import MultipleFileUpload, { FileData } from './ui/multiple-file-upload/multiple-file-upload'
 
 export default class App extends Vue {
   files = [
@@ -28,42 +25,13 @@ export default class App extends Vue {
     }
   ]
 
-  items: any[] = []
-
   render () {
-    const line = () => {
-      return (
-        <div class="apptimizm-ui-default-table-row">
-          <div class="apptimizm-ui-default-table-cell">
-            111
-          </div>
-          <div class="apptimizm-ui-default-table-row">
-            222
-          </div>
-        </div>
-      )
-    }
-
-    const headers = [{ name: '1' }, { name: '2' }]
-
     return (
-      <div>
-        <Calendar/>
-        <RadioButton modelValue={true} onValueChange={() => { console.log('CLICK') }}/>
-        <DefaultTable
-          axios={axios}
-          endpoint="https://rusradio.ru/api/news/news"
-          line={line}
-          headers={headers}
-        />
-        <RelationSelectMultiple
-          axios={axios}
-          endpoint="https://rusradio.ru/api/news/news"
-          modelValue={this.items}
-          placeholder={''}
-          onValueChange={(items: any) => { this.items = items }}
-        />
-      </div>
+      <MultipleFileUpload
+        apiService={axios}
+        files={this.files}
+        onUpload={(files: FileData[]) => { this.files = files }}
+      />
     )
   }
 }

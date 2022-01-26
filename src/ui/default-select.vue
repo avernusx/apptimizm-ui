@@ -3,7 +3,7 @@ import { Vue, prop } from 'vue-class-component'
 
 class Props {
   modelValue = prop<any>({ default: () => ({}) })
-  placeholder = prop<string>({})
+  placeholder? = prop<string>({})
   idKey = prop<string>({ default: 'id' })
   titleKey = prop<string>({ default: 'name' })
   onValueChange = prop<(v: any) => void>({})

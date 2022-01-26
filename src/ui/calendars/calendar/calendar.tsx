@@ -9,8 +9,20 @@ type CalendarDay = {
 }
 
 export default defineComponent({
-  setup () {
+  props: {
+    onSetDay: {
+      type: Function as PropType<(date: Moment) => void>,
+      required: true
+    },
+    day: {
+      type: Object as PropType<Moment|null>,
+      required: true
+    },
+  },
+
+  setup (props) {
     const currentDate = ref(moment())
+    const selectedDay = ref(props.day ? moment(props.day) : moment('1970-01-01'))
 
     const days = computed(() => {
       const start = moment(currentDate.value).startOf('month').startOf('isoWeek')
@@ -35,41 +47,49 @@ export default defineComponent({
     const prevYear = () => { currentDate.value = moment(currentDate.value.add(-1, 'year')) }
     const nextYear = () => { currentDate.value = moment(currentDate.value.add(1, 'year')) }
 
+    const setDay = (date: Moment) => {
+      selectedDay.value = moment(date)
+      props.onSetDay(moment(date))
+    }
+
     return () => {
       return (
-        <div class="apptimizm-ui-calendar">
-          <div class="apptimizm-ui-calendar-head">
-            <div class="apptimizm-ui-calendar-month">
-              <div class="apptimizm-ui-calendar-arrow-left" onClick={() => prevMonth()}/>
-              { currentDate.value.format('MM') }
-              <div class="apptimizm-ui-calendar-arrow-right" onClick={nextMonth}/>
+        <div class="apptimizm-ui-single-calendar">
+          <div class="apptimizm-ui-calendar">
+            <div class="apptimizm-ui-calendar-head">
+              <div class="apptimizm-ui-calendar-month">
+                <div class="apptimizm-ui-calendar-arrow-left" onClick={() => prevMonth()}/>
+                { currentDate.value.format('MMMM') }
+                <div class="apptimizm-ui-calendar-arrow-right" onClick={nextMonth}/>
+              </div>
+              <div class="apptimizm-ui-calendar-year">
+                <div class="apptimizm-ui-calendar-arrow-left" onClick={prevYear}/>
+                { currentDate.value.format('YYYY') }
+                <div class="apptimizm-ui-calendar-arrow-right" onClick={nextYear}/>
+              </div>
             </div>
-            <div class="apptimizm-ui-calendar-year">
-              <div class="apptimizm-ui-calendar-arrow-left" onClick={prevYear}/>
-              { currentDate.value.format('YYYY') }
-              <div class="apptimizm-ui-calendar-arrow-right" onClick={nextYear}/>
-            </div>
-          </div>
-          <div class="apptimizm-ui-calendar-days">
-            <div class="apptimizm-ui-calendar-day faded">Пн</div>
-            <div class="apptimizm-ui-calendar-day faded">Вт</div>
-            <div class="apptimizm-ui-calendar-day faded">Ср</div>
-            <div class="apptimizm-ui-calendar-day faded">Чт</div>
-            <div class="apptimizm-ui-calendar-day faded">Пт</div>
-            <div class="apptimizm-ui-calendar-day faded">Сб</div>
-            <div class="apptimizm-ui-calendar-day faded">Вс</div>
-            { days.value.map(day => {
-              let cls = ''
-              if (day.faded) cls += 'faded'
+            <div class="apptimizm-ui-calendar-days">
+              <div class="apptimizm-ui-calendar-day faded">Пн</div>
+              <div class="apptimizm-ui-calendar-day faded">Вт</div>
+              <div class="apptimizm-ui-calendar-day faded">Ср</div>
+              <div class="apptimizm-ui-calendar-day faded">Чт</div>
+              <div class="apptimizm-ui-calendar-day faded">Пт</div>
+              <div class="apptimizm-ui-calendar-day faded">Сб</div>
+              <div class="apptimizm-ui-calendar-day faded">Вс</div>
+              { days.value.map(day => {
+                let cls = ''
+                if (day.faded) cls += 'faded'
+                if (day.date.isSame(selectedDay.value, 'day')) cls += 'selected'
 
-              return (
-                <div class={`apptimizm-ui-calendar-day ${cls}`}>
-                  <div class="apptimizm-ui-calendar-day-border">
-                    { day.date.format('D') }
+                return (
+                  <div class={`apptimizm-ui-calendar-day ${cls}`} onClick={() => setDay(day.date)}>
+                    <div class="apptimizm-ui-calendar-day-border">
+                      { day.date.format('D') }
+                    </div>
                   </div>
-                </div>
-              )
-            }) }
+                )
+              }) }
+            </div>
           </div>
         </div>
       )

@@ -15,6 +15,10 @@ export default defineComponent({
       type: Object as PropType<IAxiosInterface>,
       required: true
     },
+    constantPlaceholder: {
+      type: Boolean,
+      default: true
+    },
     endpoint: {
       type: String,
       required: true
@@ -28,7 +32,7 @@ export default defineComponent({
       required: true
     },
     modelValue: {
-      type: Object as PropType<ListElement[]>,
+      type: Array as PropType<ListElement[]>,
       default: () => []
     },
     onValueChange: {
@@ -69,7 +73,7 @@ export default defineComponent({
     const perPage = ref(10)
     const search = ref('')
     const queryParams = computed(() => {
-      const params = {...props.params}
+      const params = { ...props.params }
       if (search.value !== '') params[props.searchKey] = search.value
       return params
     })
@@ -80,7 +84,7 @@ export default defineComponent({
       items,
       load,
       reload,
-      loadNext,
+      loadNext
     } = usePaginatedApi(
       props.endpoint,
       props.axios,
@@ -116,28 +120,27 @@ export default defineComponent({
     return () => {
       return (
         <div>
-          <div 
+          <div
             class={isOpened.value ? 'apptimizm-ui-relation-select opened' : 'apptimizm-ui-relation-select'}
             ref={select}
           >
             <div class="apptimizm-ui-relation-select-header">
               { isOpened.value ? (
-                  <input
-                    type='text'
-                    placeholder={props.placeholder}
-                    value={search.value}
-                    onInput={(v: Event) => { search.value = (v.target as HTMLFormElement).value; reload() }}
-                  />
-                ) : (
-                  <div class="apptimizm-ui-relation-select-selected" onClick={() => { isOpened.value = true }}>
-                    { props.modelValue.length > 0 ? (
-                      <span onClick={(e) => { e.stopPropagation(); clear() }}>Выбрано: { props.modelValue.length }</span>
-                    ) : props.placeholder }
-                  </div>
-                )
-              }
+                <input
+                  type='text'
+                  placeholder={props.placeholder}
+                  value={search.value}
+                  onInput={(v: Event) => { search.value = (v.target as HTMLFormElement).value; reload() }}
+                />
+              ) : (
+                <div class="apptimizm-ui-relation-select-selected" onClick={() => { isOpened.value = true }}>
+                  { props.modelValue.length > 0 ? (
+                    <span onClick={(e) => { e.stopPropagation(); clear() }}>Выбрано: { props.modelValue.length }</span>
+                  ) : props.placeholder }
+                </div>
+              ) }
             </div>
-            { props.placeholder && <div class="apptimizm-ui-relation-select-placeholder">{props.placeholder}</div> }
+            { props.constantPlaceholder && props.placeholder && <div class="apptimizm-ui-relation-select-placeholder">{props.placeholder}</div> }
             <div class="apptimizm-ui-relation-select-dropdown" style={isOpened.value ? 'display: block;' : 'display: none;'}>
               { isLoading.value && <LineLoader/> }
               <div class="apptimizm-ui-relation-select-items-list" ref={root}>
@@ -153,6 +156,6 @@ export default defineComponent({
           </div>
         </div>
       )
-    } 
+    }
   }
 })

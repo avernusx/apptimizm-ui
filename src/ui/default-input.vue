@@ -1,7 +1,7 @@
 <script lang="tsx">
 interface IDefaultInputProps {
   modelValue: string,
-  placeholder: string,
+  placeholder?: string,
   errors?: string[],
   password?: boolean,
   class?: string,

@@ -1,4 +1,5 @@
 import { defineComponent, PropType, Ref, ref, computed, watch, onMounted } from 'vue'
+import moment, { Moment } from 'moment'
 import { LocationAsRelativeRaw } from 'vue-router'
 import PaginationElement from './pagination'
 import LineLoader from '../line-loader.vue'
@@ -7,10 +8,11 @@ import usePaginatedApi from '../../composables/use-paginated-api'
 import useScrollPagination from '../../composables/use-scroll-pagination'
 import RelationSelect from '../relation-select/relation-select'
 import MultipleRelationSelect from '../relation-select/multiple-relation-select'
+import PeriodCalendar from '../calendars/period-calendar/period-calendar'
 
 import './default-table.sass'
 
-export enum SearchTypes { String, Relation, MultipleRelation }
+export enum SearchTypes { String, Relation, MultipleRelation, Daterange }
 
 type TableParamElement = { id: string, name: string }
 
@@ -20,11 +22,22 @@ export type TableHeader = {
   searchType?: SearchTypes
   endpoint?: string
   itemConverter?: (v: any) => TableParamElement
+  sort?: string
+}
+
+class TableDate {
+  date: Moment|null = null
+  type: string = 'from'
+
+  constructor (type: string, date: Moment|null = null) {
+    this.type = type
+    this.date = date
+  }
 }
 
 type TableFilter = { name: string, key: string, value: string, id: string }
 
-type TableParam = string|TableParamElement|Array<TableParamElement>
+type TableParam = string|TableParamElement|Array<TableParamElement>|TableDate
 
 type TableParams = {
   [ code: string ]: TableParam
@@ -38,8 +51,12 @@ function paramIsString (param: TableParam): param is string {
   return typeof param === 'string'
 }
 
+function paramIsDate (param: TableParam): param is TableDate {
+  return param instanceof TableDate
+}
+
 function paramIsObject (param: TableParam): param is TableParamElement {
-  return typeof param === 'object' && !Array.isArray(param)
+  return typeof param === 'object' && !Array.isArray(param) && !paramIsDate(param)
 }
 
 function paramIsArray (param: TableParam): param is Array<TableParamElement> {
@@ -106,19 +123,33 @@ export default defineComponent({
   setup (props) {
     const trigger = ref(null) as unknown as Ref<HTMLElement>
 
-    const preparedParams: TableParams = {}
+    const params: Ref<TableParams> = ref({})
 
-    props.headers.filter(h => h.search).forEach(h => {
-      if (!h.search) return
-      if (h.searchType === SearchTypes.String) preparedParams[h.search] = ''
-      if (h.searchType === SearchTypes.Relation) preparedParams[h.search] = { id: '', name: '' }
-      if (h.searchType === SearchTypes.MultipleRelation) preparedParams[h.search] = []
-    })
+    // Инициализуем пустые типы внутренних фильтров таблицы (при создании компонента и сбросе фильтров)
+    const setDefaultParams = () => {
+      const preparedParams: TableParams = {}
 
-    const params: Ref<TableParams> = ref(preparedParams)
+      props.headers.filter(h => h.search).forEach(h => {
+        if (!h.search) return
+        if (h.searchType === SearchTypes.String) preparedParams[h.search] = ''
+        if (h.searchType === SearchTypes.Relation) preparedParams[h.search] = { id: '', name: '' }
+        if (h.searchType === SearchTypes.MultipleRelation) preparedParams[h.search] = []
+        if (h.searchType === SearchTypes.Daterange) {
+          const keys = h.search.split('/')
+          if (keys.length < 2) throw new Error(`Неверный формат ключа для поиска Daterange в поле ${h.name}`)
+          preparedParams[keys[0]] = new TableDate('from')
+          preparedParams[keys[1]] = new TableDate('to')
+        }
+      })
+
+      params.value = preparedParams
+    }
+
+    setDefaultParams()
 
     const perPage = ref(props.perPage)
 
+    // Превращаем внутренние фильтры таблицы и внешний defaultFilter в параметры запроса на бек
     const queryParams = computed(() => {
       const innerParams = {...props.defaultFilter, ...params.value}
       const resultParams: { [code: string]: string} = {}
@@ -126,14 +157,19 @@ export default defineComponent({
       for (let key in innerParams) {
         const param = innerParams[key]
 
-        if (paramIsObject(param)) resultParams[key] = param.id
-        if (paramIsArray(param)) resultParams[key] = param.map(p => p.name).join(',')
-        if (paramIsString(param)) resultParams[key] = param
+        if (paramIsObject(param) && param.id) resultParams[key] = param.id
+        if (paramIsArray(param)) {
+          const arrayParams = param.filter(p => p.id !== '').map(p => p.id).join(',')
+          if (arrayParams !== '') resultParams[key] = arrayParams
+        }
+        if (paramIsString(param) && param !== '') resultParams[key] = param
+        if (paramIsDate(param) && param.date) resultParams[key] = param.date.format('YYYY-MM-DD')
       }
 
       return resultParams
     })
 
+    // Обращение к АПИ бекенда
     const {
       page,
       pages,
@@ -144,7 +180,8 @@ export default defineComponent({
       reload,
       loadPrev,
       loadNext,
-      loadPage
+      loadPage,
+      setSort
     } = usePaginatedApi(
       props.endpoint,
       props.axios,
@@ -157,6 +194,7 @@ export default defineComponent({
       props.responseTotalKey
     )
 
+    // Загружаем первую страницу при создании компонента
     onMounted(load)
 
     if (props.scrollPagination) useScrollPagination(loadNext, trigger)
@@ -165,13 +203,19 @@ export default defineComponent({
     
     watch(perPage, reload)
 
+    // Преобразуем параметры фильтра для отображения над шапкой таблицы
     const filterParams = computed(() => {
-      console.log('FILTER PARAMS', params.value)
       const filters: TableFilter[] = []
 
       for (let key in params.value) {
         const param = params.value[key]
-        const header = props.headers.find(h => h.search === key)
+        const header = props.headers
+          .filter(h => h.search)
+          .find(h => h.search && (
+            h.search === key ||
+            h.search?.indexOf(key + '/') > -1 ||
+            h.search?.indexOf('/' + key) > -1)
+          )
 
         if (!header) continue
 
@@ -180,6 +224,14 @@ export default defineComponent({
         if (paramIsArray(param)) param.forEach(p => {
           filters.push({ name: header.name, key: String(header.search), id: p.id, value: p.name })
         })
+        if (paramIsDate(param) && param.date !== null) {
+          filters.push({
+            name: header.name + (param.type === 'from' ? ' от' : ' до'),
+            key: key,
+            id: '',
+            value: param.date.format('DD.MM.YYYY')
+          })
+        }
       }
 
       return filters
@@ -197,11 +249,12 @@ export default defineComponent({
         if (!element) return
         param.splice(param.indexOf(element), 1)
       }
+      if (paramIsDate(param)) param.date = null
 
       reload()
     }
 
-    const setFilter = (key: string, value: string|TableParamElement|TableParamElement[]) => {
+    const setFilter = (key: string, value: string|TableParamElement|TableParamElement[]|TableDate) => {
       params.value[key] = value
       reload()
     }
@@ -219,6 +272,11 @@ export default defineComponent({
       isLoading.value = false
     }
 
+    const clearFilters = async () => {
+      setDefaultParams()
+      await reload()
+    }
+
     const context = { remove }
     
     return () => {
@@ -230,6 +288,7 @@ export default defineComponent({
             class="apptimizm-ui-default-table-search-string"
             value={String(param)}
             onInput={(e) => setFilter(String(header.search), (e.target as HTMLInputElement).value)}
+            placeholder={header.name}
           />
         )
       }
@@ -238,7 +297,6 @@ export default defineComponent({
         if (!header.endpoint) throw new Error(`Не задан endpoint для заголовка ${header.name}`)
         if (!header.itemConverter) throw new Error(`Не задана функция itemConverter для заголовка ${header.name}`)
         const param = getTableSearchParam(header)
-        console.log(param)
         if (!paramIsObject(param)) throw new Error(`Тип поиска в заголовке ${header.name} не совпадает с типом параметра во внутреннем состоянии таблицы`)
         return (
           <RelationSelect
@@ -247,6 +305,8 @@ export default defineComponent({
             itemConverter={header.itemConverter}
             modelValue={param}
             onValueChange={(v: TableParamElement) => { setFilter(String(header.search), v) }}
+            placeholder={header.name}
+            constantPlaceholder={false}
           />
         )
       }
@@ -263,7 +323,40 @@ export default defineComponent({
             itemConverter={header.itemConverter}
             modelValue={param}
             onValueChange={(v: TableParamElement[]) => { setFilter(String(header.search), v) }}
+            placeholder={header.name}
+            constantPlaceholder={false}
           />
+        )
+      }
+
+      const renderSearchDaterange = (header: TableHeader) => {
+        if (!header.search) return (<div/>)
+        const keys = header.search.split('/')
+        if (keys.length < 2) throw new Error(`Неверный формат ключа для поиска Daterange в поле ${header.name}`)
+        const paramFrom = getTableSearchParam({...header, search: keys[0]})
+        const paramTo = getTableSearchParam({...header, search: keys[1]})
+        if (!paramIsDate(paramFrom)) throw new Error(`Тип поиска в заголовке ${header.name} не совпадает с типом параметра во внутреннем состоянии таблицы`)
+        if (!paramIsDate(paramTo)) throw new Error(`Тип поиска в заголовке ${header.name} не совпадает с типом параметра во внутреннем состоянии таблицы`)
+        return (
+          <div class="apptimizm-ui-default-table-filter-calendar">
+            { (paramFrom.date || paramTo.date) ? (
+              <div class="apptimizm-ui-default-table-filter-calendar-date">
+                { paramFrom.date?.format('DD.MM.YYYY') } - { paramTo.date?.format('DD.MM.YYYY') }
+              </div> 
+            ) : (
+              <div class="apptimizm-ui-default-table-filter-calendar-date">
+                { header.name }
+              </div> 
+            ) }
+            <div class="apptimizm-ui-default-table-filter-calendar-area">
+              <PeriodCalendar
+                onSetStart={(v: Moment|null) => setFilter(keys[0], new TableDate('from', v))}
+                onSetEnd={(v: Moment|null) => setFilter(keys[1], new TableDate('to', v))}
+                start={paramFrom.date}
+                end={paramTo.date}
+              />
+            </div>
+          </div>
         )
       }
 
@@ -271,25 +364,37 @@ export default defineComponent({
         if (header.searchType === SearchTypes.String) return renderSearchString(header)
         if (header.searchType === SearchTypes.Relation) return renderSearchRelation(header)
         if (header.searchType === SearchTypes.MultipleRelation) return renderSearchMultipleRelation(header)
+        if (header.searchType === SearchTypes.Daterange) return renderSearchDaterange(header)
       }
 
       return (
         <div>
-          <div class="apptimizm-ui-default-table-filter">
-            { filterParams.value.map(filter => (
-              <div class="apptimizm-ui-default-table-filter-param" onClick={() => resetFilter(filter)}>
-                { filter.name }: { filter.value }
-                <div class="apptimizm-ui-default-table-filter-param-close"/>
+          { filterParams.value.length > 0 && (
+            <div class="apptimizm-ui-default-table-filter">
+              <div class="apptimizm-ui-default-table-filter-head">
+                <div class="apptimizm-ui-default-table-filter-count">Фильтр: { filterParams.value.length }</div>
+                <div class="apptimizm-ui-default-table-filter-clear" onClick={clearFilters}>Очистить все</div>
               </div>
-            )) }
-          </div>
+              { filterParams.value.map(filter => (
+                <div class="apptimizm-ui-default-table-filter-param" onClick={() => resetFilter(filter)}>
+                  <span>{ filter.name }:</span> <span>{ filter.value }</span>
+                  <div class="apptimizm-ui-default-table-filter-param-close"/>
+                </div>
+              )) }
+            </div>
+          ) }
           { isLoading.value && <LineLoader/> }
           <div class="apptimizm-ui-default-table">
             <div class="apptimizm-ui-default-table-head">
               <div class="apptimizm-ui-default-table-row">
                 { props.headers.map((h: TableHeader) => (
-                  <div class="apptimizm-ui-default-table-cell">
-                    { h.search ? renderSearchHeader(h) : h.name }
+                  <div
+                    class={`apptimizm-ui-default-table-cell ${h.sort && 'with-sort'} ${h.search && 'with-search'}`}
+                  >
+                    <div class="apptimizm-ui-default-table-header-cell-inner">
+                      { h.sort && (<div class="apptimizm-ui-default-table-cell-sort" onClick={() => setSort(String(h.sort))}/>) }
+                      { h.search ? renderSearchHeader(h) : h.name }
+                    </div>
                   </div>
                 )) }
               </div>
