@@ -268,7 +268,7 @@ export default defineComponent({
     const remove = async (id: string) => {
       isLoading.value = true
       await props.axios.delete(props.endpoint + '/' + id)
-      await load()
+      props.scrollPagination ? items.value.splice(items.value.indexOf(items.value.find(i => i.id === id)), 1) : await load()
       isLoading.value = false
     }
 

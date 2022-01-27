@@ -30421,13 +30421,25 @@ function paramIsArray(param) {
                 return props.axios.delete(props.endpoint + '/' + id);
 
               case 3:
-                _context.next = 5;
+                if (!props.scrollPagination) {
+                  _context.next = 7;
+                  break;
+                }
+
+                items.value.splice(items.value.indexOf(items.value.find(function (i) {
+                  return i.id === id;
+                })), 1);
+                _context.next = 9;
+                break;
+
+              case 7:
+                _context.next = 9;
                 return load();
 
-              case 5:
+              case 9:
                 isLoading.value = false;
 
-              case 6:
+              case 10:
               case "end":
                 return _context.stop();
             }
