@@ -48,7 +48,7 @@ function isRoutesPaginationElementProps (props: IPaginationElementProps): props 
 const perPageOptions = [
   { id: '10', name: '10' },
   { id: '20', name: '20' },
-  { id: '50', name: '50' },
+  { id: '50', name: '50' }
 ]
 
 const PaginationElement = (props: IPaginationElementProps, context: any) => {

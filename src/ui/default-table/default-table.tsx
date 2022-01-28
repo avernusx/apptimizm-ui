@@ -27,7 +27,7 @@ export type TableHeader = {
 
 class TableDate {
   date: Moment|null = null
-  type: string = 'from'
+  type = 'from'
 
   constructor (type: string, date: Moment|null = null) {
     this.type = type
@@ -69,7 +69,7 @@ export default defineComponent({
       type: Object as PropType<LocationAsRelativeRaw>
     },
     additionalButtons: {
-      type: Function as PropType<(c: any) => JSX.Element>,
+      type: Function as PropType<(c: any) => JSX.Element>
     },
     axios: {
       type: Object as PropType<IAxiosInterface>,
@@ -155,10 +155,10 @@ export default defineComponent({
 
     // Превращаем внутренние фильтры таблицы и внешний defaultFilter в параметры запроса на бек
     const queryParams = computed(() => {
-      const innerParams = {...props.defaultFilter, ...params.value}
+      const innerParams = { ...props.defaultFilter, ...params.value }
       const resultParams: { [code: string]: string} = {}
 
-      for (let key in innerParams) {
+      for (const key in innerParams) {
         const param = innerParams[key]
 
         if (paramIsObject(param) && param.id) resultParams[key] = param.id
@@ -212,14 +212,14 @@ export default defineComponent({
     if (props.scrollPagination) useScrollPagination(loadNext, trigger)
 
     watch(props.defaultFilter, reload)
-    
+
     watch(perPage, reload)
 
     // Преобразуем параметры фильтра для отображения над шапкой таблицы
     const filterParams = computed(() => {
       const filters: TableFilter[] = []
 
-      for (let key in params.value) {
+      for (const key in params.value) {
         const param = params.value[key]
         const header = props.headers
           .filter(h => h.search)
@@ -233,9 +233,11 @@ export default defineComponent({
 
         if (paramIsString(param) && param !== '') filters.push({ name: header.name, key: String(header.search), id: '', value: param })
         if (paramIsObject(param) && param.id !== '') filters.push({ name: header.name, key: String(header.search), id: param.id, value: param.name })
-        if (paramIsArray(param)) param.forEach(p => {
-          filters.push({ name: header.name, key: String(header.search), id: p.id, value: p.name })
-        })
+        if (paramIsArray(param)) {
+          param.forEach(p => {
+            filters.push({ name: header.name, key: String(header.search), id: p.id, value: p.name })
+          })
+        }
         if (paramIsDate(param) && param.date !== null) {
           filters.push({
             name: header.name + (param.type === 'from' ? ' от' : ' до'),
@@ -290,7 +292,7 @@ export default defineComponent({
     }
 
     const context = { remove }
-    
+
     return () => {
       const renderSearchString = (header: TableHeader) => {
         const param = getTableSearchParam(header)
@@ -347,8 +349,8 @@ export default defineComponent({
         if (!header.search) return (<div/>)
         const keys = header.search.split('/')
         if (keys.length < 2) throw new Error(`Неверный формат ключа для поиска Daterange в поле ${header.name}`)
-        const paramFrom = getTableSearchParam({...header, search: keys[0]})
-        const paramTo = getTableSearchParam({...header, search: keys[1]})
+        const paramFrom = getTableSearchParam({ ...header, search: keys[0] })
+        const paramTo = getTableSearchParam({ ...header, search: keys[1] })
         if (!paramIsDate(paramFrom)) throw new Error(`Тип поиска в заголовке ${header.name} не совпадает с типом параметра во внутреннем состоянии таблицы`)
         if (!paramIsDate(paramTo)) throw new Error(`Тип поиска в заголовке ${header.name} не совпадает с типом параметра во внутреннем состоянии таблицы`)
         return (
@@ -356,11 +358,11 @@ export default defineComponent({
             { (paramFrom.date || paramTo.date) ? (
               <div class="apptimizm-ui-default-table-filter-calendar-date">
                 { paramFrom.date?.format('DD.MM.YYYY') } - { paramTo.date?.format('DD.MM.YYYY') }
-              </div> 
+              </div>
             ) : (
               <div class="apptimizm-ui-default-table-filter-calendar-date">
                 { header.name }
-              </div> 
+              </div>
             ) }
             <div class="apptimizm-ui-default-table-filter-calendar-area">
               <PeriodCalendar

@@ -8951,13 +8951,6 @@ module.exports = function(module) {
 
 /***/ }),
 
-/***/ "64a3":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
 /***/ "6547":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -15694,17 +15687,6 @@ if (!$Symbol[PROTOTYPE][TO_PRIMITIVE]) {
 setToStringTag($Symbol, SYMBOL);
 
 hiddenKeys[HIDDEN] = true;
-
-
-/***/ }),
-
-/***/ "a506":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_9_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_9_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_9_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_9_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_v16_dist_index_js_ref_0_1_line_loader_vue_vue_type_style_index_0_id_897d309a_lang_sass_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("64a3");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_9_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_9_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_9_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_9_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_v16_dist_index_js_ref_0_1_line_loader_vue_vue_type_style_index_0_id_897d309a_lang_sass_scoped_true__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_9_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_9_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_9_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_9_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_v16_dist_index_js_ref_0_1_line_loader_vue_vue_type_style_index_0_id_897d309a_lang_sass_scoped_true__WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
 
 
 /***/ }),
@@ -29446,15 +29428,9 @@ var pagination_PaginationElement = function PaginationElement(props, context) {
 });
 // CONCATENATED MODULE: ./src/ui/line-loader.vue?vue&type=script&lang=tsx
  
-// EXTERNAL MODULE: ./src/ui/line-loader.vue?vue&type=style&index=0&id=897d309a&lang=sass&scoped=true
-var line_loadervue_type_style_index_0_id_897d309a_lang_sass_scoped_true = __webpack_require__("a506");
-
 // CONCATENATED MODULE: ./src/ui/line-loader.vue
 
 
-
-
-line_loadervue_type_script_lang_tsx.__scopeId = "data-v-897d309a"
 
 /* harmony default export */ var line_loader = (line_loadervue_type_script_lang_tsx);
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js
@@ -29617,7 +29593,7 @@ function usePaginatedBackend(endpoint, api, params, perPage) {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
-              if (!(isLoading.value || page.value === pages.value)) {
+              if (!(isLoading.value || page.value === pages.value - 1)) {
                 _context3.next = 2;
                 break;
               }
@@ -30046,7 +30022,6 @@ var relation_select = __webpack_require__("d02f");
         return i.id === item.id;
       });
       index ? items.splice(items.indexOf(index, 1)) : items.push(item);
-      console.log(items);
       props.onValueChange(items);
     };
 
@@ -30148,6 +30123,7 @@ var SearchTypes;
   SearchTypes[SearchTypes["Relation"] = 1] = "Relation";
   SearchTypes[SearchTypes["MultipleRelation"] = 2] = "MultipleRelation";
   SearchTypes[SearchTypes["Daterange"] = 3] = "Daterange";
+  SearchTypes[SearchTypes["Select"] = 4] = "Select";
 })(SearchTypes || (SearchTypes = {}));
 
 var default_table_TableDate = function TableDate(type) {
@@ -30238,6 +30214,10 @@ function paramIsArray(param) {
     scrollPagination: {
       type: Boolean,
       default: false
+    },
+    smartFilter: {
+      type: Boolean,
+      default: false
     }
   },
   setup: function setup(props) {
@@ -30295,7 +30275,18 @@ function paramIsArray(param) {
       }
 
       return resultParams;
-    }); // Обращение к АПИ бекенда
+    });
+    var smartFilterParams = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
+      return props.smartFilter ? queryParams.value : {};
+    });
+
+    var getSmartFilterParams = function getSmartFilterParams(search, params) {
+      var result = objectSpread2_objectSpread2({}, params);
+
+      delete result[search];
+      return result;
+    }; // Обращение к АПИ бекенда
+
 
     var _usePaginatedApi = usePaginatedBackend(props.endpoint, props.axios, queryParams, perPage, props.paginationType, props.itemConverter, props.scrollPagination, props.responseItemsKey, props.responseTotalKey),
         page = _usePaginatedApi.page,
@@ -30341,14 +30332,17 @@ function paramIsArray(param) {
           id: param.id,
           value: param.name
         });
-        if (paramIsArray(param)) param.forEach(function (p) {
-          filters.push({
-            name: header.name,
-            key: String(header.search),
-            id: p.id,
-            value: p.name
+
+        if (paramIsArray(param)) {
+          param.forEach(function (p) {
+            filters.push({
+              name: header.name,
+              key: String(header.search),
+              id: p.id,
+              value: p.name
+            });
           });
-        });
+        }
 
         if (paramIsDate(param) && param.date !== null) {
           filters.push({
@@ -30497,7 +30491,8 @@ function paramIsArray(param) {
             setFilter(String(header.search), v);
           },
           "placeholder": header.name,
-          "constantPlaceholder": false
+          "constantPlaceholder": false,
+          "params": getSmartFilterParams(String(header.search), smartFilterParams.value)
         }, null);
       };
 
@@ -30515,7 +30510,8 @@ function paramIsArray(param) {
             setFilter(String(header.search), v);
           },
           "placeholder": header.name,
-          "constantPlaceholder": false
+          "constantPlaceholder": false,
+          "params": getSmartFilterParams(String(header.search), smartFilterParams.value)
         }, null);
       };
 
