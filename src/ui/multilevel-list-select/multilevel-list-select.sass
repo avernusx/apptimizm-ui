@@ -36,23 +36,28 @@
         flex-grow: 2
         .default-input
           background: url(./assets/search.svg) left 8px center no-repeat
-          border: none
           padding-left: 32px
-          &:focus
-            outline: none
-      > .select
-        color: #9DA6B6
+          input
+            border: none
+            &:focus
+              outline: none
+      > div:nth-child(2)
         flex-grow: 1
-        font-size: 12px
-        width: unset
-        .select-input
-          background: #EEEFF6
-          border-radius: 0px
-          height: 40px
-        .select-list-item
-          background: #EEEFF6
-          &:hover
-            background: darken(#EEEFF6, 5%)
+        .apptimizm-ui-default-select
+          color: #9DA6B6
+          font-size: 12px
+          width: unset
+          .apptimizm-ui-select
+            background: rgba(36, 42, 47, 0.04)
+            border: none
+          .apptimizm-ui-default-select-input
+            background: rgba(36, 42, 47, 0.04)
+            border-radius: 0px
+            height: 40px
+          .apptimizm-ui-default-select-list-item
+            background: #EEEFF6
+            &:hover
+              background: darken(#EEEFF6, 5%)
     .ark-ui-multilevel-list-select-area-indent
       margin-left: 32px
     .ark-ui-multilevel-list-select-area

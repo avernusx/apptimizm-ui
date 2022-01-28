@@ -107,7 +107,6 @@ export default defineComponent({
       const items = [...props.modelValue]
       const index = items.find(i => i.id === item.id)
       index ? items.splice(items.indexOf(index, 1)) : items.push(item)
-      console.log(items)
       props.onValueChange(items)
     }
 

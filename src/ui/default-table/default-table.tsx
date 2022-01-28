@@ -12,7 +12,7 @@ import PeriodCalendar from '../calendars/period-calendar/period-calendar'
 
 import './default-table.sass'
 
-export enum SearchTypes { String, Relation, MultipleRelation, Daterange }
+export enum SearchTypes { String, Relation, MultipleRelation, Daterange, Select }
 
 type TableParamElement = { id: string, name: string }
 
@@ -119,6 +119,10 @@ export default defineComponent({
       type: Boolean,
       default: false
     },
+    smartFilter: {
+      type: Boolean,
+      default: false
+    }
   },
   setup (props) {
     const trigger = ref(null) as unknown as Ref<HTMLElement>
@@ -168,6 +172,14 @@ export default defineComponent({
 
       return resultParams
     })
+
+    const smartFilterParams = computed(() => props.smartFilter ? queryParams.value : {})
+
+    const getSmartFilterParams = (search: string, params: { [code: string]: string }) => {
+      const result = { ...params }
+      delete result[search]
+      return result
+    }
 
     // Обращение к АПИ бекенда
     const {
@@ -307,6 +319,7 @@ export default defineComponent({
             onValueChange={(v: TableParamElement) => { setFilter(String(header.search), v) }}
             placeholder={header.name}
             constantPlaceholder={false}
+            params={getSmartFilterParams(String(header.search), smartFilterParams.value)}
           />
         )
       }
@@ -325,6 +338,7 @@ export default defineComponent({
             onValueChange={(v: TableParamElement[]) => { setFilter(String(header.search), v) }}
             placeholder={header.name}
             constantPlaceholder={false}
+            params={getSmartFilterParams(String(header.search), smartFilterParams.value)}
           />
         )
       }

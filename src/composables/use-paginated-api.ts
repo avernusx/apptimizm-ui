@@ -51,7 +51,7 @@ export default function usePaginatedBackend (
   }
 
   const loadNext = async () => {
-    if (isLoading.value || page.value === pages.value) return
+    if (isLoading.value || page.value === pages.value - 1) return
     page.value++
     load()
   }

@@ -1,5 +1,5 @@
 import { Vue, prop } from 'vue-class-component'
-import DefaultSelect from '../default-select.vue'
+import DefaultSelect from '../default-select/default-select'
 import DefaultInput from '../default-input.vue'
 import RadioButton from '../radio-button.vue'
 import TernaryRadioButton, { TernaryModes } from '../ternary-radio-button/ternary-radio-button'
@@ -93,6 +93,10 @@ export class TreeNode {
     return Number(this.isSelected) + this.nodes.reduce((acc: number, node) => acc + node.getSelectedCount(), 0)
   }
 
+  isPresented (): boolean {
+    return this.isSelected || this.hasSelectedChildren()
+  }
+
   hasSelectedChildren (): boolean {
     return this.nodes.reduce((acc: boolean, node) => acc || node.isSelected || node.hasSelectedChildren(), false)
   }
@@ -126,6 +130,7 @@ export class IListSelectArea {
   responseItemsKey = prop<string>({ default: 'results' })
   responseTotalKey= prop<string>({ default: 'count' })
   parentKey = prop<string>({ default: '' })
+  parentParams = prop<{ [code: string]: string }>({ default: () => ({}) })
   searchString = prop<string>({ default: '' })
   searchKey = prop<string>({ default: 'search' })
   endpoint = prop<string>({ required: true })
@@ -134,6 +139,7 @@ export class IListSelectArea {
   node = prop<TreeNode>({ required: true })
   shadowNode = prop<TreeNode>({ required: true })
   defaultSlot? = prop<Function>({})
+  itemConverter = prop<(i: any) => ListItem>({ required: true })
 }
 
 class ListSelectArea extends Vue.with(IListSelectArea) {
@@ -149,14 +155,14 @@ class ListSelectArea extends Vue.with(IListSelectArea) {
     if ((this.node.nodes.length === this.count && this.count !== 0) || this.isLoading) return
     this.isLoading = true
 
-    const params: { [code: string] : string } = { limit: String(this.perPage), offset: String(this.page * this.perPage) }
+    const params: { [code: string] : string } = { ...this.parentParams, limit: String(this.perPage), offset: String(this.page * this.perPage) }
 
     if (this.parentKey) params[this.parentKey] = this.node.item.id
     if (this.searchString && this.searchKey) params[this.searchKey] = this.searchString
     const response = (await this.apiService.get(this.endpoint, { params })).data
 
     // конвертируем элементы с бека в узлы дерева
-    const treeNodeItems: TreeNode[] = response[this.responseItemsKey].map((item: ListItem) => new TreeNode(item))
+    const treeNodeItems: TreeNode[] = response[this.responseItemsKey].map((item: ListItem) => new TreeNode(this.itemConverter(item)))
 
     // добавляем новые узлы в теневое дерево
     this.shadowNode.addNodes(treeNodeItems.map(node => new TreeNode(node.item)))
