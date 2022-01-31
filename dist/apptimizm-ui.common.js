@@ -27519,6 +27519,9 @@ __webpack_require__.d(__webpack_exports__, "DefaultInput", function() { return /
 __webpack_require__.d(__webpack_exports__, "DefaultSelect", function() { return /* reexport */ default_select; });
 __webpack_require__.d(__webpack_exports__, "DefaultSelectMultiple", function() { return /* reexport */ default_select_multiple; });
 __webpack_require__.d(__webpack_exports__, "DefaultTable", function() { return /* reexport */ default_table_default_table; });
+__webpack_require__.d(__webpack_exports__, "DefaultTableContext", function() { return /* reexport */ /* Cannot get final name for export "TableContext" in "./src/ui/default-table/default-table.tsx" (known exports: SearchTypes default, known reexports: ) */ undefined; });
+__webpack_require__.d(__webpack_exports__, "DefaultTableHeader", function() { return /* reexport */ /* Cannot get final name for export "TableHeader" in "./src/ui/default-table/default-table.tsx" (known exports: SearchTypes default, known reexports: ) */ undefined; });
+__webpack_require__.d(__webpack_exports__, "DefaultTableSearchTypes", function() { return /* reexport */ SearchTypes; });
 __webpack_require__.d(__webpack_exports__, "HiddenInput", function() { return /* reexport */ hidden_input; });
 __webpack_require__.d(__webpack_exports__, "LineLoader", function() { return /* reexport */ line_loader; });
 __webpack_require__.d(__webpack_exports__, "LineLoaderSmall", function() { return /* reexport */ line_loader_small; });
@@ -30304,7 +30307,11 @@ function paramIsArray(param) {
 
     Object(external_commonjs_vue_commonjs2_vue_root_Vue_["onMounted"])(load);
     if (props.scrollPagination) useScrollPagination(loadNext, trigger);
-    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(props.defaultFilter, reload);
+    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(function () {
+      return props.defaultFilter;
+    }, function () {
+      reload();
+    });
     Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(perPage, reload); // Преобразуем параметры фильтра для отображения над шапкой таблицы
 
     var filterParams = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {

@@ -211,7 +211,9 @@ export default defineComponent({
 
     if (props.scrollPagination) useScrollPagination(loadNext, trigger)
 
-    watch(props.defaultFilter, reload)
+    watch(() => props.defaultFilter, () => {
+      reload()
+    })
 
     watch(perPage, reload)
 

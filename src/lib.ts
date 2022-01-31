@@ -5,7 +5,7 @@ import PeriodCalendar from './ui/calendars/period-calendar/period-calendar'
 import DefaultInput from './ui/default-input.vue'
 import DefaultSelect from './ui/default-select.vue'
 import DefaultSelectMultiple from './ui/default-select-multiple.vue'
-import DefaultTable from './ui/default-table/default-table'
+import DefaultTable, { TableContext as DefaultTableContext, TableHeader as DefaultTableHeader, SearchTypes as DefaultTableSearchTypes } from './ui/default-table/default-table'
 import HiddenInput from './ui/hidden-input.vue'
 import LineLoader from './ui/line-loader.vue'
 import LineLoaderSmall from './ui/line-loader-small.vue'
@@ -27,6 +27,9 @@ export {
   DefaultSelect,
   DefaultSelectMultiple,
   DefaultTable,
+  DefaultTableContext,
+  DefaultTableHeader,
+  DefaultTableSearchTypes,
   HiddenInput,
   LineLoader,
   LineLoaderSmall,
