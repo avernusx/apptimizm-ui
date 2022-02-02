@@ -12,10 +12,9 @@ export default function usePaginatedBackend (
   scrollPagination: boolean = false,
   responseItemsKey: string = 'items',
   responseTotalKey: string = 'total',
-  orderingKey: string = 'ordering',
-  orderingDir: string = 'ordering_dir',
+  orderingKey: string = 'ordering'
 ) {
-  const page = ref(1)
+  const page = ref(0)
   const count = ref(0)
   const pages = ref(0)
   const sort = ref('')
@@ -27,12 +26,11 @@ export default function usePaginatedBackend (
     const queryParams: { [code: string]: string|number } = (paginationType === 'page' ? {
       ...params.value, per_page: perPage.value, page: page.value
     } : {
-      ...params.value, limit: perPage.value, offset: (page.value - 1) * perPage.value
+      ...params.value, limit: perPage.value, offset: page.value * perPage.value
     })
 
     if (sort.value !== '') {
-      queryParams[orderingKey] = sort.value
-      queryParams[orderingDir] = sortDir.value ? 'asc' : 'desc'
+      queryParams[orderingKey] = (sortDir.value ? '' : '-') + sort.value
     }
 
     isLoading.value = true
@@ -51,7 +49,7 @@ export default function usePaginatedBackend (
   }
 
   const loadNext = async () => {
-    if (isLoading.value || page.value === pages.value - 1) return
+    if (isLoading.value || page.value >= pages.value - 1) return
     page.value++
     load()
   }

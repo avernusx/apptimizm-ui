@@ -6,7 +6,8 @@ interface IDefaultInputProps {
   password?: boolean,
   class?: string,
   onValueChange: (v: string) => void
-  onBlur?: () => void
+  onBlur?: () => void,
+  disabled?: boolean 
 }
 
 export default (props: IDefaultInputProps, context: any) => {
@@ -21,12 +22,13 @@ export default (props: IDefaultInputProps, context: any) => {
   }
 
   const errors = Array.isArray(props.errors) ? props.errors : []
-  const cls = (errors.length ? 'default-input with-errors' : 'default-input')
+  let cls = (errors.length ? 'default-input with-errors' : 'default-input')
+  if (props.disabled) cls += ' is-disabled'
 
   return (
     <div>
       <div class={cls}>
-        <input type={ props.password ? 'password' : 'text' } value={props.modelValue} onInput={onChange} onBlur={onBlur} onFocusout={onBlur}/>
+        <input disabled={Boolean(props.disabled)} type={ props.password ? 'password' : 'text' } value={props.modelValue} onInput={onChange} onBlur={onBlur} onFocusout={onBlur}/>
         { props.placeholder && <div class="placeholder">{props.placeholder}</div> }
         { errors.map(error => <div class="error">{error}</div>) }
       </div>

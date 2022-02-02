@@ -130,26 +130,26 @@ export default defineComponent({
     const params: Ref<TableParams> = ref({})
 
     // Инициализуем пустые типы внутренних фильтров таблицы (при создании компонента и сбросе фильтров)
-    const setDefaultParams = () => {
-      const preparedParams: TableParams = {}
-
+    const setDefaultParams = (reset = true) => {
+      // флаг reset отвечает за то, чтобы сбросить все фильтры в начальное состояние или только проинициализовать новые
       props.headers.filter(h => h.search).forEach(h => {
         if (!h.search) return
-        if (h.searchType === SearchTypes.String) preparedParams[h.search] = ''
-        if (h.searchType === SearchTypes.Relation) preparedParams[h.search] = { id: '', name: '' }
-        if (h.searchType === SearchTypes.MultipleRelation) preparedParams[h.search] = []
+        if (!reset && params.value[h.search]) return
+        if (h.searchType === SearchTypes.String) params.value[h.search] = ''
+        if (h.searchType === SearchTypes.Relation) params.value[h.search] = { id: '', name: '' }
+        if (h.searchType === SearchTypes.MultipleRelation) params.value[h.search] = []
         if (h.searchType === SearchTypes.Daterange) {
           const keys = h.search.split('/')
           if (keys.length < 2) throw new Error(`Неверный формат ключа для поиска Daterange в поле ${h.name}`)
-          preparedParams[keys[0]] = new TableDate('from')
-          preparedParams[keys[1]] = new TableDate('to')
+          if (reset || !params.value[keys[0]]) params.value[keys[0]] = new TableDate('from')
+          if (reset || !params.value[keys[1]]) params.value[keys[1]] = new TableDate('to')
         }
       })
-
-      params.value = preparedParams
     }
 
     setDefaultParams()
+
+    watch(() => props.headers, () => setDefaultParams(false))
 
     const perPage = ref(props.perPage)
 
@@ -324,6 +324,7 @@ export default defineComponent({
             placeholder={header.name}
             constantPlaceholder={false}
             params={getSmartFilterParams(String(header.search), smartFilterParams.value)}
+            paginationType={props.paginationType}
           />
         )
       }
@@ -343,6 +344,7 @@ export default defineComponent({
             placeholder={header.name}
             constantPlaceholder={false}
             params={getSmartFilterParams(String(header.search), smartFilterParams.value)}
+            paginationType={props.paginationType}
           />
         )
       }

@@ -107,6 +107,11 @@ export default defineComponent({
 
     useClickOutside(select, () => { isOpened.value = false })
 
+    const setValue = (item: ListElement) => {
+      props.onValueChange(item)
+      isOpened.value = false
+    }
+
     return () => {
       return (
         <div>
@@ -133,7 +138,7 @@ export default defineComponent({
               { isLoading.value && <LineLoader/> }
               <div class="apptimizm-ui-relation-select-items-list" ref={root}>
                 { items.value.map((item: any) => (
-                  <div class="apptimizm-ui-relation-select-item" onClick={() => props.onValueChange(item)}>
+                  <div class="apptimizm-ui-relation-select-item" onClick={() => setValue(item)}>
                     <span>{ item.name }</span>
                   </div>
                 )) }
