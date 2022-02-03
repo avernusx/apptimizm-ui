@@ -14,6 +14,20 @@ import './default-table.sass'
 
 export enum SearchTypes { String, Relation, MultipleRelation, Daterange, Select }
 
+export interface DefaultTableExposed {
+  load: () => void,
+  reload: () => void,
+  loadNext: () => void,
+  loadPrev: () => void,
+  loadPage: (i: number) => void,
+  isLoading: boolean,
+  items: any[],
+  page: number,
+  pages: number,
+  count: number,
+  remove: (id: string) => void
+}
+
 type TableParamElement = { id: string, name: string }
 
 export type TableHeader = {
@@ -124,7 +138,7 @@ export default defineComponent({
       default: false
     }
   },
-  setup (props) {
+  setup (props, app) {
     const trigger = ref(null) as unknown as Ref<HTMLElement>
 
     const params: Ref<TableParams> = ref({})
@@ -294,6 +308,8 @@ export default defineComponent({
     }
 
     const context = { remove }
+
+    app.expose({ load, reload, loadNext, loadPrev, loadPage, isLoading, items, page, pages, count, remove })
 
     return () => {
       const renderSearchString = (header: TableHeader) => {

@@ -27527,6 +27527,7 @@ __webpack_require__.d(__webpack_exports__, "DefaultSelect", function() { return 
 __webpack_require__.d(__webpack_exports__, "DefaultSelectMultiple", function() { return /* reexport */ default_select_multiple; });
 __webpack_require__.d(__webpack_exports__, "DefaultTable", function() { return /* reexport */ default_table_default_table; });
 __webpack_require__.d(__webpack_exports__, "DefaultTableContext", function() { return /* reexport */ /* Cannot get final name for export "TableContext" in "./src/ui/default-table/default-table.tsx" (known exports: SearchTypes default, known reexports: ) */ undefined; });
+__webpack_require__.d(__webpack_exports__, "DefaultTableExposed", function() { return /* reexport */ /* Cannot get final name for export "DefaultTableExposed" in "./src/ui/default-table/default-table.tsx" (known exports: SearchTypes default, known reexports: ) */ undefined; });
 __webpack_require__.d(__webpack_exports__, "DefaultTableHeader", function() { return /* reexport */ /* Cannot get final name for export "TableHeader" in "./src/ui/default-table/default-table.tsx" (known exports: SearchTypes default, known reexports: ) */ undefined; });
 __webpack_require__.d(__webpack_exports__, "DefaultTableSearchTypes", function() { return /* reexport */ SearchTypes; });
 __webpack_require__.d(__webpack_exports__, "HiddenInput", function() { return /* reexport */ hidden_input; });
@@ -30236,7 +30237,7 @@ function paramIsArray(param) {
       default: false
     }
   },
-  setup: function setup(props) {
+  setup: function setup(props, app) {
     var _this = this;
 
     var trigger = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null);
@@ -30489,6 +30490,19 @@ function paramIsArray(param) {
     var context = {
       remove: remove
     };
+    app.expose({
+      load: load,
+      reload: reload,
+      loadNext: loadNext,
+      loadPrev: loadPrev,
+      loadPage: loadPage,
+      isLoading: isLoading,
+      items: items,
+      page: page,
+      pages: pages,
+      count: count,
+      remove: remove
+    });
     return function () {
       var renderSearchString = function renderSearchString(header) {
         var param = getTableSearchParam(header);
