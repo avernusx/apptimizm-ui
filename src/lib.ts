@@ -26,6 +26,11 @@ import RelationSelect from './ui/relation-select/relation-select'
 import SlideBar from './ui/slide-bar.vue'
 import UploadFile from './ui/upload-file.vue'
 
+// composable-функции
+import usePaginatedApi from './composables/use-paginated-api'
+import useScrollPagination from './composables/use-scroll-pagination'
+import useClickOutside from './composables/use-click-outside'
+
 export {
   Calendar,
   DefaultInput,
@@ -50,5 +55,8 @@ export {
   RadioButton,
   RelationSelect,
   SlideBar,
-  UploadFile
+  UploadFile,
+  useClickOutside,
+  usePaginatedApi,
+  useScrollPagination
 }

@@ -21,18 +21,23 @@ export default defineComponent({
     onSetEnd: {
       type: Function as PropType<(date: Moment|null) => void>,
       required: true
+    },
+    disablePastDates: {
+      type: Boolean,
+      default: false
     }
   },
 
   setup (props) {
-    const startCalendar = useCalendar()
-    const endCalendar = useCalendar(moment().add(1, 'month'))
+    const startCalendar = useCalendar(moment(), { disablePastDates: props.disablePastDates })
+    const endCalendar = useCalendar(moment().add(1, 'month'), { disablePastDates: props.disablePastDates })
 
     const startOfPeriod: Ref<Moment|null> = ref(props.start ? moment(props.start) : null)
     const endOfPeriod: Ref<Moment|null> = ref(props.end ? moment(props.end) : null)
     const hoverDay: Ref<Moment|null> = ref(null)
 
     const setPeriod = (day: CalendarDay) => {
+      if (day.disabled) return
       if (!startOfPeriod.value && !endOfPeriod.value) {
         startOfPeriod.value = moment(day.date)
         props.onSetStart(moment(startOfPeriod.value))
@@ -86,7 +91,7 @@ export default defineComponent({
             <div class="apptimizm-ui-calendar-day faded">Вс</div>
             { c.days.value.map(day => {
               const cls = []
-              if (day.faded) cls.push('faded')
+              if (day.faded || day.disabled) cls.push('faded')
               if (
                 (startOfPeriod.value && endOfPeriod.value && day.date.isBetween(startOfPeriod.value, endOfPeriod.value)) ||
                 (startOfPeriod.value && hoverDay.value && (day.date.isBetween(startOfPeriod.value, hoverDay.value, 'day', '[]') || day.date.isBetween(hoverDay.value, startOfPeriod.value, 'day', '[]'))) ||

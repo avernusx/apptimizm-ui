@@ -3,7 +3,8 @@ import moment, { Moment } from 'moment'
 
 export type CalendarDay = {
   date: Moment,
-  faded: boolean
+  faded: boolean,
+  disabled: boolean
 }
 
 export type Calendar = {
@@ -15,8 +16,13 @@ export type Calendar = {
   nextYear: () => void,
 }
 
-export function useCalendar (currentDate?: Moment) {
+type UseCalendarOptions = {
+  disablePastDates?: boolean
+}
+
+export function useCalendar (currentDate?: Moment, options: UseCalendarOptions = {}) {
   const date = ref(currentDate ? moment(currentDate) : moment())
+  const disablePastDates = options.disablePastDates !== undefined ? options.disablePastDates : false
 
   const days = computed(() => {
     const start = moment(date.value).startOf('month').startOf('isoWeek')
@@ -27,7 +33,8 @@ export function useCalendar (currentDate?: Moment) {
     while (day.isSameOrBefore(end)) {
       days.push({
         date: moment(day),
-        faded: !day.isSame(date.value, 'month')
+        faded: !day.isSame(date.value, 'month'),
+        disabled: disablePastDates && day.isBefore(moment(), 'day')
       })
 
       day.add(1, 'day')

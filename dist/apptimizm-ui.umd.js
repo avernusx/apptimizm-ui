@@ -27554,6 +27554,9 @@ __webpack_require__.d(__webpack_exports__, "RadioButton", function() { return /*
 __webpack_require__.d(__webpack_exports__, "RelationSelect", function() { return /* reexport */ relation_select_relation_select; });
 __webpack_require__.d(__webpack_exports__, "SlideBar", function() { return /* reexport */ slide_bar; });
 __webpack_require__.d(__webpack_exports__, "UploadFile", function() { return /* reexport */ upload_file; });
+__webpack_require__.d(__webpack_exports__, "useClickOutside", function() { return /* reexport */ useClickOutside; });
+__webpack_require__.d(__webpack_exports__, "usePaginatedApi", function() { return /* reexport */ usePaginatedBackend; });
+__webpack_require__.d(__webpack_exports__, "useScrollPagination", function() { return /* reexport */ useScrollPagination; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -27589,135 +27592,13 @@ var es_array_map = __webpack_require__("d81d");
 var moment = __webpack_require__("c1df");
 var moment_default = /*#__PURE__*/__webpack_require__.n(moment);
 
-// EXTERNAL MODULE: ./src/ui/calendars/calendar.sass
-var calendar = __webpack_require__("1be3");
-
-// CONCATENATED MODULE: ./src/ui/calendars/calendar/calendar.tsx
-
-
-
-
-
-/* harmony default export */ var calendar_calendar = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  props: {
-    onSetDay: {
-      type: Function,
-      required: true
-    },
-    day: {
-      type: Object,
-      required: true
-    }
-  },
-  setup: function setup(props) {
-    var currentDate = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(moment_default()());
-    var selectedDay = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(props.day ? moment_default()(props.day) : moment_default()('1970-01-01'));
-    var days = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      var start = moment_default()(currentDate.value).startOf('month').startOf('isoWeek');
-      var end = moment_default()(currentDate.value).endOf('month').endOf('isoWeek');
-      var day = moment_default()(start);
-      var days = [];
-
-      while (day.isSameOrBefore(end)) {
-        days.push({
-          date: moment_default()(day),
-          faded: !day.isSame(currentDate.value, 'month')
-        });
-        day.add(1, 'day');
-      }
-
-      return days;
-    });
-
-    var prevMonth = function prevMonth() {
-      currentDate.value = moment_default()(currentDate.value.add(-1, 'month'));
-    };
-
-    var nextMonth = function nextMonth() {
-      currentDate.value = moment_default()(currentDate.value.add(1, 'month'));
-    };
-
-    var prevYear = function prevYear() {
-      currentDate.value = moment_default()(currentDate.value.add(-1, 'year'));
-    };
-
-    var nextYear = function nextYear() {
-      currentDate.value = moment_default()(currentDate.value.add(1, 'year'));
-    };
-
-    var setDay = function setDay(date) {
-      selectedDay.value = moment_default()(date);
-      props.onSetDay(moment_default()(date));
-    };
-
-    return function () {
-      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
-        "class": "apptimizm-ui-single-calendar"
-      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
-        "class": "apptimizm-ui-calendar"
-      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
-        "class": "apptimizm-ui-calendar-head"
-      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
-        "class": "apptimizm-ui-calendar-month"
-      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
-        "class": "apptimizm-ui-calendar-arrow-left",
-        "onClick": function onClick() {
-          return prevMonth();
-        }
-      }, null), currentDate.value.format('MMMM'), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
-        "class": "apptimizm-ui-calendar-arrow-right",
-        "onClick": nextMonth
-      }, null)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
-        "class": "apptimizm-ui-calendar-year"
-      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
-        "class": "apptimizm-ui-calendar-arrow-left",
-        "onClick": prevYear
-      }, null), currentDate.value.format('YYYY'), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
-        "class": "apptimizm-ui-calendar-arrow-right",
-        "onClick": nextYear
-      }, null)])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
-        "class": "apptimizm-ui-calendar-days"
-      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
-        "class": "apptimizm-ui-calendar-day faded"
-      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])("\u041F\u043D")]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
-        "class": "apptimizm-ui-calendar-day faded"
-      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])("\u0412\u0442")]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
-        "class": "apptimizm-ui-calendar-day faded"
-      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])("\u0421\u0440")]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
-        "class": "apptimizm-ui-calendar-day faded"
-      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])("\u0427\u0442")]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
-        "class": "apptimizm-ui-calendar-day faded"
-      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])("\u041F\u0442")]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
-        "class": "apptimizm-ui-calendar-day faded"
-      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])("\u0421\u0431")]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
-        "class": "apptimizm-ui-calendar-day faded"
-      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])("\u0412\u0441")]), days.value.map(function (day) {
-        var cls = '';
-        if (day.faded) cls += 'faded';
-        if (day.date.isSame(selectedDay.value, 'day')) cls += 'selected';
-        return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
-          "class": "apptimizm-ui-calendar-day ".concat(cls),
-          "onClick": function onClick() {
-            return setDay(day.date);
-          }
-        }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
-          "class": "apptimizm-ui-calendar-day-border"
-        }, [day.date.format('D')])]);
-      })])])]);
-    };
-  }
-}));
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.slice.js
-var es_array_slice = __webpack_require__("fb6a");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.join.js
-var es_array_join = __webpack_require__("a15b");
-
 // CONCATENATED MODULE: ./src/ui/calendars/composables.ts
 
 
 function useCalendar(currentDate) {
+  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   var date = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(currentDate ? moment_default()(currentDate) : moment_default()());
+  var disablePastDates = options.disablePastDates !== undefined ? options.disablePastDates : false;
   var days = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
     var start = moment_default()(date.value).startOf('month').startOf('isoWeek');
     var end = moment_default()(date.value).endOf('month').endOf('isoWeek');
@@ -27727,7 +27608,8 @@ function useCalendar(currentDate) {
     while (day.isSameOrBefore(end)) {
       days.push({
         date: moment_default()(day),
-        faded: !day.isSame(date.value, 'month')
+        faded: !day.isSame(date.value, 'month'),
+        disabled: disablePastDates && day.isBefore(moment_default()(), 'day')
       });
       day.add(1, 'day');
     }
@@ -27760,6 +27642,112 @@ function useCalendar(currentDate) {
     nextYear: nextYear
   };
 }
+// EXTERNAL MODULE: ./src/ui/calendars/calendar.sass
+var calendar = __webpack_require__("1be3");
+
+// CONCATENATED MODULE: ./src/ui/calendars/calendar/calendar.tsx
+
+
+
+
+
+
+/* harmony default export */ var calendar_calendar = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    onSetDay: {
+      type: Function,
+      required: true
+    },
+    day: {
+      type: Object,
+      required: true
+    },
+    disablePastDates: {
+      type: Boolean,
+      default: false
+    }
+  },
+  setup: function setup(props) {
+    var selectedDay = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(props.day ? moment_default()(props.day) : moment_default()('1970-01-01'));
+
+    var setDay = function setDay(date) {
+      selectedDay.value = moment_default()(date);
+      props.onSetDay(moment_default()(date));
+    };
+
+    var _useCalendar = useCalendar(moment_default()(), {
+      disablePastDates: props.disablePastDates
+    }),
+        date = _useCalendar.date,
+        days = _useCalendar.days,
+        prevMonth = _useCalendar.prevMonth,
+        prevYear = _useCalendar.prevYear,
+        nextMonth = _useCalendar.nextMonth,
+        nextYear = _useCalendar.nextYear;
+
+    return function () {
+      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-single-calendar"
+      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-calendar"
+      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-calendar-head"
+      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-calendar-month"
+      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-calendar-arrow-left",
+        "onClick": function onClick() {
+          return prevMonth();
+        }
+      }, null), date.value.format('MMMM'), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-calendar-arrow-right",
+        "onClick": nextMonth
+      }, null)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-calendar-year"
+      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-calendar-arrow-left",
+        "onClick": prevYear
+      }, null), date.value.format('YYYY'), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-calendar-arrow-right",
+        "onClick": nextYear
+      }, null)])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-calendar-days"
+      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-calendar-day faded"
+      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])("\u041F\u043D")]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-calendar-day faded"
+      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])("\u0412\u0442")]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-calendar-day faded"
+      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])("\u0421\u0440")]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-calendar-day faded"
+      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])("\u0427\u0442")]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-calendar-day faded"
+      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])("\u041F\u0442")]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-calendar-day faded"
+      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])("\u0421\u0431")]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-calendar-day faded"
+      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])("\u0412\u0441")]), days.value.map(function (day) {
+        var cls = '';
+        if (day.faded || day.disabled) cls += ' faded';
+        if (day.date.isSame(selectedDay.value, 'day')) cls += ' selected';
+        return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+          "class": "apptimizm-ui-calendar-day ".concat(cls),
+          "onClick": function onClick() {
+            if (!day.disabled) setDay(day.date);
+          }
+        }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+          "class": "apptimizm-ui-calendar-day-border"
+        }, [day.date.format('D')])]);
+      })])])]);
+    };
+  }
+}));
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.slice.js
+var es_array_slice = __webpack_require__("fb6a");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.join.js
+var es_array_join = __webpack_require__("a15b");
+
 // CONCATENATED MODULE: ./src/ui/calendars/period-calendar/period-calendar.tsx
 
 
@@ -27785,16 +27773,26 @@ moment_default.a.locale('ru');
     onSetEnd: {
       type: Function,
       required: true
+    },
+    disablePastDates: {
+      type: Boolean,
+      default: false
     }
   },
   setup: function setup(props) {
-    var startCalendar = useCalendar();
-    var endCalendar = useCalendar(moment_default()().add(1, 'month'));
+    var startCalendar = useCalendar(moment_default()(), {
+      disablePastDates: props.disablePastDates
+    });
+    var endCalendar = useCalendar(moment_default()().add(1, 'month'), {
+      disablePastDates: props.disablePastDates
+    });
     var startOfPeriod = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(props.start ? moment_default()(props.start) : null);
     var endOfPeriod = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(props.end ? moment_default()(props.end) : null);
     var hoverDay = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null);
 
     var setPeriod = function setPeriod(day) {
+      if (day.disabled) return;
+
       if (!startOfPeriod.value && !endOfPeriod.value) {
         startOfPeriod.value = moment_default()(day.date);
         props.onSetStart(moment_default()(startOfPeriod.value));
@@ -27876,7 +27874,7 @@ moment_default.a.locale('ru');
           "class": "apptimizm-ui-calendar-day faded"
         }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])("\u0412\u0441")]), c.days.value.map(function (day) {
           var cls = [];
-          if (day.faded) cls.push('faded');
+          if (day.faded || day.disabled) cls.push('faded');
           if (startOfPeriod.value && endOfPeriod.value && day.date.isBetween(startOfPeriod.value, endOfPeriod.value) || startOfPeriod.value && hoverDay.value && (day.date.isBetween(startOfPeriod.value, hoverDay.value, 'day', '[]') || day.date.isBetween(hoverDay.value, startOfPeriod.value, 'day', '[]')) || endOfPeriod.value && hoverDay.value && (day.date.isBetween(endOfPeriod.value, hoverDay.value, 'day', '[]') || day.date.isBetween(hoverDay.value, endOfPeriod.value, 'day', '[]'))) cls.push('in-period');
           if (day.date.isSame(startOfPeriod.value, 'day') || day.date.isSame(endOfPeriod.value, 'day')) cls.push('selected');
           return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
@@ -31657,6 +31655,10 @@ var upload_filevue_type_style_index_0_id_3810926e_lang_sass = __webpack_require_
 
 
 
+
+
+
+ // composable-функции
 
 
 
