@@ -2,6 +2,17 @@
 
 .apptimizm-ui-relation-select
   position: relative
+  .apptimizm-ui-relation-select-header
+    position: relative
+  .apptimizm-ui-relation-select-arrow
+    background: url(./assets/arrow.svg)
+    cursor: pointer
+    height: 16px
+    position: absolute
+    transition: 0.4s
+    right: 16px
+    top: 12px
+    width: 16px
   &.opened
     input
       border-bottom-left-radius: 0px
@@ -9,7 +20,7 @@
     .apptimizm-ui-relation-selectdropdown
       border-top-left-radius: 0px
       border-top-right-radius: 0px
-    .apptimizm-ui-relation-selectdropdown-arrow
+    .apptimizm-ui-relation-select-arrow
       transform: rotate(180deg)
   input
     background: white
@@ -40,11 +51,6 @@
     font-size: 12px
     line-height: 24px
     height: 24px
-  .apptimizm-ui-relation-select-dropdown-arrow
-    cursor: pointer
-    right: 8px
-    top: 12px
-    position: absolute
   .apptimizm-ui-relation-select-dropdown
     background: white
     border: 1px solid $border-light-gray
@@ -74,4 +80,6 @@
       display: flex
       padding: $step 2*$step
       &:hover
-        background: #f0f0f0
+        background: rgba(36, 42, 47, 0.04)
+      &.is-selected
+        background: rgba(100, 208, 218, 0.2)

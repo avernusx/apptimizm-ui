@@ -29896,7 +29896,12 @@ var relation_select = __webpack_require__("d02f");
         "onClick": function onClick() {
           isOpened.value = true;
         }
-      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("span", null, [props.modelValue.name || !props.constantPlaceholder && props.placeholder])])]), props.placeholder && props.constantPlaceholder && Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("span", null, [props.modelValue.name || !props.constantPlaceholder && props.placeholder])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-relation-select-arrow",
+        "onClick": function onClick() {
+          isOpened.value = !isOpened.value;
+        }
+      }, null)]), props.placeholder && props.constantPlaceholder && Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
         "class": "apptimizm-ui-relation-select-placeholder"
       }, [props.placeholder]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
         "class": "apptimizm-ui-relation-select-dropdown",
@@ -29906,7 +29911,7 @@ var relation_select = __webpack_require__("d02f");
         "ref": root
       }, [items.value.map(function (item) {
         return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
-          "class": "apptimizm-ui-relation-select-item",
+          "class": "apptimizm-ui-relation-select-item ".concat(item.id === props.modelValue.id ? 'is-selected' : ''),
           "onClick": function onClick() {
             return setValue(item);
           }

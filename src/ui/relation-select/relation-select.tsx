@@ -132,13 +132,17 @@ export default defineComponent({
                   <span>{ props.modelValue.name || (!props.constantPlaceholder && props.placeholder) }</span>
                 </div>
               ) }
+              <div class="apptimizm-ui-relation-select-arrow" onClick={() => { isOpened.value = !isOpened.value }}/>
             </div>
             { props.placeholder && props.constantPlaceholder && <div class="apptimizm-ui-relation-select-placeholder">{props.placeholder}</div> }
             <div class="apptimizm-ui-relation-select-dropdown" style={isOpened.value ? 'display: block;' : 'display: none;'}>
               { isLoading.value && <LineLoader/> }
               <div class="apptimizm-ui-relation-select-items-list" ref={root}>
                 { items.value.map((item: any) => (
-                  <div class="apptimizm-ui-relation-select-item" onClick={() => setValue(item)}>
+                  <div
+                    class={`apptimizm-ui-relation-select-item ${item.id === props.modelValue.id ? 'is-selected' : ''}`}
+                    onClick={() => setValue(item)}
+                  >
                     <span>{ item.name }</span>
                   </div>
                 )) }
