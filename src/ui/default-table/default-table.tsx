@@ -36,7 +36,8 @@ export type TableHeader = {
   searchType?: SearchTypes
   endpoint?: string
   itemConverter?: (v: any) => TableParamElement
-  sort?: string
+  sort?: string,
+  minWidth?: string
 }
 
 class TableDate {
@@ -426,6 +427,7 @@ export default defineComponent({
                 { props.headers.map((h: TableHeader) => (
                   <div
                     class={`apptimizm-ui-default-table-cell ${h.sort && 'with-sort'} ${h.search && 'with-search'}`}
+                    style={h.minWidth ? `min-width: ${h.minWidth}` : ''}
                   >
                     <div class="apptimizm-ui-default-table-header-cell-inner">
                       { h.sort && (<div class="apptimizm-ui-default-table-cell-sort" onClick={() => setSort(String(h.sort))}/>) }

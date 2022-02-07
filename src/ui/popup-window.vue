@@ -31,7 +31,7 @@ export default (props: IPopupWindowProps, context: any) => {
     width: 100%
     height: 100%
     position: fixed
-    z-index: 99
+    z-index: 1000
     background: rgba(0,0,0,0.5)
     left: 0
     top: 0
