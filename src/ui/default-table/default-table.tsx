@@ -1,6 +1,7 @@
 import { defineComponent, PropType, Ref, ref, computed, watch, onMounted } from 'vue'
 import moment, { Moment } from 'moment'
 import { LocationAsRelativeRaw } from 'vue-router'
+import { addTrailingSlash } from '../../utils/trailing-slash'
 import PaginationElement from './pagination'
 import LineLoader from '../line-loader.vue'
 import IAxiosInterface from '../../IAxiosInterface'
@@ -9,6 +10,8 @@ import useScrollPagination from '../../composables/use-scroll-pagination'
 import RelationSelect from '../relation-select/relation-select'
 import MultipleRelationSelect from '../relation-select/multiple-relation-select'
 import PeriodCalendar from '../calendars/period-calendar/period-calendar'
+import BooleanSelect from '../default-select/boolean-select'
+import DefaultSelect from '../default-select/default-select'
 
 import './default-table.sass'
 
@@ -37,7 +40,8 @@ export type TableHeader = {
   endpoint?: string
   itemConverter?: (v: any) => TableParamElement
   sort?: string,
-  minWidth?: string
+  minWidth?: string,
+  options?: TableParamElement[]
 }
 
 type TableFilter = { name: string, key: string, value: string, id: string }
@@ -76,19 +80,21 @@ class TableParamString extends TableParam {
 
   getQueryParams (): { [code: string]: string } {
     const params: { [code: string]: string } = {}
-    params[this.search] = this.value
+    if (this.isSet()) params[this.search] = this.value
     return params
   }
 
   getFilters (): TableFilter[] {
-    return [
-      {
+    const filters: TableFilter[] = []
+    if (this.isSet()) {
+      filters.push({
         name: this.name,
         key: this.search,
         value: this.value,
         id: this.value
-      }
-    ]
+      })
+    }
+    return filters
   }
 
   isSet () {
@@ -112,19 +118,19 @@ class TableParamObject extends TableParam {
 
   getQueryParams (): { [code: string]: string } {
     const params: { [code: string]: string } = {}
-    params[this.search] = this.value.id
+    if (this.isSet()) params[this.search] = this.value.id
     return params
   }
 
   getFilters (): TableFilter[] {
-    return [
-      {
-        name: this.name,
-        key: this.search,
-        value: this.value.name,
-        id: this.value.id
-      }
-    ]
+    const filters: TableFilter[] = []
+    filters.push({
+      name: this.name,
+      key: this.search,
+      value: this.value.name,
+      id: this.value.id
+    })
+    return filters
   }
 
   isSet () {
@@ -148,7 +154,7 @@ class TableParamArray extends TableParam {
 
   getQueryParams (): { [code: string]: string } {
     const params: { [code: string]: string } = {}
-    params[this.search] = this.value.map(e => e.id).join(',')
+    if (this.isSet()) params[this.search] = this.value.map(e => e.id).join(',')
     return params
   }
 
@@ -231,7 +237,6 @@ class TableParamDaterange extends TableParam {
   }
 
   reset (filter?: TableFilter) {
-    console.log(filter)
     if (filter !== undefined) {
       if (filter.id === 'dateFrom') this.dateFrom = null
       if (filter.id === 'dateTo') this.dateTo = null
@@ -244,7 +249,43 @@ class TableParamDaterange extends TableParam {
 }
 
 class TableParamBoolean extends TableParam {
+  value: boolean|null = null
+  search: string = ''
 
+  constructor (header: TableHeader) {
+    super(header)
+    if (!header.search) throw new Error(`Вызван конструктор TableParamString для заголовка ${header.name} без поля search`)
+    this.search = header.search
+  }
+
+  getQueryParams (): { [code: string]: string } {
+    const params: { [code: string]: string } = {}
+    if (this.isSet()) params[this.search] = String(this.value)
+    return params
+  }
+
+  getFilters (): TableFilter[] {
+    const filters: TableFilter[] = []
+
+    if (this.isSet()) {
+      filters.push({
+        name: this.name,
+        key: this.search,
+        value: this.value ? 'Да' : 'Нет',
+        id: String(this.value)
+      })
+    }
+
+    return filters
+  }
+
+  isSet () {
+    return this.value !== null
+  }
+
+  reset (filter?: TableFilter) {
+    this.value = null
+  }
 }
 
 function paramIsString (param: TableParam): param is TableParamString {
@@ -348,6 +389,8 @@ export default defineComponent({
         if (!h.search) return
         if (!reset && params.value[h.search]) return
         if (h.searchType === SearchTypes.String) params.value[h.search] = new TableParamString(h)
+        if (h.searchType === SearchTypes.Boolean) params.value[h.search] = new TableParamBoolean(h)
+        if (h.searchType === SearchTypes.Select) params.value[h.search] = new TableParamObject(h)
         if (h.searchType === SearchTypes.Relation) params.value[h.search] = new TableParamObject(h)
         if (h.searchType === SearchTypes.MultipleRelation) params.value[h.search] = new TableParamArray(h)
         if (h.searchType === SearchTypes.Boolean) params.value[h.search] = new TableParamBoolean(h)
@@ -445,7 +488,7 @@ export default defineComponent({
 
     const remove = async (id: string) => {
       isLoading.value = true
-      await props.axios.delete(props.endpoint + '/' + id)
+      await props.axios.delete(addTrailingSlash(props.endpoint) + id + '/')
       props.scrollPagination ? items.value.splice(items.value.indexOf(items.value.find(i => i.id === id)), 1) : await load()
       isLoading.value = false
     }
@@ -470,12 +513,56 @@ export default defineComponent({
         }
 
         return (
-          <input
-            class="apptimizm-ui-default-table-search-string"
-            value={String(param)}
-            onInput={setFilter}
-            placeholder={header.name}
-          />
+          <div class="apptimizm-ui-default-table-header-search-input">
+            <input
+              class="apptimizm-ui-default-table-search-string"
+              value={param.value}
+              onInput={setFilter}
+              placeholder={header.name}
+            />
+          </div>
+        )
+      }
+
+      const renderSearchBoolean = (header: TableHeader) => {
+        const param = getTableSearchParam(header)
+        if (!paramIsBoolean(param)) throw new Error(`Тип поиска в заголовке ${header.name} не совпадает с типом параметра во внутреннем состоянии таблицы`)
+
+        const setFilter = (e: boolean|null) => {
+          param.value = e
+          reload()
+        }
+
+        return (
+          <div class="apptimizm-ui-default-table-header-search-input">
+            <BooleanSelect
+              modelValue={param.value}
+              onValueChange={setFilter}
+              placeholder={header.name}
+            />
+          </div>
+        )
+      }
+
+      const renderSearchSelect = (header: TableHeader) => {
+        const param = getTableSearchParam(header)
+        if (!paramIsObject(param)) throw new Error(`Тип поиска в заголовке ${header.name} не совпадает с типом параметра во внутреннем состоянии таблицы`)
+        if (!header.options) throw new Error(`Для заголовка ${header.name} не задан параметр options с вариантами выбора`)
+
+        const setFilter = (e: TableParamElement) => {
+          param.value = e
+          reload()
+        }
+
+        return (
+          <div class="apptimizm-ui-default-table-header-search-input">
+            <DefaultSelect
+              items={header.options}
+              modelValue={param.value}
+              onValueChange={setFilter}
+              placeholder={header.name}
+            />
+          </div>
         )
       }
 
@@ -491,17 +578,19 @@ export default defineComponent({
         }
 
         return (
-          <RelationSelect
-            axios={props.axios}
-            endpoint={header.endpoint}
-            itemConverter={header.itemConverter}
-            modelValue={param.value}
-            onValueChange={setFilter}
-            placeholder={header.name}
-            constantPlaceholder={false}
-            params={getSmartFilterParams(String(header.search), smartFilterParams.value)}
-            paginationType={props.paginationType}
-          />
+          <div class="apptimizm-ui-default-table-header-search-input">
+            <RelationSelect
+              axios={props.axios}
+              endpoint={header.endpoint}
+              itemConverter={header.itemConverter}
+              modelValue={param.value}
+              onValueChange={setFilter}
+              placeholder={header.name}
+              constantPlaceholder={false}
+              params={getSmartFilterParams(String(header.search), smartFilterParams.value)}
+              paginationType={props.paginationType}
+            />
+          </div>
         )
       }
 
@@ -517,17 +606,19 @@ export default defineComponent({
         }
 
         return (
-          <MultipleRelationSelect
-            axios={props.axios}
-            endpoint={header.endpoint}
-            itemConverter={header.itemConverter}
-            modelValue={param.value}
-            onValueChange={setFilter}
-            placeholder={header.name}
-            constantPlaceholder={false}
-            params={getSmartFilterParams(String(header.search), smartFilterParams.value)}
-            paginationType={props.paginationType}
-          />
+          <div class="apptimizm-ui-default-table-header-search-input">
+            <MultipleRelationSelect
+              axios={props.axios}
+              endpoint={header.endpoint}
+              itemConverter={header.itemConverter}
+              modelValue={param.value}
+              onValueChange={setFilter}
+              placeholder={header.name}
+              constantPlaceholder={false}
+              params={getSmartFilterParams(String(header.search), smartFilterParams.value)}
+              paginationType={props.paginationType}
+            />
+          </div>
         )
       }
 
@@ -571,6 +662,8 @@ export default defineComponent({
 
       const renderSearchHeader = (header: TableHeader) => {
         if (header.searchType === SearchTypes.String) return renderSearchString(header)
+        if (header.searchType === SearchTypes.Boolean) return renderSearchBoolean(header)
+        if (header.searchType === SearchTypes.Select) return renderSearchSelect(header)
         if (header.searchType === SearchTypes.Relation) return renderSearchRelation(header)
         if (header.searchType === SearchTypes.MultipleRelation) return renderSearchMultipleRelation(header)
         if (header.searchType === SearchTypes.Daterange) return renderSearchDaterange(header)

@@ -29283,6 +29283,10 @@ var es_number_constructor = __webpack_require__("a9e3");
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.sort.js
 var es_array_sort = __webpack_require__("4e82");
 
+// CONCATENATED MODULE: ./src/utils/trailing-slash.tsx
+function addTrailingSlash(s) {
+  return s[s.length - 1] !== '/' && s.indexOf('?') === -1 ? s + '/' : s;
+}
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.number.is-integer.js
 var es_number_is_integer = __webpack_require__("8ba4");
 
@@ -29315,9 +29319,7 @@ var default_select_Props = function Props() {
   });
   this.onValueChange = prop({});
   this.items = prop({
-    default: function _default() {
-      return [];
-    }
+    required: true
   });
   this.resetable = prop({
     default: false
@@ -30253,6 +30255,9 @@ var default_table = __webpack_require__("8587");
 
 
 
+
+
+
 var SearchTypes;
 
 (function (SearchTypes) {
@@ -30317,18 +30322,24 @@ var default_table_TableParamString = /*#__PURE__*/function (_TableParam) {
     key: "getQueryParams",
     value: function getQueryParams() {
       var params = {};
-      params[this.search] = this.value;
+      if (this.isSet()) params[this.search] = this.value;
       return params;
     }
   }, {
     key: "getFilters",
     value: function getFilters() {
-      return [{
-        name: this.name,
-        key: this.search,
-        value: this.value,
-        id: this.value
-      }];
+      var filters = [];
+
+      if (this.isSet()) {
+        filters.push({
+          name: this.name,
+          key: this.search,
+          value: this.value,
+          id: this.value
+        });
+      }
+
+      return filters;
     }
   }, {
     key: "isSet",
@@ -30370,18 +30381,20 @@ var default_table_TableParamObject = /*#__PURE__*/function (_TableParam2) {
     key: "getQueryParams",
     value: function getQueryParams() {
       var params = {};
-      params[this.search] = this.value.id;
+      if (this.isSet()) params[this.search] = this.value.id;
       return params;
     }
   }, {
     key: "getFilters",
     value: function getFilters() {
-      return [{
+      var filters = [];
+      filters.push({
         name: this.name,
         key: this.search,
         value: this.value.name,
         id: this.value.id
-      }];
+      });
+      return filters;
     }
   }, {
     key: "isSet",
@@ -30423,7 +30436,7 @@ var default_table_TableParamArray = /*#__PURE__*/function (_TableParam3) {
     key: "getQueryParams",
     value: function getQueryParams() {
       var params = {};
-      params[this.search] = this.value.map(function (e) {
+      if (this.isSet()) params[this.search] = this.value.map(function (e) {
         return e.id;
       }).join(',');
       return params;
@@ -30531,8 +30544,6 @@ var default_table_TableParamDaterange = /*#__PURE__*/function (_TableParam4) {
   }, {
     key: "reset",
     value: function reset(filter) {
-      console.log(filter);
-
       if (filter !== undefined) {
         if (filter.id === 'dateFrom') this.dateFrom = null;
         if (filter.id === 'dateTo') this.dateTo = null;
@@ -30552,11 +30563,53 @@ var default_table_TableParamBoolean = /*#__PURE__*/function (_TableParam5) {
 
   var _super5 = _createSuper(TableParamBoolean);
 
-  function TableParamBoolean() {
+  function TableParamBoolean(header) {
+    var _this6;
+
     _classCallCheck(this, TableParamBoolean);
 
-    return _super5.apply(this, arguments);
+    _this6 = _super5.call(this, header);
+    _this6.value = null;
+    _this6.search = '';
+    if (!header.search) throw new Error("\u0412\u044B\u0437\u0432\u0430\u043D \u043A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440 TableParamString \u0434\u043B\u044F \u0437\u0430\u0433\u043E\u043B\u043E\u0432\u043A\u0430 ".concat(header.name, " \u0431\u0435\u0437 \u043F\u043E\u043B\u044F search"));
+    _this6.search = header.search;
+    return _this6;
   }
+
+  _createClass(TableParamBoolean, [{
+    key: "getQueryParams",
+    value: function getQueryParams() {
+      var params = {};
+      if (this.isSet()) params[this.search] = String(this.value);
+      return params;
+    }
+  }, {
+    key: "getFilters",
+    value: function getFilters() {
+      var filters = [];
+
+      if (this.isSet()) {
+        filters.push({
+          name: this.name,
+          key: this.search,
+          value: this.value ? 'Да' : 'Нет',
+          id: String(this.value)
+        });
+      }
+
+      return filters;
+    }
+  }, {
+    key: "isSet",
+    value: function isSet() {
+      return this.value !== null;
+    }
+  }, {
+    key: "reset",
+    value: function reset(filter) {
+      this.value = null;
+    }
+  }]);
 
   return TableParamBoolean;
 }(default_table_TableParam);
@@ -30649,7 +30702,7 @@ function paramIsBoolean(param) {
     }
   },
   setup: function setup(props, app) {
-    var _this6 = this;
+    var _this7 = this;
 
     var trigger = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null);
     var params = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])({}); // Инициализуем пустые типы внутренних фильтров таблицы (при создании компонента и сбросе фильтров)
@@ -30663,6 +30716,8 @@ function paramIsBoolean(param) {
         if (!h.search) return;
         if (!reset && params.value[h.search]) return;
         if (h.searchType === SearchTypes.String) params.value[h.search] = new default_table_TableParamString(h);
+        if (h.searchType === SearchTypes.Boolean) params.value[h.search] = new default_table_TableParamBoolean(h);
+        if (h.searchType === SearchTypes.Select) params.value[h.search] = new default_table_TableParamObject(h);
         if (h.searchType === SearchTypes.Relation) params.value[h.search] = new default_table_TableParamObject(h);
         if (h.searchType === SearchTypes.MultipleRelation) params.value[h.search] = new default_table_TableParamArray(h);
         if (h.searchType === SearchTypes.Boolean) params.value[h.search] = new default_table_TableParamBoolean(h);
@@ -30753,7 +30808,7 @@ function paramIsBoolean(param) {
               case 0:
                 isLoading.value = true;
                 _context.next = 3;
-                return props.axios.delete(props.endpoint + '/' + id);
+                return props.axios.delete(addTrailingSlash(props.endpoint) + id + '/');
 
               case 3:
                 if (!props.scrollPagination) {
@@ -30836,12 +30891,52 @@ function paramIsBoolean(param) {
           reload();
         };
 
-        return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("input", {
+        return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+          "class": "apptimizm-ui-default-table-header-search-input"
+        }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("input", {
           "class": "apptimizm-ui-default-table-search-string",
-          "value": String(param),
+          "value": param.value,
           "onInput": setFilter,
           "placeholder": header.name
-        }, null);
+        }, null)]);
+      };
+
+      var renderSearchBoolean = function renderSearchBoolean(header) {
+        var param = getTableSearchParam(header);
+        if (!paramIsBoolean(param)) throw new Error("\u0422\u0438\u043F \u043F\u043E\u0438\u0441\u043A\u0430 \u0432 \u0437\u0430\u0433\u043E\u043B\u043E\u0432\u043A\u0435 ".concat(header.name, " \u043D\u0435 \u0441\u043E\u0432\u043F\u0430\u0434\u0430\u0435\u0442 \u0441 \u0442\u0438\u043F\u043E\u043C \u043F\u0430\u0440\u0430\u043C\u0435\u0442\u0440\u0430 \u0432\u043E \u0432\u043D\u0443\u0442\u0440\u0435\u043D\u043D\u0435\u043C \u0441\u043E\u0441\u0442\u043E\u044F\u043D\u0438\u0438 \u0442\u0430\u0431\u043B\u0438\u0446\u044B"));
+
+        var setFilter = function setFilter(e) {
+          param.value = e;
+          reload();
+        };
+
+        return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+          "class": "apptimizm-ui-default-table-header-search-input"
+        }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(boolean_select_DefaultSelect, {
+          "modelValue": param.value,
+          "onValueChange": setFilter,
+          "placeholder": header.name
+        }, null)]);
+      };
+
+      var renderSearchSelect = function renderSearchSelect(header) {
+        var param = getTableSearchParam(header);
+        if (!paramIsObject(param)) throw new Error("\u0422\u0438\u043F \u043F\u043E\u0438\u0441\u043A\u0430 \u0432 \u0437\u0430\u0433\u043E\u043B\u043E\u0432\u043A\u0435 ".concat(header.name, " \u043D\u0435 \u0441\u043E\u0432\u043F\u0430\u0434\u0430\u0435\u0442 \u0441 \u0442\u0438\u043F\u043E\u043C \u043F\u0430\u0440\u0430\u043C\u0435\u0442\u0440\u0430 \u0432\u043E \u0432\u043D\u0443\u0442\u0440\u0435\u043D\u043D\u0435\u043C \u0441\u043E\u0441\u0442\u043E\u044F\u043D\u0438\u0438 \u0442\u0430\u0431\u043B\u0438\u0446\u044B"));
+        if (!header.options) throw new Error("\u0414\u043B\u044F \u0437\u0430\u0433\u043E\u043B\u043E\u0432\u043A\u0430 ".concat(header.name, " \u043D\u0435 \u0437\u0430\u0434\u0430\u043D \u043F\u0430\u0440\u0430\u043C\u0435\u0442\u0440 options \u0441 \u0432\u0430\u0440\u0438\u0430\u043D\u0442\u0430\u043C\u0438 \u0432\u044B\u0431\u043E\u0440\u0430"));
+
+        var setFilter = function setFilter(e) {
+          param.value = e;
+          reload();
+        };
+
+        return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+          "class": "apptimizm-ui-default-table-header-search-input"
+        }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(default_select_DefaultSelect, {
+          "items": header.options,
+          "modelValue": param.value,
+          "onValueChange": setFilter,
+          "placeholder": header.name
+        }, null)]);
       };
 
       var renderSearchRelation = function renderSearchRelation(header) {
@@ -30855,7 +30950,9 @@ function paramIsBoolean(param) {
           reload();
         };
 
-        return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(relation_select_relation_select, {
+        return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+          "class": "apptimizm-ui-default-table-header-search-input"
+        }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(relation_select_relation_select, {
           "axios": props.axios,
           "endpoint": header.endpoint,
           "itemConverter": header.itemConverter,
@@ -30865,7 +30962,7 @@ function paramIsBoolean(param) {
           "constantPlaceholder": false,
           "params": getSmartFilterParams(String(header.search), smartFilterParams.value),
           "paginationType": props.paginationType
-        }, null);
+        }, null)]);
       };
 
       var renderSearchMultipleRelation = function renderSearchMultipleRelation(header) {
@@ -30879,7 +30976,9 @@ function paramIsBoolean(param) {
           reload();
         };
 
-        return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(multiple_relation_select, {
+        return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+          "class": "apptimizm-ui-default-table-header-search-input"
+        }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(multiple_relation_select, {
           "axios": props.axios,
           "endpoint": header.endpoint,
           "itemConverter": header.itemConverter,
@@ -30889,7 +30988,7 @@ function paramIsBoolean(param) {
           "constantPlaceholder": false,
           "params": getSmartFilterParams(String(header.search), smartFilterParams.value),
           "paginationType": props.paginationType
-        }, null);
+        }, null)]);
       };
 
       var renderSearchDaterange = function renderSearchDaterange(header) {
@@ -30927,6 +31026,8 @@ function paramIsBoolean(param) {
 
       var renderSearchHeader = function renderSearchHeader(header) {
         if (header.searchType === SearchTypes.String) return renderSearchString(header);
+        if (header.searchType === SearchTypes.Boolean) return renderSearchBoolean(header);
+        if (header.searchType === SearchTypes.Select) return renderSearchSelect(header);
         if (header.searchType === SearchTypes.Relation) return renderSearchRelation(header);
         if (header.searchType === SearchTypes.MultipleRelation) return renderSearchMultipleRelation(header);
         if (header.searchType === SearchTypes.Daterange) return renderSearchDaterange(header);
@@ -30992,7 +31093,7 @@ function paramIsBoolean(param) {
         }
       }, null), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
         "class": "default-table-buttons"
-      }, [props.additionalButtons && props.additionalButtons(_this6), props.add && Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("router-link"), {
+      }, [props.additionalButtons && props.additionalButtons(_this7), props.add && Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("router-link"), {
         "to": props.add,
         "class": "default-table-add-button"
       }, {

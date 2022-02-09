@@ -11,7 +11,7 @@
     .apptimizm-ui-default-table-header-cell-inner
       align-items: center
       display: flex
-      > div:nth-child(2)
+      .apptimizm-ui-default-table-header-search-input
         flex-grow: 2
 .apptimizm-ui-default-table-gap
   display: table-row
@@ -105,6 +105,22 @@
     &:focus
       background-color: rgba(36, 42, 47, 0.04)
       outline: none
+  // DefaultSelect и BooleanSelect
+  .apptimizm-ui-default-select 
+    .apptimizm-ui-select
+      background-image: url(./assets/arrow-down.svg)
+      background-position: right 8px center
+      background-repeat: no-repeat
+      background-color: rgba(0, 0, 0, 0)
+      border: none
+    &.opened
+      .apptimizm-ui-select
+        background-color: rgba(36, 42, 47, 0.04)
+        border-radius: 4px
+    .apptimizm-ui-default-select-dropdown-arrow
+      display: none
+    .apptimizm-ui-default-select-constant-placeholder
+      color: #3c383d
   // RelationSelect
   .apptimizm-ui-relation-select
     margin: -16px 0px -16px 0px

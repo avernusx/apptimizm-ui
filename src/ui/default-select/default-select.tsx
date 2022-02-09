@@ -9,7 +9,7 @@ class Props {
   idKey = prop<string>({ default: 'id' })
   titleKey = prop<string>({ default: 'name' })
   onValueChange = prop<(v: any) => void>({})
-  items = prop<any>({ default: () => [] })
+  items = prop<any>({ required: true })
   resetable = prop<boolean>({ default: false })
   constantPlaceholder = prop<boolean>({ default: true })
 }
