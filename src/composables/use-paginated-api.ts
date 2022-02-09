@@ -43,6 +43,7 @@ export default function usePaginatedBackend (
   }, 500)
 
   const reload = async () => {
+    isLoading.value = true
     page.value = 0
     items.value = []
     await load()

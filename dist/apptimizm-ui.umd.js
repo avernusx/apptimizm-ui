@@ -29702,12 +29702,13 @@ function usePaginatedBackend(endpoint, api, params, perPage) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
+              isLoading.value = true;
               page.value = 0;
               items.value = [];
-              _context2.next = 4;
+              _context2.next = 5;
               return load();
 
-            case 4:
+            case 5:
             case "end":
               return _context2.stop();
           }
