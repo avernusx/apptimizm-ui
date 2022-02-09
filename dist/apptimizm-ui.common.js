@@ -27521,9 +27521,10 @@ module.exports = function (key) {
 __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
+__webpack_require__.d(__webpack_exports__, "BooleanSelect", function() { return /* reexport */ boolean_select_DefaultSelect; });
 __webpack_require__.d(__webpack_exports__, "Calendar", function() { return /* reexport */ calendar_calendar; });
 __webpack_require__.d(__webpack_exports__, "DefaultInput", function() { return /* reexport */ default_input; });
-__webpack_require__.d(__webpack_exports__, "DefaultSelect", function() { return /* reexport */ default_select; });
+__webpack_require__.d(__webpack_exports__, "DefaultSelect", function() { return /* reexport */ ui_default_select; });
 __webpack_require__.d(__webpack_exports__, "DefaultSelectMultiple", function() { return /* reexport */ default_select_multiple; });
 __webpack_require__.d(__webpack_exports__, "DefaultTable", function() { return /* reexport */ default_table_default_table; });
 __webpack_require__.d(__webpack_exports__, "DefaultTableContext", function() { return /* reexport */ /* Cannot get final name for export "TableContext" in "./src/ui/default-table/default-table.tsx" (known exports: SearchTypes default, known reexports: ) */ undefined; });
@@ -27891,54 +27892,6 @@ moment_default.a.locale('ru');
     };
   }
 }));
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/ts-loader??ref--15-3!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/ui/default-input.vue?vue&type=script&lang=tsx
-
-
-/* harmony default export */ var default_inputvue_type_script_lang_tsx = (function (props, context) {
-  var onChange = function onChange(e) {
-    var _e$target, _e$target2;
-
-    context.emit('update:modelValue', (_e$target = e.target) === null || _e$target === void 0 ? void 0 : _e$target.value);
-    props.onValueChange((_e$target2 = e.target) === null || _e$target2 === void 0 ? void 0 : _e$target2.value);
-  };
-
-  var onBlur = function onBlur() {
-    context.emit('blur');
-    props.onBlur && props.onBlur();
-  };
-
-  var errors = Array.isArray(props.errors) ? props.errors : [];
-  var cls = errors.length ? 'default-input with-errors' : 'default-input';
-  if (props.disabled) cls += ' is-disabled';
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
-    "class": cls
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("input", {
-    "disabled": Boolean(props.disabled),
-    "type": props.password ? 'password' : 'text',
-    "value": props.modelValue,
-    "onInput": onChange,
-    "onBlur": onBlur,
-    "onFocusout": onBlur
-  }, null), props.placeholder && Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
-    "class": "placeholder"
-  }, [props.placeholder]), errors.map(function (error) {
-    return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
-      "class": "error"
-    }, [error]);
-  })])]);
-});
-// CONCATENATED MODULE: ./src/ui/default-input.vue?vue&type=script&lang=tsx
- 
-// EXTERNAL MODULE: ./src/ui/default-input.vue?vue&type=style&index=0&id=46b56f0c&lang=sass
-var default_inputvue_type_style_index_0_id_46b56f0c_lang_sass = __webpack_require__("c35c");
-
-// CONCATENATED MODULE: ./src/ui/default-input.vue
-
-
-
-
-
-/* harmony default export */ var default_input = (default_inputvue_type_script_lang_tsx);
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/createClass.js
 function _defineProperties(target, props) {
   for (var i = 0; i < props.length; i++) {
@@ -28057,8 +28010,8 @@ function _classCallCheck(instance, Constructor) {
     throw new TypeError("Cannot call a class as a function");
   }
 }
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.keys.js
-var es_object_keys = __webpack_require__("b64b");
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.concat.js
+var es_array_concat = __webpack_require__("99af");
 
 // CONCATENATED MODULE: ./node_modules/vue-class-component/dist/vue-class-component.esm-bundler.js
 /**
@@ -28576,6 +28529,195 @@ function prop(options) {
 
 
 
+// EXTERNAL MODULE: ./src/ui/default-select/default-select.sass
+var default_select = __webpack_require__("e0a0");
+
+// CONCATENATED MODULE: ./src/ui/default-select/boolean-select.tsx
+
+
+
+
+
+
+
+
+
+var boolean_select_Props = function Props() {
+  _classCallCheck(this, Props);
+
+  this.modelValue = prop({
+    default: null
+  });
+  this.placeholder = prop({});
+  this.onValueChange = prop({});
+  this.resetable = prop({
+    default: false
+  });
+  this.constantPlaceholder = prop({
+    default: true
+  });
+};
+
+var boolean_select_DefaultSelect = /*#__PURE__*/function (_Vue$with) {
+  _inherits(DefaultSelect, _Vue$with);
+
+  var _super = _createSuper(DefaultSelect);
+
+  function DefaultSelect() {
+    var _this;
+
+    _classCallCheck(this, DefaultSelect);
+
+    _this = _super.apply(this, arguments);
+    _this.isActive = false;
+    return _this;
+  }
+
+  _createClass(DefaultSelect, [{
+    key: "set",
+    value: function set(value) {
+      this.$emit('input', value);
+      this.$emit('update:modelValue', value);
+      this.onValueChange && this.onValueChange(value);
+      this.isActive = false;
+    }
+  }, {
+    key: "reset",
+    value: function reset() {
+      this.$emit('input', null);
+      this.$emit('update:modelValue', null);
+      this.onValueChange && this.onValueChange(null);
+      this.isActive = false;
+    }
+  }, {
+    key: "mounted",
+    value: function mounted() {
+      var _this2 = this;
+
+      document.addEventListener('click', function (event) {
+        _this2.isActive = false;
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this3 = this;
+
+      var isSelected = this.modelValue !== null;
+      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-default-select ".concat(isSelected ? 'selected' : '', " ").concat(this.isActive ? 'opened' : ''),
+        "onClick": function onClick(event) {
+          return event.stopPropagation();
+        }
+      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-select",
+        "onClick": function onClick() {
+          _this3.isActive = !_this3.isActive;
+        }
+      }, [this.placeholder && this.constantPlaceholder && Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-default-select-constant-placeholder"
+      }, [this.placeholder]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-default-select-dropdown-arrow",
+        "style": isSelected && this.resetable ? 'display: none' : ''
+      }, null), isSelected ? Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-default-select-value"
+      }, [this.modelValue ? 'Да' : 'Нет', Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-default-select-reset",
+        "onClick": this.reset
+      }, null)]) : !this.constantPlaceholder && Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-default-select-placeholder"
+      }, [this.placeholder])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-default-select-dropdown",
+        "style": this.isActive ? 'display: block;' : 'display: none;'
+      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-default-select-items-list"
+      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": this.modelValue === true ? 'apptimizm-ui-default-select-item active' : 'apptimizm-ui-default-select-item',
+        "onClick": function onClick() {
+          return _this3.set(true);
+        }
+      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" \u0414\u0430"), this.modelValue === true ? Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("svg", {
+        "width": "16",
+        "height": "16",
+        "viewBox": "0 0 16 16",
+        "fill": "none",
+        "xmlns": "http://www.w3.org/2000/svg"
+      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("path", {
+        "d": "M12.4733 4.8067C12.4114 4.74421 12.3376 4.69461 12.2564 4.66077C12.1752 4.62692 12.088 4.6095 12 4.6095C11.912 4.6095 11.8249 4.62692 11.7436 4.66077C11.6624 4.69461 11.5886 4.74421 11.5267 4.8067L6.56001 9.78003L4.47334 7.6867C4.40899 7.62454 4.33303 7.57566 4.2498 7.54286C4.16656 7.51006 4.07768 7.49397 3.98822 7.49552C3.89877 7.49706 3.8105 7.51622 3.72844 7.55188C3.64639 7.58754 3.57217 7.63902 3.51001 7.70336C3.44785 7.76771 3.39897 7.84367 3.36617 7.92691C3.33337 8.01014 3.31728 8.09903 3.31883 8.18848C3.32038 8.27793 3.33953 8.36621 3.37519 8.44826C3.41085 8.53031 3.46233 8.60454 3.52667 8.6667L6.08667 11.2267C6.14865 11.2892 6.22238 11.3388 6.30362 11.3726C6.38486 11.4065 6.472 11.4239 6.56001 11.4239C6.64802 11.4239 6.73515 11.4065 6.81639 11.3726C6.89763 11.3388 6.97137 11.2892 7.03334 11.2267L12.4733 5.7867C12.541 5.72427 12.595 5.6485 12.632 5.56417C12.6689 5.47983 12.688 5.38876 12.688 5.2967C12.688 5.20463 12.6689 5.11356 12.632 5.02923C12.595 4.94489 12.541 4.86912 12.4733 4.8067Z",
+        "fill": "#64D0DA"
+      }, null)]) : null]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": this.modelValue === false ? 'apptimizm-ui-default-select-item active' : 'apptimizm-ui-default-select-item',
+        "onClick": function onClick() {
+          return _this3.set(false);
+        }
+      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" \u041D\u0435\u0442"), this.modelValue === false ? Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("svg", {
+        "width": "16",
+        "height": "16",
+        "viewBox": "0 0 16 16",
+        "fill": "none",
+        "xmlns": "http://www.w3.org/2000/svg"
+      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("path", {
+        "d": "M12.4733 4.8067C12.4114 4.74421 12.3376 4.69461 12.2564 4.66077C12.1752 4.62692 12.088 4.6095 12 4.6095C11.912 4.6095 11.8249 4.62692 11.7436 4.66077C11.6624 4.69461 11.5886 4.74421 11.5267 4.8067L6.56001 9.78003L4.47334 7.6867C4.40899 7.62454 4.33303 7.57566 4.2498 7.54286C4.16656 7.51006 4.07768 7.49397 3.98822 7.49552C3.89877 7.49706 3.8105 7.51622 3.72844 7.55188C3.64639 7.58754 3.57217 7.63902 3.51001 7.70336C3.44785 7.76771 3.39897 7.84367 3.36617 7.92691C3.33337 8.01014 3.31728 8.09903 3.31883 8.18848C3.32038 8.27793 3.33953 8.36621 3.37519 8.44826C3.41085 8.53031 3.46233 8.60454 3.52667 8.6667L6.08667 11.2267C6.14865 11.2892 6.22238 11.3388 6.30362 11.3726C6.38486 11.4065 6.472 11.4239 6.56001 11.4239C6.64802 11.4239 6.73515 11.4065 6.81639 11.3726C6.89763 11.3388 6.97137 11.2892 7.03334 11.2267L12.4733 5.7867C12.541 5.72427 12.595 5.6485 12.632 5.56417C12.6689 5.47983 12.688 5.38876 12.688 5.2967C12.688 5.20463 12.6689 5.11356 12.632 5.02923C12.595 4.94489 12.541 4.86912 12.4733 4.8067Z",
+        "fill": "#64D0DA"
+      }, null)]) : null])])])])]);
+    }
+  }]);
+
+  return DefaultSelect;
+}(Vue.with(boolean_select_Props));
+
+
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/ts-loader??ref--15-3!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/ui/default-input.vue?vue&type=script&lang=tsx
+
+
+/* harmony default export */ var default_inputvue_type_script_lang_tsx = (function (props, context) {
+  var onChange = function onChange(e) {
+    var _e$target, _e$target2;
+
+    context.emit('update:modelValue', (_e$target = e.target) === null || _e$target === void 0 ? void 0 : _e$target.value);
+    props.onValueChange((_e$target2 = e.target) === null || _e$target2 === void 0 ? void 0 : _e$target2.value);
+  };
+
+  var onBlur = function onBlur() {
+    context.emit('blur');
+    props.onBlur && props.onBlur();
+  };
+
+  var errors = Array.isArray(props.errors) ? props.errors : [];
+  var cls = errors.length ? 'default-input with-errors' : 'default-input';
+  if (props.disabled) cls += ' is-disabled';
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+    "class": cls
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("input", {
+    "disabled": Boolean(props.disabled),
+    "type": props.password ? 'password' : 'text',
+    "value": props.modelValue,
+    "onInput": onChange,
+    "onBlur": onBlur,
+    "onFocusout": onBlur
+  }, null), props.placeholder && Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+    "class": "placeholder"
+  }, [props.placeholder]), errors.map(function (error) {
+    return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+      "class": "error"
+    }, [error]);
+  })])]);
+});
+// CONCATENATED MODULE: ./src/ui/default-input.vue?vue&type=script&lang=tsx
+ 
+// EXTERNAL MODULE: ./src/ui/default-input.vue?vue&type=style&index=0&id=46b56f0c&lang=sass
+var default_inputvue_type_style_index_0_id_46b56f0c_lang_sass = __webpack_require__("c35c");
+
+// CONCATENATED MODULE: ./src/ui/default-input.vue
+
+
+
+
+
+/* harmony default export */ var default_input = (default_inputvue_type_script_lang_tsx);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.keys.js
+var es_object_keys = __webpack_require__("b64b");
+
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/ts-loader??ref--15-3!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/ui/default-select.vue?vue&type=script&lang=tsx
 
 
@@ -28739,7 +28881,7 @@ var default_selectvue_type_style_index_0_id_5e1b86a5_lang_sass_scoped_true = __w
 
 default_selectvue_type_script_lang_tsx_DefaultSelect.__scopeId = "data-v-5e1b86a5"
 
-/* harmony default export */ var default_select = (default_selectvue_type_script_lang_tsx_DefaultSelect);
+/* harmony default export */ var ui_default_select = (default_selectvue_type_script_lang_tsx_DefaultSelect);
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.find.js
 var es_array_find = __webpack_require__("7db0");
 
@@ -28972,9 +29114,84 @@ function _asyncToGenerator(fn) {
     });
   };
 }
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js
+function arrayLikeToArray_arrayLikeToArray(arr, len) {
+  if (len == null || len > arr.length) len = arr.length;
+
+  for (var i = 0, arr2 = new Array(len); i < len; i++) {
+    arr2[i] = arr[i];
+  }
+
+  return arr2;
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
+
+function arrayWithoutHoles_arrayWithoutHoles(arr) {
+  if (Array.isArray(arr)) return arrayLikeToArray_arrayLikeToArray(arr);
+}
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.symbol.js
 var es_symbol = __webpack_require__("a4d3");
 
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.symbol.description.js
+var es_symbol_description = __webpack_require__("e01a");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.symbol.iterator.js
+var es_symbol_iterator = __webpack_require__("d28b");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.iterator.js
+var es_array_iterator = __webpack_require__("e260");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.iterator.js
+var es_string_iterator = __webpack_require__("3ca3");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/web.dom-collections.iterator.js
+var web_dom_collections_iterator = __webpack_require__("ddb0");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.from.js
+var es_array_from = __webpack_require__("a630");
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
+
+
+
+
+
+
+
+
+function iterableToArray_iterableToArray(iter) {
+  if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
+}
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.function.name.js
+var es_function_name = __webpack_require__("b0c0");
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
+
+
+
+
+
+
+function unsupportedIterableToArray_unsupportedIterableToArray(o, minLen) {
+  if (!o) return;
+  if (typeof o === "string") return arrayLikeToArray_arrayLikeToArray(o, minLen);
+  var n = Object.prototype.toString.call(o).slice(8, -1);
+  if (n === "Object" && o.constructor) n = o.constructor.name;
+  if (n === "Map" || n === "Set") return Array.from(o);
+  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return arrayLikeToArray_arrayLikeToArray(o, minLen);
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
+function nonIterableSpread_nonIterableSpread() {
+  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js
+
+
+
+
+function toConsumableArray_toConsumableArray(arr) {
+  return arrayWithoutHoles_arrayWithoutHoles(arr) || iterableToArray_iterableToArray(arr) || unsupportedIterableToArray_unsupportedIterableToArray(arr) || nonIterableSpread_nonIterableSpread();
+}
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.filter.js
 var es_array_filter = __webpack_require__("4de4");
 
@@ -29048,49 +29265,8 @@ function objectSpread2_objectSpread2(target) {
 
   return target;
 }
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.symbol.description.js
-var es_symbol_description = __webpack_require__("e01a");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.symbol.iterator.js
-var es_symbol_iterator = __webpack_require__("d28b");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.iterator.js
-var es_array_iterator = __webpack_require__("e260");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.iterator.js
-var es_string_iterator = __webpack_require__("3ca3");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/web.dom-collections.iterator.js
-var web_dom_collections_iterator = __webpack_require__("ddb0");
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/typeof.js
-
-
-
-
-
-
-
-function _typeof(obj) {
-  "@babel/helpers - typeof";
-
-  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-    _typeof = function _typeof(obj) {
-      return typeof obj;
-    };
-  } else {
-    _typeof = function _typeof(obj) {
-      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    };
-  }
-
-  return _typeof(obj);
-}
 // EXTERNAL MODULE: ./node_modules/regenerator-runtime/runtime.js
 var runtime = __webpack_require__("96cf");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.number.constructor.js
-var es_number_constructor = __webpack_require__("a9e3");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.regexp.exec.js
 var es_regexp_exec = __webpack_require__("ac1f");
@@ -29101,20 +29277,14 @@ var es_string_search = __webpack_require__("841c");
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.split.js
 var es_string_split = __webpack_require__("1276");
 
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.function.name.js
-var es_function_name = __webpack_require__("b0c0");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.concat.js
-var es_array_concat = __webpack_require__("99af");
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.number.constructor.js
+var es_number_constructor = __webpack_require__("a9e3");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.sort.js
 var es_array_sort = __webpack_require__("4e82");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.number.is-integer.js
 var es_number_is_integer = __webpack_require__("8ba4");
-
-// EXTERNAL MODULE: ./src/ui/default-select/default-select.sass
-var default_select_default_select = __webpack_require__("e0a0");
 
 // CONCATENATED MODULE: ./src/ui/default-select/default-select.tsx
 
@@ -29444,63 +29614,6 @@ var pagination_PaginationElement = function PaginationElement(props, context) {
 
 
 /* harmony default export */ var line_loader = (line_loadervue_type_script_lang_tsx);
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js
-function arrayLikeToArray_arrayLikeToArray(arr, len) {
-  if (len == null || len > arr.length) len = arr.length;
-
-  for (var i = 0, arr2 = new Array(len); i < len; i++) {
-    arr2[i] = arr[i];
-  }
-
-  return arr2;
-}
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
-
-function arrayWithoutHoles_arrayWithoutHoles(arr) {
-  if (Array.isArray(arr)) return arrayLikeToArray_arrayLikeToArray(arr);
-}
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.from.js
-var es_array_from = __webpack_require__("a630");
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
-
-
-
-
-
-
-
-
-function iterableToArray_iterableToArray(iter) {
-  if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
-}
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
-
-
-
-
-
-
-function unsupportedIterableToArray_unsupportedIterableToArray(o, minLen) {
-  if (!o) return;
-  if (typeof o === "string") return arrayLikeToArray_arrayLikeToArray(o, minLen);
-  var n = Object.prototype.toString.call(o).slice(8, -1);
-  if (n === "Object" && o.constructor) n = o.constructor.name;
-  if (n === "Map" || n === "Set") return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return arrayLikeToArray_arrayLikeToArray(o, minLen);
-}
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
-function nonIterableSpread_nonIterableSpread() {
-  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js
-
-
-
-
-function toConsumableArray_toConsumableArray(arr) {
-  return arrayWithoutHoles_arrayWithoutHoles(arr) || iterableToArray_iterableToArray(arr) || unsupportedIterableToArray_unsupportedIterableToArray(arr) || nonIterableSpread_nonIterableSpread();
-}
 // EXTERNAL MODULE: ./node_modules/lodash/debounce.js
 var debounce = __webpack_require__("b047");
 var debounce_default = /*#__PURE__*/__webpack_require__.n(debounce);
@@ -30136,6 +30249,10 @@ var default_table = __webpack_require__("8587");
 
 
 
+
+
+
+
 var SearchTypes;
 
 (function (SearchTypes) {
@@ -30144,33 +30261,324 @@ var SearchTypes;
   SearchTypes[SearchTypes["MultipleRelation"] = 2] = "MultipleRelation";
   SearchTypes[SearchTypes["Daterange"] = 3] = "Daterange";
   SearchTypes[SearchTypes["Select"] = 4] = "Select";
+  SearchTypes[SearchTypes["Boolean"] = 5] = "Boolean";
 })(SearchTypes || (SearchTypes = {}));
 
-var default_table_TableDate = function TableDate(type) {
-  var date = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+var default_table_TableParam = /*#__PURE__*/function () {
+  function TableParam(header) {
+    _classCallCheck(this, TableParam);
 
-  _classCallCheck(this, TableDate);
+    this.name = '';
+    this.name = header.name;
+  }
 
-  this.date = null;
-  this.type = 'from';
-  this.type = type;
-  this.date = date;
-};
+  _createClass(TableParam, [{
+    key: "getQueryParams",
+    value: function getQueryParams() {
+      return {};
+    }
+  }, {
+    key: "getFilters",
+    value: function getFilters() {
+      return [];
+    }
+  }, {
+    key: "isSet",
+    value: function isSet() {
+      return false;
+    }
+  }, {
+    key: "reset",
+    value: function reset(filter) {}
+  }]);
+
+  return TableParam;
+}();
+
+var default_table_TableParamString = /*#__PURE__*/function (_TableParam) {
+  _inherits(TableParamString, _TableParam);
+
+  var _super = _createSuper(TableParamString);
+
+  function TableParamString(header) {
+    var _this;
+
+    _classCallCheck(this, TableParamString);
+
+    _this = _super.call(this, header);
+    _this.value = '';
+    _this.search = '';
+    if (!header.search) throw new Error("\u0412\u044B\u0437\u0432\u0430\u043D \u043A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440 TableParamString \u0434\u043B\u044F \u0437\u0430\u0433\u043E\u043B\u043E\u0432\u043A\u0430 ".concat(header.name, " \u0431\u0435\u0437 \u043F\u043E\u043B\u044F search"));
+    _this.search = header.search;
+    return _this;
+  }
+
+  _createClass(TableParamString, [{
+    key: "getQueryParams",
+    value: function getQueryParams() {
+      var params = {};
+      params[this.search] = this.value;
+      return params;
+    }
+  }, {
+    key: "getFilters",
+    value: function getFilters() {
+      return [{
+        name: this.name,
+        key: this.search,
+        value: this.value,
+        id: this.value
+      }];
+    }
+  }, {
+    key: "isSet",
+    value: function isSet() {
+      return this.value.length > 0;
+    }
+  }, {
+    key: "reset",
+    value: function reset(filter) {
+      this.value = '';
+    }
+  }]);
+
+  return TableParamString;
+}(default_table_TableParam);
+
+var default_table_TableParamObject = /*#__PURE__*/function (_TableParam2) {
+  _inherits(TableParamObject, _TableParam2);
+
+  var _super2 = _createSuper(TableParamObject);
+
+  function TableParamObject(header) {
+    var _this2;
+
+    _classCallCheck(this, TableParamObject);
+
+    _this2 = _super2.call(this, header);
+    _this2.value = {
+      id: '',
+      name: ''
+    };
+    _this2.search = '';
+    if (!header.search) throw new Error("\u0412\u044B\u0437\u0432\u0430\u043D \u043A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440 TableParamObject \u0434\u043B\u044F \u0437\u0430\u0433\u043E\u043B\u043E\u0432\u043A\u0430 ".concat(header.name, " \u0431\u0435\u0437 \u043F\u043E\u043B\u044F search"));
+    _this2.search = header.search;
+    return _this2;
+  }
+
+  _createClass(TableParamObject, [{
+    key: "getQueryParams",
+    value: function getQueryParams() {
+      var params = {};
+      params[this.search] = this.value.id;
+      return params;
+    }
+  }, {
+    key: "getFilters",
+    value: function getFilters() {
+      return [{
+        name: this.name,
+        key: this.search,
+        value: this.value.name,
+        id: this.value.id
+      }];
+    }
+  }, {
+    key: "isSet",
+    value: function isSet() {
+      return this.value.id.length > 0;
+    }
+  }, {
+    key: "reset",
+    value: function reset(filter) {
+      this.value = {
+        id: '',
+        name: ''
+      };
+    }
+  }]);
+
+  return TableParamObject;
+}(default_table_TableParam);
+
+var default_table_TableParamArray = /*#__PURE__*/function (_TableParam3) {
+  _inherits(TableParamArray, _TableParam3);
+
+  var _super3 = _createSuper(TableParamArray);
+
+  function TableParamArray(header) {
+    var _this3;
+
+    _classCallCheck(this, TableParamArray);
+
+    _this3 = _super3.call(this, header);
+    _this3.value = [];
+    _this3.search = '';
+    if (!header.search) throw new Error("\u0412\u044B\u0437\u0432\u0430\u043D \u043A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440 TableParamArray \u0434\u043B\u044F \u0437\u0430\u0433\u043E\u043B\u043E\u0432\u043A\u0430 ".concat(header.name, " \u0431\u0435\u0437 \u043F\u043E\u043B\u044F search"));
+    _this3.search = header.search;
+    return _this3;
+  }
+
+  _createClass(TableParamArray, [{
+    key: "getQueryParams",
+    value: function getQueryParams() {
+      var params = {};
+      params[this.search] = this.value.map(function (e) {
+        return e.id;
+      }).join(',');
+      return params;
+    }
+  }, {
+    key: "getFilters",
+    value: function getFilters() {
+      var _this4 = this;
+
+      return this.value.map(function (item) {
+        return {
+          name: _this4.name,
+          key: _this4.search,
+          value: item.name,
+          id: item.id
+        };
+      });
+    }
+  }, {
+    key: "isSet",
+    value: function isSet() {
+      return this.value.length > 0;
+    }
+  }, {
+    key: "reset",
+    value: function reset(filter) {
+      if (filter !== undefined) {
+        var element = this.value.find(function (e) {
+          return e.id === filter.id;
+        });
+        if (element) this.value.splice(this.value.indexOf(element), 1);
+        return;
+      }
+
+      this.value = [];
+    }
+  }]);
+
+  return TableParamArray;
+}(default_table_TableParam);
+
+var default_table_TableParamDaterange = /*#__PURE__*/function (_TableParam4) {
+  _inherits(TableParamDaterange, _TableParam4);
+
+  var _super4 = _createSuper(TableParamDaterange);
+
+  function TableParamDaterange(header) {
+    var _this5;
+
+    _classCallCheck(this, TableParamDaterange);
+
+    _this5 = _super4.call(this, header);
+    _this5.dateFrom = null;
+    _this5.dateTo = null;
+    _this5.searchFrom = '';
+    _this5.searchTo = '';
+    _this5.search = '';
+    if (!header.search) throw new Error("\u0412\u044B\u0437\u0432\u0430\u043D \u043A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440 TableParamArray \u0434\u043B\u044F \u0437\u0430\u0433\u043E\u043B\u043E\u0432\u043A\u0430 ".concat(header.name, " \u0431\u0435\u0437 \u043F\u043E\u043B\u044F search"));
+    var searches = header.search.split('/');
+    if (searches.length < 2) throw new Error("\u041D\u0435\u0432\u0435\u0440\u043D\u044B\u0439 \u0444\u043E\u0440\u043C\u0430\u0442 \u043F\u043E\u043B\u044F search \u0434\u043B\u044F \u0437\u0430\u0433\u043E\u043B\u043E\u0432\u043A\u0430 ".concat(header.name, ": \u0434\u043E\u043B\u0436\u043D\u043E \u0431\u044B\u0442\u044C \u0434\u0432\u0430 \u043A\u043B\u044E\u0447\u0430, \u0440\u0430\u0437\u0434\u0435\u043B\u0435\u043D\u043D\u044B\u0445 /"));
+    _this5.searchFrom = searches[0];
+    _this5.searchTo = searches[1];
+    _this5.search = header.search;
+    return _this5;
+  }
+
+  _createClass(TableParamDaterange, [{
+    key: "getQueryParams",
+    value: function getQueryParams() {
+      var params = {};
+      if (this.dateFrom !== null) params[this.searchFrom] = this.dateFrom.format('YYYY-MM-DD');
+      if (this.dateTo !== null) params[this.searchTo] = this.dateTo.format('YYYY-MM-DD');
+      return params;
+    }
+  }, {
+    key: "getFilters",
+    value: function getFilters() {
+      var params = [];
+
+      if (this.dateFrom !== null) {
+        params.push({
+          name: this.name,
+          key: this.search,
+          value: this.dateFrom.format('YYYY-MM-DD'),
+          id: 'dateFrom'
+        });
+      }
+
+      if (this.dateTo !== null) {
+        params.push({
+          name: this.name,
+          key: this.search,
+          value: this.dateTo.format('YYYY-MM-DD'),
+          id: 'dateTo'
+        });
+      }
+
+      return params;
+    }
+  }, {
+    key: "isSet",
+    value: function isSet() {
+      return this.dateFrom !== null || this.dateTo !== null;
+    }
+  }, {
+    key: "reset",
+    value: function reset(filter) {
+      console.log(filter);
+
+      if (filter !== undefined) {
+        if (filter.id === 'dateFrom') this.dateFrom = null;
+        if (filter.id === 'dateTo') this.dateTo = null;
+        return;
+      }
+
+      this.dateFrom = null;
+      this.dateTo = null;
+    }
+  }]);
+
+  return TableParamDaterange;
+}(default_table_TableParam);
+
+var default_table_TableParamBoolean = /*#__PURE__*/function (_TableParam5) {
+  _inherits(TableParamBoolean, _TableParam5);
+
+  var _super5 = _createSuper(TableParamBoolean);
+
+  function TableParamBoolean() {
+    _classCallCheck(this, TableParamBoolean);
+
+    return _super5.apply(this, arguments);
+  }
+
+  return TableParamBoolean;
+}(default_table_TableParam);
 
 function paramIsString(param) {
-  return typeof param === 'string';
+  return param instanceof default_table_TableParamString;
 }
 
-function paramIsDate(param) {
-  return param instanceof default_table_TableDate;
+function paramIsDaterange(param) {
+  return param instanceof default_table_TableParamDaterange;
 }
 
 function paramIsObject(param) {
-  return _typeof(param) === 'object' && !Array.isArray(param) && !paramIsDate(param);
+  return param instanceof default_table_TableParamObject;
 }
 
 function paramIsArray(param) {
-  return Array.isArray(param);
+  return param instanceof default_table_TableParamArray;
+}
+
+function paramIsBoolean(param) {
+  return param instanceof default_table_TableParamBoolean;
 }
 
 /* harmony default export */ var default_table_default_table = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
@@ -30241,7 +30649,7 @@ function paramIsArray(param) {
     }
   },
   setup: function setup(props, app) {
-    var _this = this;
+    var _this6 = this;
 
     var trigger = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null);
     var params = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])({}); // Инициализуем пустые типы внутренних фильтров таблицы (при создании компонента и сбросе фильтров)
@@ -30254,19 +30662,11 @@ function paramIsArray(param) {
       }).forEach(function (h) {
         if (!h.search) return;
         if (!reset && params.value[h.search]) return;
-        if (h.searchType === SearchTypes.String) params.value[h.search] = '';
-        if (h.searchType === SearchTypes.Relation) params.value[h.search] = {
-          id: '',
-          name: ''
-        };
-        if (h.searchType === SearchTypes.MultipleRelation) params.value[h.search] = [];
-
-        if (h.searchType === SearchTypes.Daterange) {
-          var keys = h.search.split('/');
-          if (keys.length < 2) throw new Error("\u041D\u0435\u0432\u0435\u0440\u043D\u044B\u0439 \u0444\u043E\u0440\u043C\u0430\u0442 \u043A\u043B\u044E\u0447\u0430 \u0434\u043B\u044F \u043F\u043E\u0438\u0441\u043A\u0430 Daterange \u0432 \u043F\u043E\u043B\u0435 ".concat(h.name));
-          if (reset || !params.value[keys[0]]) params.value[keys[0]] = new default_table_TableDate('from');
-          if (reset || !params.value[keys[1]]) params.value[keys[1]] = new default_table_TableDate('to');
-        }
+        if (h.searchType === SearchTypes.String) params.value[h.search] = new default_table_TableParamString(h);
+        if (h.searchType === SearchTypes.Relation) params.value[h.search] = new default_table_TableParamObject(h);
+        if (h.searchType === SearchTypes.MultipleRelation) params.value[h.search] = new default_table_TableParamArray(h);
+        if (h.searchType === SearchTypes.Boolean) params.value[h.search] = new default_table_TableParamBoolean(h);
+        if (h.searchType === SearchTypes.Daterange) params.value[h.search] = new default_table_TableParamDaterange(h);
       });
     };
 
@@ -30279,28 +30679,13 @@ function paramIsArray(param) {
     var perPage = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(props.perPage); // Превращаем внутренние фильтры таблицы и внешний defaultFilter в параметры запроса на бек
 
     var queryParams = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
-      var innerParams = objectSpread2_objectSpread2(objectSpread2_objectSpread2({}, props.defaultFilter), params.value);
-
       var resultParams = {};
 
-      for (var key in innerParams) {
-        var param = innerParams[key];
-        if (paramIsObject(param) && param.id) resultParams[key] = param.id;
-
-        if (paramIsArray(param)) {
-          var arrayParams = param.filter(function (p) {
-            return p.id !== '';
-          }).map(function (p) {
-            return p.id;
-          }).join(',');
-          if (arrayParams !== '') resultParams[key] = arrayParams;
-        }
-
-        if (paramIsString(param) && param !== '') resultParams[key] = param;
-        if (paramIsDate(param) && param.date) resultParams[key] = param.date.format('YYYY-MM-DD');
+      for (var key in params.value) {
+        if (params.value[key].isSet()) resultParams = objectSpread2_objectSpread2(objectSpread2_objectSpread2({}, resultParams), params.value[key].getQueryParams());
       }
 
-      return resultParams;
+      return objectSpread2_objectSpread2(objectSpread2_objectSpread2({}, props.defaultFilter), resultParams);
     });
     var smartFilterParams = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
       return props.smartFilter ? queryParams.value : {};
@@ -30340,54 +30725,8 @@ function paramIsArray(param) {
     var filterParams = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(function () {
       var filters = [];
 
-      var _loop = function _loop(key) {
-        var param = params.value[key];
-        var header = props.headers.filter(function (h) {
-          return h.search;
-        }).find(function (h) {
-          var _h$search, _h$search2;
-
-          return h.search && (h.search === key || ((_h$search = h.search) === null || _h$search === void 0 ? void 0 : _h$search.indexOf(key + '/')) > -1 || ((_h$search2 = h.search) === null || _h$search2 === void 0 ? void 0 : _h$search2.indexOf('/' + key)) > -1);
-        });
-        if (!header) return "continue";
-        if (paramIsString(param) && param !== '') filters.push({
-          name: header.name,
-          key: String(header.search),
-          id: '',
-          value: param
-        });
-        if (paramIsObject(param) && param.id !== '') filters.push({
-          name: header.name,
-          key: String(header.search),
-          id: param.id,
-          value: param.name
-        });
-
-        if (paramIsArray(param)) {
-          param.forEach(function (p) {
-            filters.push({
-              name: header.name,
-              key: String(header.search),
-              id: p.id,
-              value: p.name
-            });
-          });
-        }
-
-        if (paramIsDate(param) && param.date !== null) {
-          filters.push({
-            name: header.name + (param.type === 'from' ? ' от' : ' до'),
-            key: key,
-            id: '',
-            value: param.date.format('DD.MM.YYYY')
-          });
-        }
-      };
-
       for (var key in params.value) {
-        var _ret = _loop(key);
-
-        if (_ret === "continue") continue;
+        if (params.value[key].isSet()) filters = [].concat(toConsumableArray_toConsumableArray(filters), toConsumableArray_toConsumableArray(params.value[key].getFilters()));
       }
 
       return filters;
@@ -30396,26 +30735,7 @@ function paramIsArray(param) {
     var resetFilter = function resetFilter(filter) {
       var param = params.value[filter.key];
       if (!param) return;
-      if (paramIsString(param)) params.value[filter.key] = '';
-      if (paramIsObject(param)) params.value[filter.key] = {
-        id: '',
-        name: ''
-      };
-
-      if (paramIsArray(param)) {
-        var element = param.find(function (e) {
-          return e.id === filter.id;
-        });
-        if (!element) return;
-        param.splice(param.indexOf(element), 1);
-      }
-
-      if (paramIsDate(param)) param.date = null;
-      reload();
-    };
-
-    var setFilter = function setFilter(key, value) {
-      params.value[key] = value;
+      param.reset(filter);
       reload();
     };
 
@@ -30510,12 +30830,16 @@ function paramIsArray(param) {
       var renderSearchString = function renderSearchString(header) {
         var param = getTableSearchParam(header);
         if (!paramIsString(param)) throw new Error("\u0422\u0438\u043F \u043F\u043E\u0438\u0441\u043A\u0430 \u0432 \u0437\u0430\u0433\u043E\u043B\u043E\u0432\u043A\u0435 ".concat(header.name, " \u043D\u0435 \u0441\u043E\u0432\u043F\u0430\u0434\u0430\u0435\u0442 \u0441 \u0442\u0438\u043F\u043E\u043C \u043F\u0430\u0440\u0430\u043C\u0435\u0442\u0440\u0430 \u0432\u043E \u0432\u043D\u0443\u0442\u0440\u0435\u043D\u043D\u0435\u043C \u0441\u043E\u0441\u0442\u043E\u044F\u043D\u0438\u0438 \u0442\u0430\u0431\u043B\u0438\u0446\u044B"));
+
+        var setFilter = function setFilter(e) {
+          param.value = e.target.value;
+          reload();
+        };
+
         return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("input", {
           "class": "apptimizm-ui-default-table-search-string",
           "value": String(param),
-          "onInput": function onInput(e) {
-            return setFilter(String(header.search), e.target.value);
-          },
+          "onInput": setFilter,
           "placeholder": header.name
         }, null);
       };
@@ -30525,14 +30849,18 @@ function paramIsArray(param) {
         if (!header.itemConverter) throw new Error("\u041D\u0435 \u0437\u0430\u0434\u0430\u043D\u0430 \u0444\u0443\u043D\u043A\u0446\u0438\u044F itemConverter \u0434\u043B\u044F \u0437\u0430\u0433\u043E\u043B\u043E\u0432\u043A\u0430 ".concat(header.name));
         var param = getTableSearchParam(header);
         if (!paramIsObject(param)) throw new Error("\u0422\u0438\u043F \u043F\u043E\u0438\u0441\u043A\u0430 \u0432 \u0437\u0430\u0433\u043E\u043B\u043E\u0432\u043A\u0435 ".concat(header.name, " \u043D\u0435 \u0441\u043E\u0432\u043F\u0430\u0434\u0430\u0435\u0442 \u0441 \u0442\u0438\u043F\u043E\u043C \u043F\u0430\u0440\u0430\u043C\u0435\u0442\u0440\u0430 \u0432\u043E \u0432\u043D\u0443\u0442\u0440\u0435\u043D\u043D\u0435\u043C \u0441\u043E\u0441\u0442\u043E\u044F\u043D\u0438\u0438 \u0442\u0430\u0431\u043B\u0438\u0446\u044B"));
+
+        var setFilter = function setFilter(e) {
+          param.value = e;
+          reload();
+        };
+
         return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(relation_select_relation_select, {
           "axios": props.axios,
           "endpoint": header.endpoint,
           "itemConverter": header.itemConverter,
-          "modelValue": param,
-          "onValueChange": function onValueChange(v) {
-            setFilter(String(header.search), v);
-          },
+          "modelValue": param.value,
+          "onValueChange": setFilter,
           "placeholder": header.name,
           "constantPlaceholder": false,
           "params": getSmartFilterParams(String(header.search), smartFilterParams.value),
@@ -30545,14 +30873,18 @@ function paramIsArray(param) {
         if (!header.itemConverter) throw new Error("\u041D\u0435 \u0437\u0430\u0434\u0430\u043D\u0430 \u0444\u0443\u043D\u043A\u0446\u0438\u044F itemConverter \u0434\u043B\u044F \u0437\u0430\u0433\u043E\u043B\u043E\u0432\u043A\u0430 ".concat(header.name));
         var param = getTableSearchParam(header);
         if (!paramIsArray(param)) throw new Error("\u0422\u0438\u043F \u043F\u043E\u0438\u0441\u043A\u0430 \u0432 \u0437\u0430\u0433\u043E\u043B\u043E\u0432\u043A\u0435 ".concat(header.name, " \u043D\u0435 \u0441\u043E\u0432\u043F\u0430\u0434\u0430\u0435\u0442 \u0441 \u0442\u0438\u043F\u043E\u043C \u043F\u0430\u0440\u0430\u043C\u0435\u0442\u0440\u0430 \u0432\u043E \u0432\u043D\u0443\u0442\u0440\u0435\u043D\u043D\u0435\u043C \u0441\u043E\u0441\u0442\u043E\u044F\u043D\u0438\u0438 \u0442\u0430\u0431\u043B\u0438\u0446\u044B"));
+
+        var setFilter = function setFilter(e) {
+          param.value = e;
+          reload();
+        };
+
         return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(multiple_relation_select, {
           "axios": props.axios,
           "endpoint": header.endpoint,
           "itemConverter": header.itemConverter,
-          "modelValue": param,
-          "onValueChange": function onValueChange(v) {
-            setFilter(String(header.search), v);
-          },
+          "modelValue": param.value,
+          "onValueChange": setFilter,
           "placeholder": header.name,
           "constantPlaceholder": false,
           "params": getSmartFilterParams(String(header.search), smartFilterParams.value),
@@ -30561,36 +30893,35 @@ function paramIsArray(param) {
       };
 
       var renderSearchDaterange = function renderSearchDaterange(header) {
-        var _paramFrom$date, _paramTo$date;
+        var _param$dateFrom, _param$dateTo;
 
-        if (!header.search) return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", null, null);
-        var keys = header.search.split('/');
-        if (keys.length < 2) throw new Error("\u041D\u0435\u0432\u0435\u0440\u043D\u044B\u0439 \u0444\u043E\u0440\u043C\u0430\u0442 \u043A\u043B\u044E\u0447\u0430 \u0434\u043B\u044F \u043F\u043E\u0438\u0441\u043A\u0430 Daterange \u0432 \u043F\u043E\u043B\u0435 ".concat(header.name));
-        var paramFrom = getTableSearchParam(objectSpread2_objectSpread2(objectSpread2_objectSpread2({}, header), {}, {
-          search: keys[0]
-        }));
-        var paramTo = getTableSearchParam(objectSpread2_objectSpread2(objectSpread2_objectSpread2({}, header), {}, {
-          search: keys[1]
-        }));
-        if (!paramIsDate(paramFrom)) throw new Error("\u0422\u0438\u043F \u043F\u043E\u0438\u0441\u043A\u0430 \u0432 \u0437\u0430\u0433\u043E\u043B\u043E\u0432\u043A\u0435 ".concat(header.name, " \u043D\u0435 \u0441\u043E\u0432\u043F\u0430\u0434\u0430\u0435\u0442 \u0441 \u0442\u0438\u043F\u043E\u043C \u043F\u0430\u0440\u0430\u043C\u0435\u0442\u0440\u0430 \u0432\u043E \u0432\u043D\u0443\u0442\u0440\u0435\u043D\u043D\u0435\u043C \u0441\u043E\u0441\u0442\u043E\u044F\u043D\u0438\u0438 \u0442\u0430\u0431\u043B\u0438\u0446\u044B"));
-        if (!paramIsDate(paramTo)) throw new Error("\u0422\u0438\u043F \u043F\u043E\u0438\u0441\u043A\u0430 \u0432 \u0437\u0430\u0433\u043E\u043B\u043E\u0432\u043A\u0435 ".concat(header.name, " \u043D\u0435 \u0441\u043E\u0432\u043F\u0430\u0434\u0430\u0435\u0442 \u0441 \u0442\u0438\u043F\u043E\u043C \u043F\u0430\u0440\u0430\u043C\u0435\u0442\u0440\u0430 \u0432\u043E \u0432\u043D\u0443\u0442\u0440\u0435\u043D\u043D\u0435\u043C \u0441\u043E\u0441\u0442\u043E\u044F\u043D\u0438\u0438 \u0442\u0430\u0431\u043B\u0438\u0446\u044B"));
+        // if (!header.search) return (<div/>)
+        var param = getTableSearchParam(header);
+        if (!paramIsDaterange(param)) throw new Error("\u0422\u0438\u043F \u043F\u043E\u0438\u0441\u043A\u0430 \u0432 \u0437\u0430\u0433\u043E\u043B\u043E\u0432\u043A\u0435 ".concat(header.name, " \u043D\u0435 \u0441\u043E\u0432\u043F\u0430\u0434\u0430\u0435\u0442 \u0441 \u0442\u0438\u043F\u043E\u043C \u043F\u0430\u0440\u0430\u043C\u0435\u0442\u0440\u0430 \u0432\u043E \u0432\u043D\u0443\u0442\u0440\u0435\u043D\u043D\u0435\u043C \u0441\u043E\u0441\u0442\u043E\u044F\u043D\u0438\u0438 \u0442\u0430\u0431\u043B\u0438\u0446\u044B"));
+
+        var setFilterFrom = function setFilterFrom(date) {
+          param.dateFrom = moment_default()(date);
+          reload();
+        };
+
+        var setFilterTo = function setFilterTo(date) {
+          param.dateTo = moment_default()(date);
+          reload();
+        };
+
         return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
           "class": "apptimizm-ui-default-table-filter-calendar"
-        }, [paramFrom.date || paramTo.date ? Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        }, [param.dateFrom || param.dateTo ? Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
           "class": "apptimizm-ui-default-table-filter-calendar-date"
-        }, [(_paramFrom$date = paramFrom.date) === null || _paramFrom$date === void 0 ? void 0 : _paramFrom$date.format('DD.MM.YYYY'), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" - "), (_paramTo$date = paramTo.date) === null || _paramTo$date === void 0 ? void 0 : _paramTo$date.format('DD.MM.YYYY')]) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        }, [(_param$dateFrom = param.dateFrom) === null || _param$dateFrom === void 0 ? void 0 : _param$dateFrom.format('DD.MM.YYYY'), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" - "), (_param$dateTo = param.dateTo) === null || _param$dateTo === void 0 ? void 0 : _param$dateTo.format('DD.MM.YYYY')]) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
           "class": "apptimizm-ui-default-table-filter-calendar-date"
         }, [header.name]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
           "class": "apptimizm-ui-default-table-filter-calendar-area"
         }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(period_calendar, {
-          "onSetStart": function onSetStart(v) {
-            return setFilter(keys[0], new default_table_TableDate('from', v));
-          },
-          "onSetEnd": function onSetEnd(v) {
-            return setFilter(keys[1], new default_table_TableDate('to', v));
-          },
-          "start": paramFrom.date,
-          "end": paramTo.date
+          "onSetStart": setFilterFrom,
+          "onSetEnd": setFilterTo,
+          "start": param.dateFrom,
+          "end": param.dateTo
         }, null)])]);
       };
 
@@ -30661,7 +30992,7 @@ function paramIsArray(param) {
         }
       }, null), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
         "class": "default-table-buttons"
-      }, [props.additionalButtons && props.additionalButtons(_this), props.add && Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("router-link"), {
+      }, [props.additionalButtons && props.additionalButtons(_this6), props.add && Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("router-link"), {
         "to": props.add,
         "class": "default-table-add-button"
       }, {
@@ -31636,6 +31967,7 @@ var upload_filevue_type_style_index_0_id_3810926e_lang_sass = __webpack_require_
 /* harmony default export */ var upload_file = (upload_filevue_type_script_lang_tsx);
 // CONCATENATED MODULE: ./src/lib.ts
 // Календари
+
 
 
 

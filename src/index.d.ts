@@ -2,6 +2,7 @@
 import Calendar from './ui/calendars/calendar/calendar'
 import PeriodCalendar from './ui/calendars/period-calendar/period-calendar'
 
+import BooleanSelect from './ui/default-select/boolean-select'
 import DefaultInput from './ui/default-input.vue'
 import DefaultSelect from './ui/default-select.vue'
 import DefaultSelectMultiple from './ui/default-select-multiple.vue'
@@ -32,6 +33,7 @@ import useScrollPagination from './composables/use-scroll-pagination'
 import useClickOutside from './composables/use-click-outside'
 
 export {
+  BooleanSelect,
   Calendar,
   DefaultInput,
   DefaultSelect,
