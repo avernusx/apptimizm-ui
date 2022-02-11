@@ -17827,17 +17827,6 @@ module.exports = {
 
 /***/ }),
 
-/***/ "bd10":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_9_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_9_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_9_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_9_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_v16_dist_index_js_ref_0_1_default_select_vue_vue_type_style_index_0_id_5e1b86a5_lang_sass_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("f4c8");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_9_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_9_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_9_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_9_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_v16_dist_index_js_ref_0_1_default_select_vue_vue_type_style_index_0_id_5e1b86a5_lang_sass_scoped_true__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_9_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_9_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_9_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_9_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_v16_dist_index_js_ref_0_1_default_select_vue_vue_type_style_index_0_id_5e1b86a5_lang_sass_scoped_true__WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
-
-
-/***/ }),
-
 /***/ "bf91":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -27218,13 +27207,6 @@ module.exports.f = function (C) {
 
 /***/ }),
 
-/***/ "f4c8":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
 /***/ "f582":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -27533,7 +27515,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.d(__webpack_exports__, "BooleanSelect", function() { return /* reexport */ boolean_select_DefaultSelect; });
 __webpack_require__.d(__webpack_exports__, "Calendar", function() { return /* reexport */ calendar_calendar; });
 __webpack_require__.d(__webpack_exports__, "DefaultInput", function() { return /* reexport */ default_input; });
-__webpack_require__.d(__webpack_exports__, "DefaultSelect", function() { return /* reexport */ ui_default_select; });
+__webpack_require__.d(__webpack_exports__, "DefaultSelect", function() { return /* reexport */ default_select_DefaultSelect; });
 __webpack_require__.d(__webpack_exports__, "DefaultSelectMultiple", function() { return /* reexport */ default_select_multiple; });
 __webpack_require__.d(__webpack_exports__, "DefaultTable", function() { return /* reexport */ default_table_default_table; });
 __webpack_require__.d(__webpack_exports__, "DefaultTableContext", function() { return /* reexport */ /* Cannot get final name for export "TableContext" in "./src/ui/default-table/default-table.tsx" (known exports: SearchTypes default, known reexports: ) */ undefined; });
@@ -28727,7 +28709,7 @@ var default_inputvue_type_style_index_0_id_46b56f0c_lang_sass = __webpack_requir
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.keys.js
 var es_object_keys = __webpack_require__("b64b");
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/ts-loader??ref--15-3!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/ui/default-select.vue?vue&type=script&lang=tsx
+// CONCATENATED MODULE: ./src/ui/default-select/default-select.tsx
 
 
 
@@ -28737,7 +28719,9 @@ var es_object_keys = __webpack_require__("b64b");
 
 
 
-var default_selectvue_type_script_lang_tsx_Props = function Props() {
+
+
+var default_select_Props = function Props() {
   _classCallCheck(this, Props);
 
   this.modelValue = prop({
@@ -28754,13 +28738,17 @@ var default_selectvue_type_script_lang_tsx_Props = function Props() {
   });
   this.onValueChange = prop({});
   this.items = prop({
-    default: function _default() {
-      return [];
-    }
+    required: true
+  });
+  this.resetable = prop({
+    default: false
+  });
+  this.constantPlaceholder = prop({
+    default: true
   });
 };
 
-var default_selectvue_type_script_lang_tsx_DefaultSelect = /*#__PURE__*/function (_Vue$with) {
+var default_select_DefaultSelect = /*#__PURE__*/function (_Vue$with) {
   _inherits(DefaultSelect, _Vue$with);
 
   var _super = _createSuper(DefaultSelect);
@@ -28810,53 +28798,36 @@ var default_selectvue_type_script_lang_tsx_DefaultSelect = /*#__PURE__*/function
     value: function render() {
       var _this3 = this;
 
+      var isSelected = Boolean(Object.keys(this.modelValue).length) && this.modelValue[this.idKey] !== '';
       return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
-        "class": Object.keys(this.modelValue).length ? 'default-select selected' : 'default-select',
+        "class": "apptimizm-ui-default-select ".concat(isSelected ? 'selected' : '', " ").concat(this.isActive ? 'opened' : ''),
         "onClick": function onClick(event) {
           return event.stopPropagation();
         }
       }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
-        "class": "select"
-      }, [this.placeholder && Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
-        "class": "placeholder"
-      }, [this.placeholder]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("svg", {
-        "class": "dropdown-arrow",
+        "class": "apptimizm-ui-select",
         "onClick": function onClick() {
           _this3.isActive = !_this3.isActive;
-        },
-        "width": "16",
-        "height": "16",
-        "viewBox": "0 0 16 16",
-        "fill": "none",
-        "xmlns": "http://www.w3.org/2000/svg"
-      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("path", {
-        "d": "M7.78787 10.7879L3.51213 6.51213C3.32314 6.32314 3.45699 6 3.72426 6H12.2757C12.543 6 12.6769 6.32314 12.4879 6.51213L8.21213 10.7879C8.09497 10.905 7.90503 10.905 7.78787 10.7879Z",
-        "fill": "#999999"
-      }, null)]), !!Object.keys(this.modelValue).length && Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
-        "class": "value"
-      }, [this.modelValue[this.titleKey], Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("svg", {
-        "class": "reset",
-        "onClick": function onClick() {
-          _this3.deselect();
-        },
-        "width": "16",
-        "height": "16",
-        "viewBox": "0 0 16 16",
-        "fill": "none",
-        "xmlns": "http://www.w3.org/2000/svg"
-      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("path", {
-        "fill-rule": "evenodd",
-        "clip-rule": "evenodd",
-        "d": "M5.09091 4.24239C4.8566 4.00807 4.4767 4.00807 4.24239 4.24239C4.00807 4.4767 4.00807 4.8566 4.24239 5.09091L7.35377 8.2023L4.24239 11.3137C4.00807 11.548 4.00807 11.9279 4.24239 12.1622C4.4767 12.3965 4.8566 12.3965 5.09091 12.1622L8.2023 9.05082L11.3135 12.162C11.5478 12.3963 11.9277 12.3963 12.162 12.162C12.3963 11.9277 12.3963 11.5478 12.162 11.3135L9.05082 8.2023L12.162 5.09113C12.3963 4.85682 12.3963 4.47692 12.162 4.24261C11.9277 4.00829 11.5478 4.00829 11.3135 4.24261L8.2023 7.35377L5.09091 4.24239Z",
-        "fill": "#999999"
-      }, null)])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
-        "class": "dropdown",
+        }
+      }, [this.placeholder && this.constantPlaceholder && Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-default-select-constant-placeholder"
+      }, [this.placeholder]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-default-select-dropdown-arrow",
+        "style": isSelected && this.resetable ? 'display: none' : ''
+      }, null), isSelected ? Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-default-select-value"
+      }, [this.modelValue[this.titleKey], Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-default-select-reset"
+      }, null)]) : !this.constantPlaceholder && Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-default-select-placeholder"
+      }, [this.placeholder])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-default-select-dropdown",
         "style": this.isActive ? 'display: block;' : 'display: none;'
       }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
-        "class": "items-list"
+        "class": "apptimizm-ui-default-select-items-list"
       }, [this.items.map(function (item) {
         return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
-          "class": _this3.modelValue[_this3.idKey] === item[_this3.idKey] ? 'item active' : 'item',
+          "class": _this3.modelValue[_this3.idKey] === item[_this3.idKey] ? 'apptimizm-ui-default-select-item active' : 'apptimizm-ui-default-select-item',
           "onClick": function onClick() {
             return _this3.toggleItem(item);
           }
@@ -28875,22 +28846,9 @@ var default_selectvue_type_script_lang_tsx_DefaultSelect = /*#__PURE__*/function
   }]);
 
   return DefaultSelect;
-}(Vue.with(default_selectvue_type_script_lang_tsx_Props));
+}(Vue.with(default_select_Props));
 
 
-// CONCATENATED MODULE: ./src/ui/default-select.vue?vue&type=script&lang=tsx
- 
-// EXTERNAL MODULE: ./src/ui/default-select.vue?vue&type=style&index=0&id=5e1b86a5&lang=sass&scoped=true
-var default_selectvue_type_style_index_0_id_5e1b86a5_lang_sass_scoped_true = __webpack_require__("bd10");
-
-// CONCATENATED MODULE: ./src/ui/default-select.vue
-
-
-
-
-default_selectvue_type_script_lang_tsx_DefaultSelect.__scopeId = "data-v-5e1b86a5"
-
-/* harmony default export */ var ui_default_select = (default_selectvue_type_script_lang_tsx_DefaultSelect);
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.find.js
 var es_array_find = __webpack_require__("7db0");
 
@@ -29298,146 +29256,6 @@ function addTrailingSlash(s) {
 }
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.number.is-integer.js
 var es_number_is_integer = __webpack_require__("8ba4");
-
-// CONCATENATED MODULE: ./src/ui/default-select/default-select.tsx
-
-
-
-
-
-
-
-
-
-
-
-var default_select_Props = function Props() {
-  _classCallCheck(this, Props);
-
-  this.modelValue = prop({
-    default: function _default() {
-      return {};
-    }
-  });
-  this.placeholder = prop({});
-  this.idKey = prop({
-    default: 'id'
-  });
-  this.titleKey = prop({
-    default: 'name'
-  });
-  this.onValueChange = prop({});
-  this.items = prop({
-    required: true
-  });
-  this.resetable = prop({
-    default: false
-  });
-  this.constantPlaceholder = prop({
-    default: true
-  });
-};
-
-var default_select_DefaultSelect = /*#__PURE__*/function (_Vue$with) {
-  _inherits(DefaultSelect, _Vue$with);
-
-  var _super = _createSuper(DefaultSelect);
-
-  function DefaultSelect() {
-    var _this;
-
-    _classCallCheck(this, DefaultSelect);
-
-    _this = _super.apply(this, arguments);
-    _this.isActive = false;
-    return _this;
-  }
-
-  _createClass(DefaultSelect, [{
-    key: "toggleItem",
-    value: function toggleItem(item) {
-      this.modelValue[this.idKey] !== item[this.idKey] ? this.select(item) : this.deselect();
-    }
-  }, {
-    key: "select",
-    value: function select(item) {
-      this.$emit('input', item);
-      this.$emit('update:modelValue', item);
-      this.onValueChange && this.onValueChange(item);
-      this.isActive = false;
-    }
-  }, {
-    key: "deselect",
-    value: function deselect() {
-      this.$emit('input', {});
-      this.$emit('update:modelValue', {});
-      this.onValueChange && this.onValueChange({});
-      this.isActive = false;
-    }
-  }, {
-    key: "mounted",
-    value: function mounted() {
-      var _this2 = this;
-
-      document.addEventListener('click', function (event) {
-        _this2.isActive = false;
-      });
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      var _this3 = this;
-
-      var isSelected = Boolean(Object.keys(this.modelValue).length) && this.modelValue[this.idKey] !== '';
-      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
-        "class": "apptimizm-ui-default-select ".concat(isSelected ? 'selected' : '', " ").concat(this.isActive ? 'opened' : ''),
-        "onClick": function onClick(event) {
-          return event.stopPropagation();
-        }
-      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
-        "class": "apptimizm-ui-select",
-        "onClick": function onClick() {
-          _this3.isActive = !_this3.isActive;
-        }
-      }, [this.placeholder && this.constantPlaceholder && Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
-        "class": "apptimizm-ui-default-select-constant-placeholder"
-      }, [this.placeholder]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
-        "class": "apptimizm-ui-default-select-dropdown-arrow",
-        "style": isSelected && this.resetable ? 'display: none' : ''
-      }, null), isSelected ? Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
-        "class": "apptimizm-ui-default-select-value"
-      }, [this.modelValue[this.titleKey], Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
-        "class": "apptimizm-ui-default-select-reset"
-      }, null)]) : !this.constantPlaceholder && Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
-        "class": "apptimizm-ui-default-select-placeholder"
-      }, [this.placeholder])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
-        "class": "apptimizm-ui-default-select-dropdown",
-        "style": this.isActive ? 'display: block;' : 'display: none;'
-      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
-        "class": "apptimizm-ui-default-select-items-list"
-      }, [this.items.map(function (item) {
-        return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
-          "class": _this3.modelValue[_this3.idKey] === item[_this3.idKey] ? 'apptimizm-ui-default-select-item active' : 'apptimizm-ui-default-select-item',
-          "onClick": function onClick() {
-            return _this3.toggleItem(item);
-          }
-        }, [item[_this3.titleKey], _this3.modelValue[_this3.idKey] === item[_this3.idKey] ? Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("svg", {
-          "width": "16",
-          "height": "16",
-          "viewBox": "0 0 16 16",
-          "fill": "none",
-          "xmlns": "http://www.w3.org/2000/svg"
-        }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("path", {
-          "d": "M12.4733 4.8067C12.4114 4.74421 12.3376 4.69461 12.2564 4.66077C12.1752 4.62692 12.088 4.6095 12 4.6095C11.912 4.6095 11.8249 4.62692 11.7436 4.66077C11.6624 4.69461 11.5886 4.74421 11.5267 4.8067L6.56001 9.78003L4.47334 7.6867C4.40899 7.62454 4.33303 7.57566 4.2498 7.54286C4.16656 7.51006 4.07768 7.49397 3.98822 7.49552C3.89877 7.49706 3.8105 7.51622 3.72844 7.55188C3.64639 7.58754 3.57217 7.63902 3.51001 7.70336C3.44785 7.76771 3.39897 7.84367 3.36617 7.92691C3.33337 8.01014 3.31728 8.09903 3.31883 8.18848C3.32038 8.27793 3.33953 8.36621 3.37519 8.44826C3.41085 8.53031 3.46233 8.60454 3.52667 8.6667L6.08667 11.2267C6.14865 11.2892 6.22238 11.3388 6.30362 11.3726C6.38486 11.4065 6.472 11.4239 6.56001 11.4239C6.64802 11.4239 6.73515 11.4065 6.81639 11.3726C6.89763 11.3388 6.97137 11.2892 7.03334 11.2267L12.4733 5.7867C12.541 5.72427 12.595 5.6485 12.632 5.56417C12.6689 5.47983 12.688 5.38876 12.688 5.2967C12.688 5.20463 12.6689 5.11356 12.632 5.02923C12.595 4.94489 12.541 4.86912 12.4733 4.8067Z",
-          "fill": "#64D0DA"
-        }, null)]) : null]);
-      })])])])]);
-    }
-  }]);
-
-  return DefaultSelect;
-}(Vue.with(default_select_Props));
-
 
 // EXTERNAL MODULE: ./src/ui/default-table/pagination.sass
 var pagination = __webpack_require__("de0a");

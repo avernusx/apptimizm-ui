@@ -4,7 +4,7 @@ import PeriodCalendar from './ui/calendars/period-calendar/period-calendar'
 
 import BooleanSelect from './ui/default-select/boolean-select'
 import DefaultInput from './ui/default-input.vue'
-import DefaultSelect from './ui/default-select.vue'
+import DefaultSelect from './ui/default-select/default-select'
 import DefaultSelectMultiple from './ui/default-select-multiple.vue'
 import DefaultTable, {
   TableContext as DefaultTableContext,
