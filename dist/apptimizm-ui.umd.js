@@ -29480,7 +29480,7 @@ function usePaginatedBackend(endpoint, api, params, perPage) {
           case 0:
             queryParams = paginationType === 'page' ? objectSpread2_objectSpread2(objectSpread2_objectSpread2({}, params.value), {}, {
               per_page: perPage.value,
-              page: page.value
+              page: page.value + 1
             }) : objectSpread2_objectSpread2(objectSpread2_objectSpread2({}, params.value), {}, {
               limit: perPage.value,
               offset: page.value * perPage.value

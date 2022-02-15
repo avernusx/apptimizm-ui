@@ -24,7 +24,7 @@ export default function usePaginatedBackend (
 
   const load = debounce(async function () {
     const queryParams: { [code: string]: string|number } = (paginationType === 'page' ? {
-      ...params.value, per_page: perPage.value, page: page.value
+      ...params.value, per_page: perPage.value, page: page.value + 1
     } : {
       ...params.value, limit: perPage.value, offset: page.value * perPage.value
     })
