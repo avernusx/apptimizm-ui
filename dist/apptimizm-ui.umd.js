@@ -12159,6 +12159,13 @@ module.exports = function (S, index, unicode) {
 
 /***/ }),
 
+/***/ "8acf":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
 /***/ "8ba4":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -27514,6 +27521,7 @@ __webpack_require__.r(__webpack_exports__);
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, "BooleanSelect", function() { return /* reexport */ boolean_select_DefaultSelect; });
 __webpack_require__.d(__webpack_exports__, "Calendar", function() { return /* reexport */ calendar_calendar; });
+__webpack_require__.d(__webpack_exports__, "Checkbox", function() { return /* reexport */ ui_checkbox_checkbox; });
 __webpack_require__.d(__webpack_exports__, "DefaultInput", function() { return /* reexport */ default_input; });
 __webpack_require__.d(__webpack_exports__, "DefaultSelect", function() { return /* reexport */ default_select_DefaultSelect; });
 __webpack_require__.d(__webpack_exports__, "DefaultSelectMultiple", function() { return /* reexport */ default_select_multiple; });
@@ -27725,6 +27733,25 @@ var calendar = __webpack_require__("1be3");
     };
   }
 }));
+// EXTERNAL MODULE: ./src/ui/checkbox/checkbox.sass
+var checkbox_checkbox = __webpack_require__("8acf");
+
+// CONCATENATED MODULE: ./src/ui/checkbox/checkbox.tsx
+
+
+/* harmony default export */ var ui_checkbox_checkbox = (function (props, context) {
+  var _onClick = function onClick() {
+    props.onValueChange ? props.onValueChange() : context.emit('update:modelValue');
+  };
+
+  var cls = props.modelValue ? 'apptimizm-ui-checkbox active' : 'apptimizm-ui-checkbox';
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+    "class": cls,
+    "onClick": function onClick() {
+      return _onClick();
+    }
+  }, null);
+});
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.slice.js
 var es_array_slice = __webpack_require__("fb6a");
 
@@ -31896,6 +31923,7 @@ var upload_filevue_type_style_index_0_id_3810926e_lang_sass = __webpack_require_
 /* harmony default export */ var upload_file = (upload_filevue_type_script_lang_tsx);
 // CONCATENATED MODULE: ./src/lib.ts
 // Календари
+
 
 
 
