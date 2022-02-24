@@ -7,6 +7,7 @@ import LineLoader from '../line-loader.vue'
 import IAxiosInterface from '../../IAxiosInterface'
 import usePaginatedApi from '../../composables/use-paginated-api'
 import useScrollPagination from '../../composables/use-scroll-pagination'
+import Checkbox from '../checkbox/checkbox'
 import RelationSelect from '../relation-select/relation-select'
 import MultipleRelationSelect from '../relation-select/multiple-relation-select'
 import PeriodCalendar from '../calendars/period-calendar/period-calendar'
@@ -17,6 +18,9 @@ import './default-table.sass'
 
 export enum SearchTypes { String, Relation, MultipleRelation, Daterange, Select, Boolean }
 
+type TableParamElement = { id: string, name: string }
+type TableItem = { id: string, sort?: number }
+
 export interface DefaultTableExposed {
   load: () => void,
   reload: () => void,
@@ -25,13 +29,21 @@ export interface DefaultTableExposed {
   loadPage: (i: number) => void,
   isLoading: boolean,
   items: any[],
+  checkedItems: any[],
   page: number,
   pages: number,
   count: number,
-  remove: (id: string) => void
+  remove: (id: string) => void,
+  removeChecked: () => void,
 }
 
-type TableParamElement = { id: string, name: string }
+export type TableContext = {
+  remove: (id: string) => void,
+  isChecked: (item: TableItem) => boolean,
+  toggleCheck: (item: TableItem) => void,
+  onStartDrag: (e: TableItem) => void,
+  onDrop: (e: TableItem) => void
+}
 
 export type TableHeader = {
   name: string,
@@ -312,10 +324,6 @@ type TableParams = {
   [ code: string ]: TableParam
 }
 
-export type TableContext = {
-  remove: (id: string) => void
-}
-
 export default defineComponent({
   props: {
     add: {
@@ -327,6 +335,14 @@ export default defineComponent({
     axios: {
       type: Object as PropType<IAxiosInterface>,
       required: true
+    },
+    canDelete: {
+      type: Boolean,
+      default: false
+    },
+    checkboxes: {
+      type: String as PropType<'left'|'right'|''>,
+      default: ''
     },
     defaultFilter: {
       type: Object as PropType<{ [code: string]: string }>,
@@ -379,6 +395,8 @@ export default defineComponent({
   },
   setup (props, app) {
     const trigger = ref(null) as unknown as Ref<HTMLElement>
+    const checkedItems: Ref<TableItem[]> = ref([])
+    const draggedItem: Ref<TableItem|null> = ref(null)
 
     const params: Ref<TableParams> = ref({})
 
@@ -498,9 +516,62 @@ export default defineComponent({
       await reload()
     }
 
-    const context = { remove }
+    const isChecked = (i: TableItem) => {
+      return Boolean(checkedItems.value.find(item => item.id === i.id))
+    }
 
-    app.expose({ load, reload, loadNext, loadPrev, loadPage, isLoading, items, page, pages, count, remove })
+    const toggleCheck = (i: TableItem) => {
+      if (isChecked(i)) {
+        const item = checkedItems.value.find(item => item.id === i.id)
+        if (item) checkedItems.value.splice(checkedItems.value.indexOf(item), 1)
+      } else {
+        checkedItems.value.push(i)
+      }
+    }
+
+    const toggleAll = () => {
+      if (checkedItems.value.length < items.value.length) {
+        checkedItems.value = [...items.value]
+      } else {
+        checkedItems.value = []
+      }
+    }
+
+    const removeChecked = async () => {
+      const endpoint = addTrailingSlash(props.endpoint) + 'delete-batch/'
+      await props.axios.post(endpoint, { items: checkedItems.value.map(i => i.id) })
+
+      if (checkedItems.value.length === props.perPage) {
+        loadPrev()
+      } else {
+        load()
+      }
+    }
+
+    const onStartDrag = (e: TableItem) => {
+      draggedItem.value = e
+    }
+
+    const onDrop = async (e: TableItem) => {
+      if (draggedItem.value === null) return
+      if (draggedItem.value.id === e.id) return
+      items.value.splice(items.value.indexOf(draggedItem.value), 1)
+      items.value = [
+        ...items.value.slice(0, items.value.indexOf(e)),
+        draggedItem.value,
+        ...items.value.slice(items.value.indexOf(e), items.value.length)
+      ]
+
+      const startSort = Math.min(...(items.value.map(i => i.sort) as number[]))
+
+      Promise.all(items.value.map((item, idx) => {
+        return props.axios.patch(addTrailingSlash(props.endpoint) + item.id + '/', { name: item.name, sort: startSort + idx })
+      }))
+    }
+
+    const context = { remove, isChecked, toggleCheck, onStartDrag, onDrop }
+
+    app.expose({ load, reload, loadNext, loadPrev, loadPage, isLoading, items, checkedItems, page, pages, count, remove, removeChecked })
 
     return () => {
       const renderSearchString = (header: TableHeader) => {
@@ -689,6 +760,11 @@ export default defineComponent({
           <div class="apptimizm-ui-default-table">
             <div class="apptimizm-ui-default-table-head">
               <div class="apptimizm-ui-default-table-row">
+                { props.checkboxes === 'left' && (
+                  <div class="apptimizm-ui-default-table-cell apptimizm-ui-default-table-checkbox-cell">
+                    <Checkbox modelValue={checkedItems.value.length === items.value.length} onValueChange={toggleAll}/>
+                  </div>
+                ) }
                 { props.headers.map((h: TableHeader) => (
                   <div
                     class={`apptimizm-ui-default-table-cell ${h.sort && 'with-sort'} ${h.search && 'with-search'}`}
@@ -700,6 +776,11 @@ export default defineComponent({
                     </div>
                   </div>
                 )) }
+                { props.checkboxes === 'right' && (
+                  <div class="apptimizm-ui-default-table-cell apptimizm-ui-default-table-checkbox-cell">
+                    <Checkbox modelValue={checkedItems.value.length === items.value.length} onValueChange={toggleAll}/>
+                  </div>
+                ) }
               </div>
             </div>
             { props.gap && <div class="apptimizm-ui-default-table-gap"/> }
@@ -724,6 +805,7 @@ export default defineComponent({
             <div class="default-table-buttons">
               { props.additionalButtons && props.additionalButtons(this) }
               { props.add && <router-link to={props.add} class="default-table-add-button">Добавить</router-link> }
+              { props.canDelete && <div class="default-table-add-button" onClick={removeChecked}>Удалить</div> }
             </div>
           </div>
         </div>

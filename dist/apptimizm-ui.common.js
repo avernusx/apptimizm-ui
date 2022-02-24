@@ -30104,6 +30104,13 @@ var default_table = __webpack_require__("8587");
 
 
 
+
+
+
+
+
+
+
 var SearchTypes;
 
 (function (SearchTypes) {
@@ -30492,6 +30499,14 @@ function paramIsBoolean(param) {
       type: Object,
       required: true
     },
+    canDelete: {
+      type: Boolean,
+      default: false
+    },
+    checkboxes: {
+      type: String,
+      default: ''
+    },
     defaultFilter: {
       type: Object,
       default: function _default() {
@@ -30551,6 +30566,8 @@ function paramIsBoolean(param) {
     var _this7 = this;
 
     var trigger = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null);
+    var checkedItems = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])([]);
+    var draggedItem = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null);
     var params = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])({}); // Инициализуем пустые типы внутренних фильтров таблицы (при создании компонента и сбросе фильтров)
 
     var setDefaultParams = function setDefaultParams() {
@@ -30711,8 +30728,124 @@ function paramIsBoolean(param) {
       };
     }();
 
+    var isChecked = function isChecked(i) {
+      return Boolean(checkedItems.value.find(function (item) {
+        return item.id === i.id;
+      }));
+    };
+
+    var toggleCheck = function toggleCheck(i) {
+      if (isChecked(i)) {
+        var item = checkedItems.value.find(function (item) {
+          return item.id === i.id;
+        });
+        if (item) checkedItems.value.splice(checkedItems.value.indexOf(item), 1);
+      } else {
+        checkedItems.value.push(i);
+      }
+    };
+
+    var toggleAll = function toggleAll() {
+      if (checkedItems.value.length < items.value.length) {
+        checkedItems.value = toConsumableArray_toConsumableArray(items.value);
+      } else {
+        checkedItems.value = [];
+      }
+    };
+
+    var removeChecked = /*#__PURE__*/function () {
+      var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+        var endpoint;
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                endpoint = addTrailingSlash(props.endpoint) + 'delete-batch/';
+                _context3.next = 3;
+                return props.axios.post(endpoint, {
+                  items: checkedItems.value.map(function (i) {
+                    return i.id;
+                  })
+                });
+
+              case 3:
+                if (checkedItems.value.length === props.perPage) {
+                  loadPrev();
+                } else {
+                  load();
+                }
+
+              case 4:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }));
+
+      return function removeChecked() {
+        return _ref3.apply(this, arguments);
+      };
+    }();
+
+    var onStartDrag = function onStartDrag(e) {
+      draggedItem.value = e;
+    };
+
+    var onDrop = /*#__PURE__*/function () {
+      var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(e) {
+        var startSort;
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                if (!(draggedItem.value === null)) {
+                  _context4.next = 2;
+                  break;
+                }
+
+                return _context4.abrupt("return");
+
+              case 2:
+                if (!(draggedItem.value.id === e.id)) {
+                  _context4.next = 4;
+                  break;
+                }
+
+                return _context4.abrupt("return");
+
+              case 4:
+                items.value.splice(items.value.indexOf(draggedItem.value), 1);
+                items.value = [].concat(toConsumableArray_toConsumableArray(items.value.slice(0, items.value.indexOf(e))), [draggedItem.value], toConsumableArray_toConsumableArray(items.value.slice(items.value.indexOf(e), items.value.length)));
+                startSort = Math.min.apply(Math, toConsumableArray_toConsumableArray(items.value.map(function (i) {
+                  return i.sort;
+                })));
+                Promise.all(items.value.map(function (item, idx) {
+                  return props.axios.patch(addTrailingSlash(props.endpoint) + item.id + '/', {
+                    name: item.name,
+                    sort: startSort + idx
+                  });
+                }));
+
+              case 8:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
+      }));
+
+      return function onDrop(_x2) {
+        return _ref4.apply(this, arguments);
+      };
+    }();
+
     var context = {
-      remove: remove
+      remove: remove,
+      isChecked: isChecked,
+      toggleCheck: toggleCheck,
+      onStartDrag: onStartDrag,
+      onDrop: onDrop
     };
     app.expose({
       load: load,
@@ -30722,10 +30855,12 @@ function paramIsBoolean(param) {
       loadPage: loadPage,
       isLoading: isLoading,
       items: items,
+      checkedItems: checkedItems,
       page: page,
       pages: pages,
       count: count,
-      remove: remove
+      remove: remove,
+      removeChecked: removeChecked
     });
     return function () {
       var renderSearchString = function renderSearchString(header) {
@@ -30903,7 +31038,12 @@ function paramIsBoolean(param) {
         "class": "apptimizm-ui-default-table-head"
       }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
         "class": "apptimizm-ui-default-table-row"
-      }, [props.headers.map(function (h) {
+      }, [props.checkboxes === 'left' && Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-default-table-cell apptimizm-ui-default-table-checkbox-cell"
+      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(ui_checkbox_checkbox, {
+        "modelValue": checkedItems.value.length === items.value.length,
+        "onValueChange": toggleAll
+      }, null)]), props.headers.map(function (h) {
         return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
           "class": "apptimizm-ui-default-table-cell ".concat(h.sort && 'with-sort', " ").concat(h.search && 'with-search'),
           "style": h.minWidth ? "min-width: ".concat(h.minWidth) : ''
@@ -30915,7 +31055,12 @@ function paramIsBoolean(param) {
             return setSort(String(h.sort));
           }
         }, null), h.search ? renderSearchHeader(h) : h.name])]);
-      })])]), props.gap && Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+      }), props.checkboxes === 'right' && Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-default-table-cell apptimizm-ui-default-table-checkbox-cell"
+      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(ui_checkbox_checkbox, {
+        "modelValue": checkedItems.value.length === items.value.length,
+        "onValueChange": toggleAll
+      }, null)])])]), props.gap && Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
         "class": "apptimizm-ui-default-table-gap"
       }, null), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
         "class": "apptimizm-ui-default-table-body"
@@ -30946,7 +31091,10 @@ function paramIsBoolean(param) {
         default: function _default() {
           return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])("\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C")];
         }
-      })])])]);
+      }), props.canDelete && Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "default-table-add-button",
+        "onClick": removeChecked
+      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])("\u0423\u0434\u0430\u043B\u0438\u0442\u044C")])])])]);
     };
   }
 }));
