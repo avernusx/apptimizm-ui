@@ -27530,6 +27530,7 @@ __webpack_require__.d(__webpack_exports__, "DefaultTableContext", function() { r
 __webpack_require__.d(__webpack_exports__, "DefaultTableExposed", function() { return /* reexport */ /* Cannot get final name for export "DefaultTableExposed" in "./src/ui/default-table/default-table.tsx" (known exports: SearchTypes default, known reexports: ) */ undefined; });
 __webpack_require__.d(__webpack_exports__, "DefaultTableHeader", function() { return /* reexport */ /* Cannot get final name for export "TableHeader" in "./src/ui/default-table/default-table.tsx" (known exports: SearchTypes default, known reexports: ) */ undefined; });
 __webpack_require__.d(__webpack_exports__, "DefaultTableSearchTypes", function() { return /* reexport */ SearchTypes; });
+__webpack_require__.d(__webpack_exports__, "EnumSelect", function() { return /* reexport */ enum_select; });
 __webpack_require__.d(__webpack_exports__, "HiddenInput", function() { return /* reexport */ hidden_input; });
 __webpack_require__.d(__webpack_exports__, "LineLoader", function() { return /* reexport */ line_loader; });
 __webpack_require__.d(__webpack_exports__, "LineLoaderSmall", function() { return /* reexport */ line_loader_small; });
@@ -31107,6 +31108,134 @@ function paramIsBoolean(param) {
     };
   }
 }));
+// CONCATENATED MODULE: ./src/ui/relation-select/enum-select.tsx
+
+
+
+
+
+
+
+
+
+/* harmony default export */ var enum_select = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    axios: {
+      type: Object,
+      required: true
+    },
+    constantPlaceholder: {
+      type: Boolean,
+      default: true
+    },
+    endpoint: {
+      type: String,
+      required: true
+    },
+    errors: {
+      type: Array,
+      default: function _default() {
+        return [];
+      }
+    },
+    itemConverter: {
+      type: Function,
+      required: true
+    },
+    modelValue: {
+      type: Object,
+      default: function _default() {
+        return {
+          id: '',
+          name: ''
+        };
+      }
+    },
+    onValueChange: {
+      type: Function,
+      default: function _default() {
+        return function () {};
+      }
+    },
+    placeholder: {
+      type: String,
+      default: ''
+    }
+  },
+  setup: function setup(props) {
+    var isOpened = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(false);
+    var select = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null);
+    var items = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])([]);
+    var load = debounce_default()( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+      var response;
+      return regeneratorRuntime.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.next = 2;
+              return props.axios.get(props.endpoint);
+
+            case 2:
+              response = _context.sent.data;
+              items.value = response.map(function (i) {
+                return props.itemConverter(i);
+              });
+
+            case 4:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    })), 500);
+
+    var setValue = function setValue(item) {
+      props.onValueChange(item);
+      isOpened.value = false;
+    };
+
+    useClickOutside(select, function () {
+      isOpened.value = false;
+    });
+    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["onMounted"])(load);
+    return function () {
+      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": isOpened.value ? 'apptimizm-ui-relation-select opened' : 'apptimizm-ui-relation-select',
+        "ref": select
+      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-relation-select-header"
+      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-relation-select-selected",
+        "onClick": function onClick() {
+          isOpened.value = true;
+        }
+      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("span", null, [props.modelValue.name || !props.constantPlaceholder && props.placeholder])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-relation-select-arrow",
+        "onClick": function onClick() {
+          isOpened.value = !isOpened.value;
+        }
+      }, null)]), props.placeholder && props.constantPlaceholder && Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-relation-select-placeholder"
+      }, [props.placeholder]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-relation-select-dropdown",
+        "style": isOpened.value ? 'display: block;' : 'display: none;'
+      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-relation-select-items-list"
+      }, [items.value.map(function (item) {
+        return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+          "class": "apptimizm-ui-relation-select-item ".concat(item.id === props.modelValue.id ? 'is-selected' : ''),
+          "onClick": function onClick() {
+            return setValue(item);
+          }
+        }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("span", null, [item.name])]);
+      })])]), props.errors.map(function (error) {
+        return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+          "class": "apptimizm-ui-relation-select-error"
+        }, [error]);
+      })])]);
+    };
+  }
+}));
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/ts-loader??ref--15-3!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/ui/hidden-input.vue?vue&type=script&lang=tsx
 
 
@@ -32071,6 +32200,7 @@ var upload_filevue_type_style_index_0_id_3810926e_lang_sass = __webpack_require_
 /* harmony default export */ var upload_file = (upload_filevue_type_script_lang_tsx);
 // CONCATENATED MODULE: ./src/lib.ts
 // Календари
+
 
 
 

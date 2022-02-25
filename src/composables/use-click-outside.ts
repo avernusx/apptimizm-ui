@@ -5,7 +5,7 @@ export default function useClickOutside (element: Ref<HTMLElement>, callback: ()
     const path = event.path || (event.composedPath && event.composedPath())
     const isClickOutside = path
       ? path.indexOf(element.value) < 0
-      : !element.value.contains(event.target);
+      : !element.value.contains(event.target)
 
     if (isClickOutside) callback()
   }

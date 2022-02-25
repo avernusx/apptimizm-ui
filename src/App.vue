@@ -2,8 +2,10 @@
 import { Vue } from 'vue-class-component'
 import axios from 'axios'
 import MultipleFileUpload, { FileData } from './ui/multiple-file-upload/multiple-file-upload'
+import EnumSelect from './ui/relation-select/enum-select'
 
 export default class App extends Vue {
+  test = { id: '1', name: '11' }
   files = [
     {
       id: '1',
@@ -27,10 +29,12 @@ export default class App extends Vue {
 
   render () {
     return (
-      <MultipleFileUpload
-        apiService={axios}
-        files={this.files}
-        onUpload={(files: FileData[]) => { this.files = files }}
+      <EnumSelect
+        axios={axios}
+        modelValue={this.test}
+        onValueChange={(i: any) => { this.test = i }}
+        endpoint={'https://fakerapi.it/api/v1/images?_width=380'}
+        itemConverter={(i: any) => ({ id: i.id, name: i.title })}
       />
     )
   }
