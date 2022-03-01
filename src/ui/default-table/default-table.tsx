@@ -13,10 +13,11 @@ import MultipleRelationSelect from '../relation-select/multiple-relation-select'
 import PeriodCalendar from '../calendars/period-calendar/period-calendar'
 import BooleanSelect from '../default-select/boolean-select'
 import DefaultSelect from '../default-select/default-select'
+import EnumSelect from '../relation-select/enum-select'
 
 import './default-table.sass'
 
-export enum SearchTypes { String, Relation, MultipleRelation, Daterange, Select, Boolean }
+export enum SearchTypes { String, Relation, MultipleRelation, Daterange, Select, Boolean, Enum }
 
 type TableParamElement = { id: string, name: string }
 type TableItem = { id: string, sort?: number }
@@ -409,6 +410,7 @@ export default defineComponent({
         if (h.searchType === SearchTypes.String) params.value[h.search] = new TableParamString(h)
         if (h.searchType === SearchTypes.Boolean) params.value[h.search] = new TableParamBoolean(h)
         if (h.searchType === SearchTypes.Select) params.value[h.search] = new TableParamObject(h)
+        if (h.searchType === SearchTypes.Enum) params.value[h.search] = new TableParamObject(h)
         if (h.searchType === SearchTypes.Relation) params.value[h.search] = new TableParamObject(h)
         if (h.searchType === SearchTypes.MultipleRelation) params.value[h.search] = new TableParamArray(h)
         if (h.searchType === SearchTypes.Boolean) params.value[h.search] = new TableParamBoolean(h)
@@ -637,6 +639,33 @@ export default defineComponent({
         )
       }
 
+      const renderSearchEnum = (header: TableHeader) => {
+        if (!header.endpoint) throw new Error(`Не задан endpoint для заголовка ${header.name}`)
+        if (!header.itemConverter) throw new Error(`Не задана функция itemConverter для заголовка ${header.name}`)
+        const param = getTableSearchParam(header)
+        if (!paramIsObject(param)) throw new Error(`Тип поиска в заголовке ${header.name} не совпадает с типом параметра во внутреннем состоянии таблицы`)
+
+        const setFilter = (e: TableParamElement) => {
+          param.value = e
+          reload()
+        }
+
+        return (
+          <div class="apptimizm-ui-default-table-header-search-input">
+            <EnumSelect
+              axios={props.axios}
+              endpoint={header.endpoint}
+              itemConverter={header.itemConverter}
+              modelValue={param.value}
+              onValueChange={setFilter}
+              placeholder={header.name}
+              constantPlaceholder={false}
+              params={getSmartFilterParams(String(header.search), smartFilterParams.value)}
+            />
+          </div>
+        )
+      }
+
       const renderSearchRelation = (header: TableHeader) => {
         if (!header.endpoint) throw new Error(`Не задан endpoint для заголовка ${header.name}`)
         if (!header.itemConverter) throw new Error(`Не задана функция itemConverter для заголовка ${header.name}`)
@@ -735,6 +764,7 @@ export default defineComponent({
         if (header.searchType === SearchTypes.String) return renderSearchString(header)
         if (header.searchType === SearchTypes.Boolean) return renderSearchBoolean(header)
         if (header.searchType === SearchTypes.Select) return renderSearchSelect(header)
+        if (header.searchType === SearchTypes.Enum) return renderSearchEnum(header)
         if (header.searchType === SearchTypes.Relation) return renderSearchRelation(header)
         if (header.searchType === SearchTypes.MultipleRelation) return renderSearchMultipleRelation(header)
         if (header.searchType === SearchTypes.Daterange) return renderSearchDaterange(header)

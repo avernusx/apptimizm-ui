@@ -1,4 +1,4 @@
-import { defineComponent, ref, Ref, PropType, onMounted } from 'vue'
+import { defineComponent, ref, Ref, PropType, onMounted, watch } from 'vue'
 import useClickOutside from '../../composables/use-click-outside'
 import IAxiosInterface from '../../IAxiosInterface'
 import debounce from 'lodash/debounce'
@@ -37,6 +37,10 @@ export default defineComponent({
       type: Function as PropType<(v: ListElement) => void>,
       default: () => () => {}
     },
+    params: {
+      type: Object as PropType<{ [code: string] : string }>,
+      default: () => ({})
+    },
     placeholder: {
       type: String,
       default: ''
@@ -49,7 +53,7 @@ export default defineComponent({
     const items: Ref<any[]> = ref([])
 
     const load = debounce(async function () {
-      const response = (await props.axios.get(props.endpoint)).data
+      const response = (await props.axios.get(props.endpoint, { params: props.params })).data
       items.value = response.map((i: any) => props.itemConverter(i))
     }, 500)
 
@@ -57,6 +61,10 @@ export default defineComponent({
       props.onValueChange(item)
       isOpened.value = false
     }
+
+    watch(() => props.params, () => {
+      load()
+    })
 
     useClickOutside(select, () => { isOpened.value = false })
 

@@ -30075,10 +30075,152 @@ var relation_select = __webpack_require__("d02f");
     };
   }
 }));
+// CONCATENATED MODULE: ./src/ui/relation-select/enum-select.tsx
+
+
+
+
+
+
+
+
+
+/* harmony default export */ var enum_select = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    axios: {
+      type: Object,
+      required: true
+    },
+    constantPlaceholder: {
+      type: Boolean,
+      default: true
+    },
+    endpoint: {
+      type: String,
+      required: true
+    },
+    errors: {
+      type: Array,
+      default: function _default() {
+        return [];
+      }
+    },
+    itemConverter: {
+      type: Function,
+      required: true
+    },
+    modelValue: {
+      type: Object,
+      default: function _default() {
+        return {
+          id: '',
+          name: ''
+        };
+      }
+    },
+    onValueChange: {
+      type: Function,
+      default: function _default() {
+        return function () {};
+      }
+    },
+    params: {
+      type: Object,
+      default: function _default() {
+        return {};
+      }
+    },
+    placeholder: {
+      type: String,
+      default: ''
+    }
+  },
+  setup: function setup(props) {
+    var isOpened = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(false);
+    var select = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null);
+    var items = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])([]);
+    var load = debounce_default()( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+      var response;
+      return regeneratorRuntime.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.next = 2;
+              return props.axios.get(props.endpoint, {
+                params: props.params
+              });
+
+            case 2:
+              response = _context.sent.data;
+              items.value = response.map(function (i) {
+                return props.itemConverter(i);
+              });
+
+            case 4:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    })), 500);
+
+    var setValue = function setValue(item) {
+      props.onValueChange(item);
+      isOpened.value = false;
+    };
+
+    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(function () {
+      return props.params;
+    }, function () {
+      load();
+    });
+    useClickOutside(select, function () {
+      isOpened.value = false;
+    });
+    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["onMounted"])(load);
+    return function () {
+      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": isOpened.value ? 'apptimizm-ui-relation-select opened' : 'apptimizm-ui-relation-select',
+        "ref": select
+      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-relation-select-header"
+      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-relation-select-selected",
+        "onClick": function onClick() {
+          isOpened.value = true;
+        }
+      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("span", null, [props.modelValue.name || !props.constantPlaceholder && props.placeholder])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-relation-select-arrow",
+        "onClick": function onClick() {
+          isOpened.value = !isOpened.value;
+        }
+      }, null)]), props.placeholder && props.constantPlaceholder && Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-relation-select-placeholder"
+      }, [props.placeholder]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-relation-select-dropdown",
+        "style": isOpened.value ? 'display: block;' : 'display: none;'
+      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-relation-select-items-list"
+      }, [items.value.map(function (item) {
+        return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+          "class": "apptimizm-ui-relation-select-item ".concat(item.id === props.modelValue.id ? 'is-selected' : ''),
+          "onClick": function onClick() {
+            return setValue(item);
+          }
+        }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("span", null, [item.name])]);
+      })])]), props.errors.map(function (error) {
+        return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+          "class": "apptimizm-ui-relation-select-error"
+        }, [error]);
+      })])]);
+    };
+  }
+}));
 // EXTERNAL MODULE: ./src/ui/default-table/default-table.sass
 var default_table = __webpack_require__("8587");
 
 // CONCATENATED MODULE: ./src/ui/default-table/default-table.tsx
+
 
 
 
@@ -30130,6 +30272,7 @@ var SearchTypes;
   SearchTypes[SearchTypes["Daterange"] = 3] = "Daterange";
   SearchTypes[SearchTypes["Select"] = 4] = "Select";
   SearchTypes[SearchTypes["Boolean"] = 5] = "Boolean";
+  SearchTypes[SearchTypes["Enum"] = 6] = "Enum";
 })(SearchTypes || (SearchTypes = {}));
 
 var default_table_TableParam = /*#__PURE__*/function () {
@@ -30591,6 +30734,7 @@ function paramIsBoolean(param) {
         if (h.searchType === SearchTypes.String) params.value[h.search] = new default_table_TableParamString(h);
         if (h.searchType === SearchTypes.Boolean) params.value[h.search] = new default_table_TableParamBoolean(h);
         if (h.searchType === SearchTypes.Select) params.value[h.search] = new default_table_TableParamObject(h);
+        if (h.searchType === SearchTypes.Enum) params.value[h.search] = new default_table_TableParamObject(h);
         if (h.searchType === SearchTypes.Relation) params.value[h.search] = new default_table_TableParamObject(h);
         if (h.searchType === SearchTypes.MultipleRelation) params.value[h.search] = new default_table_TableParamArray(h);
         if (h.searchType === SearchTypes.Boolean) params.value[h.search] = new default_table_TableParamBoolean(h);
@@ -30930,6 +31074,31 @@ function paramIsBoolean(param) {
         }, null)]);
       };
 
+      var renderSearchEnum = function renderSearchEnum(header) {
+        if (!header.endpoint) throw new Error("\u041D\u0435 \u0437\u0430\u0434\u0430\u043D endpoint \u0434\u043B\u044F \u0437\u0430\u0433\u043E\u043B\u043E\u0432\u043A\u0430 ".concat(header.name));
+        if (!header.itemConverter) throw new Error("\u041D\u0435 \u0437\u0430\u0434\u0430\u043D\u0430 \u0444\u0443\u043D\u043A\u0446\u0438\u044F itemConverter \u0434\u043B\u044F \u0437\u0430\u0433\u043E\u043B\u043E\u0432\u043A\u0430 ".concat(header.name));
+        var param = getTableSearchParam(header);
+        if (!paramIsObject(param)) throw new Error("\u0422\u0438\u043F \u043F\u043E\u0438\u0441\u043A\u0430 \u0432 \u0437\u0430\u0433\u043E\u043B\u043E\u0432\u043A\u0435 ".concat(header.name, " \u043D\u0435 \u0441\u043E\u0432\u043F\u0430\u0434\u0430\u0435\u0442 \u0441 \u0442\u0438\u043F\u043E\u043C \u043F\u0430\u0440\u0430\u043C\u0435\u0442\u0440\u0430 \u0432\u043E \u0432\u043D\u0443\u0442\u0440\u0435\u043D\u043D\u0435\u043C \u0441\u043E\u0441\u0442\u043E\u044F\u043D\u0438\u0438 \u0442\u0430\u0431\u043B\u0438\u0446\u044B"));
+
+        var setFilter = function setFilter(e) {
+          param.value = e;
+          reload();
+        };
+
+        return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+          "class": "apptimizm-ui-default-table-header-search-input"
+        }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(enum_select, {
+          "axios": props.axios,
+          "endpoint": header.endpoint,
+          "itemConverter": header.itemConverter,
+          "modelValue": param.value,
+          "onValueChange": setFilter,
+          "placeholder": header.name,
+          "constantPlaceholder": false,
+          "params": getSmartFilterParams(String(header.search), smartFilterParams.value)
+        }, null)]);
+      };
+
       var renderSearchRelation = function renderSearchRelation(header) {
         if (!header.endpoint) throw new Error("\u041D\u0435 \u0437\u0430\u0434\u0430\u043D endpoint \u0434\u043B\u044F \u0437\u0430\u0433\u043E\u043B\u043E\u0432\u043A\u0430 ".concat(header.name));
         if (!header.itemConverter) throw new Error("\u041D\u0435 \u0437\u0430\u0434\u0430\u043D\u0430 \u0444\u0443\u043D\u043A\u0446\u0438\u044F itemConverter \u0434\u043B\u044F \u0437\u0430\u0433\u043E\u043B\u043E\u0432\u043A\u0430 ".concat(header.name));
@@ -31019,6 +31188,7 @@ function paramIsBoolean(param) {
         if (header.searchType === SearchTypes.String) return renderSearchString(header);
         if (header.searchType === SearchTypes.Boolean) return renderSearchBoolean(header);
         if (header.searchType === SearchTypes.Select) return renderSearchSelect(header);
+        if (header.searchType === SearchTypes.Enum) return renderSearchEnum(header);
         if (header.searchType === SearchTypes.Relation) return renderSearchRelation(header);
         if (header.searchType === SearchTypes.MultipleRelation) return renderSearchMultipleRelation(header);
         if (header.searchType === SearchTypes.Daterange) return renderSearchDaterange(header);
@@ -31105,134 +31275,6 @@ function paramIsBoolean(param) {
         "class": "default-table-add-button",
         "onClick": removeChecked
       }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])("\u0423\u0434\u0430\u043B\u0438\u0442\u044C")])])])]);
-    };
-  }
-}));
-// CONCATENATED MODULE: ./src/ui/relation-select/enum-select.tsx
-
-
-
-
-
-
-
-
-
-/* harmony default export */ var enum_select = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  props: {
-    axios: {
-      type: Object,
-      required: true
-    },
-    constantPlaceholder: {
-      type: Boolean,
-      default: true
-    },
-    endpoint: {
-      type: String,
-      required: true
-    },
-    errors: {
-      type: Array,
-      default: function _default() {
-        return [];
-      }
-    },
-    itemConverter: {
-      type: Function,
-      required: true
-    },
-    modelValue: {
-      type: Object,
-      default: function _default() {
-        return {
-          id: '',
-          name: ''
-        };
-      }
-    },
-    onValueChange: {
-      type: Function,
-      default: function _default() {
-        return function () {};
-      }
-    },
-    placeholder: {
-      type: String,
-      default: ''
-    }
-  },
-  setup: function setup(props) {
-    var isOpened = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(false);
-    var select = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null);
-    var items = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])([]);
-    var load = debounce_default()( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-      var response;
-      return regeneratorRuntime.wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              _context.next = 2;
-              return props.axios.get(props.endpoint);
-
-            case 2:
-              response = _context.sent.data;
-              items.value = response.map(function (i) {
-                return props.itemConverter(i);
-              });
-
-            case 4:
-            case "end":
-              return _context.stop();
-          }
-        }
-      }, _callee);
-    })), 500);
-
-    var setValue = function setValue(item) {
-      props.onValueChange(item);
-      isOpened.value = false;
-    };
-
-    useClickOutside(select, function () {
-      isOpened.value = false;
-    });
-    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["onMounted"])(load);
-    return function () {
-      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
-        "class": isOpened.value ? 'apptimizm-ui-relation-select opened' : 'apptimizm-ui-relation-select',
-        "ref": select
-      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
-        "class": "apptimizm-ui-relation-select-header"
-      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
-        "class": "apptimizm-ui-relation-select-selected",
-        "onClick": function onClick() {
-          isOpened.value = true;
-        }
-      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("span", null, [props.modelValue.name || !props.constantPlaceholder && props.placeholder])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
-        "class": "apptimizm-ui-relation-select-arrow",
-        "onClick": function onClick() {
-          isOpened.value = !isOpened.value;
-        }
-      }, null)]), props.placeholder && props.constantPlaceholder && Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
-        "class": "apptimizm-ui-relation-select-placeholder"
-      }, [props.placeholder]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
-        "class": "apptimizm-ui-relation-select-dropdown",
-        "style": isOpened.value ? 'display: block;' : 'display: none;'
-      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
-        "class": "apptimizm-ui-relation-select-items-list"
-      }, [items.value.map(function (item) {
-        return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
-          "class": "apptimizm-ui-relation-select-item ".concat(item.id === props.modelValue.id ? 'is-selected' : ''),
-          "onClick": function onClick() {
-            return setValue(item);
-          }
-        }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("span", null, [item.name])]);
-      })])]), props.errors.map(function (error) {
-        return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
-          "class": "apptimizm-ui-relation-select-error"
-        }, [error]);
-      })])]);
     };
   }
 }));
