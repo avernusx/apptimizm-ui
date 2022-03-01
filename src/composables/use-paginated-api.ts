@@ -68,7 +68,7 @@ export default function usePaginatedBackend (
 
   const setSort = (s: string) => {
     sort.value === s ? sortDir.value = !sortDir.value : sort.value = s
-    load()
+    reload()
   }
 
   return {

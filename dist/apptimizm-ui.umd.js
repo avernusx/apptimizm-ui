@@ -29651,7 +29651,7 @@ function usePaginatedBackend(endpoint, api, params, perPage) {
 
   var setSort = function setSort(s) {
     sort.value === s ? sortDir.value = !sortDir.value : sort.value = s;
-    load();
+    reload();
   };
 
   return {
@@ -31050,7 +31050,8 @@ function paramIsBoolean(param) {
         }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(boolean_select_DefaultSelect, {
           "modelValue": param.value,
           "onValueChange": setFilter,
-          "placeholder": header.name
+          "placeholder": header.name,
+          "key": header.search
         }, null)]);
       };
 
@@ -31070,7 +31071,8 @@ function paramIsBoolean(param) {
           "items": header.options,
           "modelValue": param.value,
           "onValueChange": setFilter,
-          "placeholder": header.name
+          "placeholder": header.name,
+          "key": header.search
         }, null)]);
       };
 
@@ -31095,7 +31097,8 @@ function paramIsBoolean(param) {
           "onValueChange": setFilter,
           "placeholder": header.name,
           "constantPlaceholder": false,
-          "params": getSmartFilterParams(String(header.search), smartFilterParams.value)
+          "params": getSmartFilterParams(String(header.search), smartFilterParams.value),
+          "key": header.search
         }, null)]);
       };
 
@@ -31121,7 +31124,8 @@ function paramIsBoolean(param) {
           "placeholder": header.name,
           "constantPlaceholder": false,
           "params": getSmartFilterParams(String(header.search), smartFilterParams.value),
-          "paginationType": props.paginationType
+          "paginationType": props.paginationType,
+          "key": header.search
         }, null)]);
       };
 
@@ -31147,7 +31151,8 @@ function paramIsBoolean(param) {
           "placeholder": header.name,
           "constantPlaceholder": false,
           "params": getSmartFilterParams(String(header.search), smartFilterParams.value),
-          "paginationType": props.paginationType
+          "paginationType": props.paginationType,
+          "key": header.search
         }, null)]);
       };
 
@@ -31194,7 +31199,7 @@ function paramIsBoolean(param) {
         if (header.searchType === SearchTypes.Daterange) return renderSearchDaterange(header);
       };
 
-      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", null, [filterParams.value.length > 0 && Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", null, [filterParams.value.length > 0 && Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
         "class": "apptimizm-ui-default-table-filter"
       }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
         "class": "apptimizm-ui-default-table-filter-head"
@@ -31212,7 +31217,7 @@ function paramIsBoolean(param) {
         }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("span", null, [filter.name, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(":")]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" "), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("span", null, [filter.value]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
           "class": "apptimizm-ui-default-table-filter-param-close"
         }, null)]);
-      })]), isLoading.value && Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(line_loader, null, null), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+      })])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", null, [isLoading.value && Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(line_loader, null, null)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
         "class": "apptimizm-ui-default-table"
       }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
         "class": "apptimizm-ui-default-table-head"
@@ -31246,7 +31251,7 @@ function paramIsBoolean(param) {
         "class": "apptimizm-ui-default-table-body"
       }, [items.value.map(function (item) {
         return props.line(item, context);
-      })])]), isLoading.value && Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(line_loader, null, null), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+      })])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", null, [isLoading.value && Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(line_loader, null, null)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
         "class": "apptimizm-ui-default-table-footer"
       }, [props.scrollPagination && Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
         "ref": trigger

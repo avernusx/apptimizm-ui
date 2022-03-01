@@ -612,6 +612,7 @@ export default defineComponent({
               modelValue={param.value}
               onValueChange={setFilter}
               placeholder={header.name}
+              key={header.search}
             />
           </div>
         )
@@ -634,6 +635,7 @@ export default defineComponent({
               modelValue={param.value}
               onValueChange={setFilter}
               placeholder={header.name}
+              key={header.search}
             />
           </div>
         )
@@ -661,6 +663,7 @@ export default defineComponent({
               placeholder={header.name}
               constantPlaceholder={false}
               params={getSmartFilterParams(String(header.search), smartFilterParams.value)}
+              key={header.search}
             />
           </div>
         )
@@ -689,6 +692,7 @@ export default defineComponent({
               constantPlaceholder={false}
               params={getSmartFilterParams(String(header.search), smartFilterParams.value)}
               paginationType={props.paginationType}
+              key={header.search}
             />
           </div>
         )
@@ -717,6 +721,7 @@ export default defineComponent({
               constantPlaceholder={false}
               params={getSmartFilterParams(String(header.search), smartFilterParams.value)}
               paginationType={props.paginationType}
+              key={header.search}
             />
           </div>
         )
@@ -772,21 +777,25 @@ export default defineComponent({
 
       return (
         <div>
-          { filterParams.value.length > 0 && (
-            <div class="apptimizm-ui-default-table-filter">
-              <div class="apptimizm-ui-default-table-filter-head">
-                <div class="apptimizm-ui-default-table-filter-count">Фильтр: { filterParams.value.length }</div>
-                <div class="apptimizm-ui-default-table-filter-clear" onClick={clearFilters}>Очистить все</div>
-              </div>
-              { filterParams.value.map(filter => (
-                <div class="apptimizm-ui-default-table-filter-param" onClick={() => resetFilter(filter)}>
-                  <span>{ filter.name }:</span> <span>{ filter.value }</span>
-                  <div class="apptimizm-ui-default-table-filter-param-close"/>
+          <div>
+            { filterParams.value.length > 0 && (
+              <div class="apptimizm-ui-default-table-filter">
+                <div class="apptimizm-ui-default-table-filter-head">
+                  <div class="apptimizm-ui-default-table-filter-count">Фильтр: { filterParams.value.length }</div>
+                  <div class="apptimizm-ui-default-table-filter-clear" onClick={clearFilters}>Очистить все</div>
                 </div>
-              )) }
-            </div>
-          ) }
-          { isLoading.value && <LineLoader/> }
+                { filterParams.value.map(filter => (
+                  <div class="apptimizm-ui-default-table-filter-param" onClick={() => resetFilter(filter)}>
+                    <span>{ filter.name }:</span> <span>{ filter.value }</span>
+                    <div class="apptimizm-ui-default-table-filter-param-close"/>
+                  </div>
+                )) }
+              </div>
+            ) }
+          </div>
+          <div>
+            { isLoading.value && <LineLoader/> }
+          </div>
           <div class="apptimizm-ui-default-table">
             <div class="apptimizm-ui-default-table-head">
               <div class="apptimizm-ui-default-table-row">
@@ -818,7 +827,9 @@ export default defineComponent({
               { items.value.map((item: any) => props.line(item, context)) }
             </div>
           </div>
-          { isLoading.value && <LineLoader/> }
+          <div>
+            { isLoading.value && <LineLoader/> }
+          </div>
           <div class="apptimizm-ui-default-table-footer">
             { props.scrollPagination && <div ref={trigger}/> }
             { !props.scrollPagination && pages.value > 1 && (
