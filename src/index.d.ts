@@ -33,6 +33,10 @@ import UploadFile from './ui/upload-file.vue'
 import usePaginatedApi from './composables/use-paginated-api'
 import useScrollPagination from './composables/use-scroll-pagination'
 import useClickOutside from './composables/use-click-outside'
+import useForm from './composables/use-form'
+
+// типы
+import { Entity, EntityMeta, FormErrors } from './types'
 
 export {
   BooleanSelect,
@@ -47,6 +51,9 @@ export {
   DefaultTableHeader,
   DefaultTableSearchTypes,
   EnumSelect,
+  Entity,
+  EntityMeta,
+  FormErrors,
   HiddenInput,
   LineLoader,
   LineLoaderSmall,
@@ -63,6 +70,7 @@ export {
   SlideBar,
   UploadFile,
   useClickOutside,
+  useForm,
   usePaginatedApi,
   useScrollPagination
 }
