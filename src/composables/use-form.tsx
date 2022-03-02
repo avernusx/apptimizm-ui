@@ -4,7 +4,17 @@ import { Entity, EntityMeta, FormErrors } from '../types'
 import { addTrailingSlash } from '../utils/trailing-slash'
 import IAxiosInterface from '../IAxiosInterface'
 
-export default function useForm<T> (api: IAxiosInterface, meta: EntityMeta<T>, redirect: string): { item: Ref<T>, errors: Ref<FormErrors>, save: () => void, isLoading: Ref<boolean> } {
+export default function useForm<T> (
+  api: IAxiosInterface,
+  meta: EntityMeta<T>,
+  redirect: string
+) : {
+  item: Ref<T>,
+  errors: Ref<FormErrors>,
+  save: () => void,
+  isLoading: Ref<boolean>,
+  remove: () => void
+} {
   const instance = meta.getInstance()
   const item = ref(instance)
   const errors = ref(new FormErrors({}))
@@ -36,10 +46,19 @@ export default function useForm<T> (api: IAxiosInterface, meta: EntityMeta<T>, r
     isLoading.value = false
   }
 
+  const remove = async () => {
+    isLoading.value = true
+    await api.delete(addTrailingSlash(meta.endpoint) + item.value.id)
+    isLoading.value = false
+
+    router.push({ name: redirect })
+  }
+
   return {
     item: item as unknown as Ref<T>,
     errors,
     save,
-    isLoading
+    isLoading,
+    remove
   }
 }

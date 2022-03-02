@@ -36527,11 +36527,41 @@ function useForm(api, meta, redirect) {
     };
   }();
 
+  var remove = /*#__PURE__*/function () {
+    var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+      return regeneratorRuntime.wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              isLoading.value = true;
+              _context3.next = 3;
+              return api.delete(addTrailingSlash(meta.endpoint) + item.value.id);
+
+            case 3:
+              isLoading.value = false;
+              router.push({
+                name: redirect
+              });
+
+            case 5:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3);
+    }));
+
+    return function remove() {
+      return _ref3.apply(this, arguments);
+    };
+  }();
+
   return {
     item: item,
     errors: errors,
     save: save,
-    isLoading: isLoading
+    isLoading: isLoading,
+    remove: remove
   };
 }
 // CONCATENATED MODULE: ./src/lib.ts
