@@ -4160,13 +4160,6 @@ module.exports = function (iterator) {
 
 /***/ }),
 
-/***/ "2b15":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
 /***/ "2b3e":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9764,17 +9757,6 @@ module.exports = function (originalArray, length) {
     return mi;
 
 })));
-
-
-/***/ }),
-
-/***/ "68d3":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_9_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_9_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_9_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_9_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_v16_dist_index_js_ref_0_1_radio_button_vue_vue_type_style_index_0_id_7c827d5c_lang_sass_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("2b15");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_9_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_9_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_9_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_9_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_v16_dist_index_js_ref_0_1_radio_button_vue_vue_type_style_index_0_id_7c827d5c_lang_sass_scoped_true__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_9_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_9_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_9_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_9_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_v16_dist_index_js_ref_0_1_radio_button_vue_vue_type_style_index_0_id_7c827d5c_lang_sass_scoped_true__WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
 
 
 /***/ }),
@@ -18318,6 +18300,13 @@ module.exports = function (input, PREFERRED_STRING) {
 
 /***/ }),
 
+/***/ "c067":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
 /***/ "c109":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24827,6 +24816,17 @@ module.exports = function (namespace, method) {
   return arguments.length < 2 ? aFunction(path[namespace]) || aFunction(global[namespace])
     : path[namespace] && path[namespace][method] || global[namespace] && global[namespace][method];
 };
+
+
+/***/ }),
+
+/***/ "d0c6":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_9_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_9_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_9_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_9_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_v16_dist_index_js_ref_0_1_radio_button_vue_vue_type_style_index_0_id_7355f3d8_lang_sass_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("c067");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_9_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_9_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_9_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_9_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_v16_dist_index_js_ref_0_1_radio_button_vue_vue_type_style_index_0_id_7355f3d8_lang_sass_scoped_true__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_9_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_9_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_9_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_9_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_v16_dist_index_js_ref_0_1_radio_button_vue_vue_type_style_index_0_id_7355f3d8_lang_sass_scoped_true__WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
 
 
 /***/ }),
@@ -32001,6 +32001,7 @@ var hidden_inputvue_type_script_lang_tsx_HiddenInput = /*#__PURE__*/function (_V
 /* harmony default export */ var radio_buttonvue_type_script_lang_tsx = (function (props, context) {
   var _onClick = function onClick() {
     props.onClick ? props.onClick() : context.emit('update:modelValue');
+    props.onValueChange ? props.onValueChange() : null;
   };
 
   var cls = props.modelValue ? 'radio-button active' : 'radio-button';
@@ -32013,15 +32014,15 @@ var hidden_inputvue_type_script_lang_tsx_HiddenInput = /*#__PURE__*/function (_V
 });
 // CONCATENATED MODULE: ./src/ui/radio-button.vue?vue&type=script&lang=tsx
  
-// EXTERNAL MODULE: ./src/ui/radio-button.vue?vue&type=style&index=0&id=7c827d5c&lang=sass&scoped=true
-var radio_buttonvue_type_style_index_0_id_7c827d5c_lang_sass_scoped_true = __webpack_require__("68d3");
+// EXTERNAL MODULE: ./src/ui/radio-button.vue?vue&type=style&index=0&id=7355f3d8&lang=sass&scoped=true
+var radio_buttonvue_type_style_index_0_id_7355f3d8_lang_sass_scoped_true = __webpack_require__("d0c6");
 
 // CONCATENATED MODULE: ./src/ui/radio-button.vue
 
 
 
 
-radio_buttonvue_type_script_lang_tsx.__scopeId = "data-v-7c827d5c"
+radio_buttonvue_type_script_lang_tsx.__scopeId = "data-v-7355f3d8"
 
 /* harmony default export */ var radio_button = (radio_buttonvue_type_script_lang_tsx);
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/ts-loader??ref--15-3!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/ui/list-select.vue?vue&type=script&lang=tsx
@@ -36501,7 +36502,7 @@ function useForm(api, meta, redirect) {
               }
 
               _context2.next = 5;
-              return api.put(addTrailingSlash(meta.endpoint) + item.value.id, meta.dump(item.value));
+              return api.put(addTrailingSlash(meta.endpoint) + item.value.id + '/', meta.dump(item.value));
 
             case 5:
               response = _context2.sent;

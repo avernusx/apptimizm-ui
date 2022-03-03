@@ -34,7 +34,7 @@ export default function useForm<T> (
     let response = null
     isLoading.value = true
     if (route.params.id) {
-      response = await api.put(addTrailingSlash(meta.endpoint) + item.value.id, meta.dump(item.value as unknown as T))
+      response = await api.put(addTrailingSlash(meta.endpoint) + item.value.id + '/', meta.dump(item.value as unknown as T))
     } else {
       response = await api.post(meta.endpoint, meta.dump(item.value as unknown as T))
     }
