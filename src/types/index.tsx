@@ -1,9 +1,5 @@
 import { camelCase, snakeCase } from 'lodash'
 
-export class GenericErrorEvent extends Event {
-  errors: string[] = []
-}
-
 type BackendFormErrors = { [code: string] : string|string[]|Array<BackendFormErrors>|BackendFormErrors }
 
 export class FormErrors {
