@@ -51,7 +51,8 @@ export type TableHeader = {
   search?: string,
   searchType?: SearchTypes
   endpoint?: string
-  itemConverter?: (v: any) => TableParamElement
+  itemConverter?: (v: any) => TableParamElement,
+  relationSearch?: string
   sort?: string,
   minWidth?: string,
   options?: TableParamElement[]
@@ -693,6 +694,7 @@ export default defineComponent({
               params={getSmartFilterParams(String(header.search), smartFilterParams.value)}
               paginationType={props.paginationType}
               key={header.search}
+              searchKey={header.relationSearch ?? 'search'}
             />
           </div>
         )
@@ -722,6 +724,7 @@ export default defineComponent({
               params={getSmartFilterParams(String(header.search), smartFilterParams.value)}
               paginationType={props.paginationType}
               key={header.search}
+              searchKey={header.relationSearch ?? 'search'}
             />
           </div>
         )

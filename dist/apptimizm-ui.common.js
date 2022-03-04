@@ -31281,6 +31281,8 @@ function paramIsBoolean(param) {
       };
 
       var renderSearchRelation = function renderSearchRelation(header) {
+        var _header$relationSearc;
+
         if (!header.endpoint) throw new Error("\u041D\u0435 \u0437\u0430\u0434\u0430\u043D endpoint \u0434\u043B\u044F \u0437\u0430\u0433\u043E\u043B\u043E\u0432\u043A\u0430 ".concat(header.name));
         if (!header.itemConverter) throw new Error("\u041D\u0435 \u0437\u0430\u0434\u0430\u043D\u0430 \u0444\u0443\u043D\u043A\u0446\u0438\u044F itemConverter \u0434\u043B\u044F \u0437\u0430\u0433\u043E\u043B\u043E\u0432\u043A\u0430 ".concat(header.name));
         var param = getTableSearchParam(header);
@@ -31303,11 +31305,14 @@ function paramIsBoolean(param) {
           "constantPlaceholder": false,
           "params": getSmartFilterParams(String(header.search), smartFilterParams.value),
           "paginationType": props.paginationType,
-          "key": header.search
+          "key": header.search,
+          "searchKey": (_header$relationSearc = header.relationSearch) !== null && _header$relationSearc !== void 0 ? _header$relationSearc : 'search'
         }, null)]);
       };
 
       var renderSearchMultipleRelation = function renderSearchMultipleRelation(header) {
+        var _header$relationSearc2;
+
         if (!header.endpoint) throw new Error("\u041D\u0435 \u0437\u0430\u0434\u0430\u043D endpoint \u0434\u043B\u044F \u0437\u0430\u0433\u043E\u043B\u043E\u0432\u043A\u0430 ".concat(header.name));
         if (!header.itemConverter) throw new Error("\u041D\u0435 \u0437\u0430\u0434\u0430\u043D\u0430 \u0444\u0443\u043D\u043A\u0446\u0438\u044F itemConverter \u0434\u043B\u044F \u0437\u0430\u0433\u043E\u043B\u043E\u0432\u043A\u0430 ".concat(header.name));
         var param = getTableSearchParam(header);
@@ -31330,7 +31335,8 @@ function paramIsBoolean(param) {
           "constantPlaceholder": false,
           "params": getSmartFilterParams(String(header.search), smartFilterParams.value),
           "paginationType": props.paginationType,
-          "key": header.search
+          "key": header.search,
+          "searchKey": (_header$relationSearc2 = header.relationSearch) !== null && _header$relationSearc2 !== void 0 ? _header$relationSearc2 : 'search'
         }, null)]);
       };
 
