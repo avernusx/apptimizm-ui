@@ -35764,27 +35764,11 @@ var types_FormErrors = /*#__PURE__*/function () {
 
   return FormErrors;
 }();
-var types_Entity = /*#__PURE__*/function () {
-  function Entity() {
-    _classCallCheck(this, Entity);
+var types_Entity = function Entity() {
+  _classCallCheck(this, Entity);
 
-    this.id = 0;
-  }
-
-  _createClass(Entity, [{
-    key: "getSlugField",
-    value: function getSlugField() {
-      return this.id;
-    }
-  }, {
-    key: "getNameField",
-    value: function getNameField() {
-      return this.id;
-    }
-  }]);
-
-  return Entity;
-}();
+  this.id = 0;
+};
 var types_EntityMeta = /*#__PURE__*/function () {
   function EntityMeta() {
     _classCallCheck(this, EntityMeta);

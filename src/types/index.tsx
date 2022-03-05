@@ -56,14 +56,6 @@ export class FormErrors {
 
 export class Entity {
   id: string|number = 0
-
-  getSlugField () {
-    return this.id
-  }
-
-  getNameField () {
-    return this.id
-  }
 }
 
 type FieldMeta = {
