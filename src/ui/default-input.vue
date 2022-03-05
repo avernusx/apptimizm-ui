@@ -6,8 +6,8 @@ interface IDefaultInputProps {
   password?: boolean,
   class?: string,
   onValueChange: (v: string) => void
-  onBlur?: () => void,
-  disabled?: boolean 
+  onBlur?: (v: string) => void,
+  disabled?: boolean
 }
 
 export default (props: IDefaultInputProps, context: any) => {
@@ -16,9 +16,9 @@ export default (props: IDefaultInputProps, context: any) => {
     props.onValueChange(e.target?.value)
   }
 
-  const onBlur = () => {
+  const onBlur = (e: any) => {
     context.emit('blur')
-    props.onBlur && props.onBlur()
+    props.onBlur && props.onBlur(e.target?.value)
   }
 
   const errors = Array.isArray(props.errors) ? props.errors : []
