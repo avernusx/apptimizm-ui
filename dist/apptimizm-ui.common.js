@@ -29737,7 +29737,7 @@ function usePaginatedBackend(endpoint, api, params, perPage) {
           switch (_context2.prev = _context2.next) {
             case 0:
               isLoading.value = true;
-              page.value = 0;
+              page.value = 1;
               items.value = [];
               _context2.next = 5;
               return load();
