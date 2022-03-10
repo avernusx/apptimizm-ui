@@ -1,0 +1,34 @@
+@import '../../variables.sass'
+
+.apptimizm-ui-default-textarea
+  position: relative
+  textarea
+    background: white
+    border: 1px solid $border-light-gray
+    border-radius: 0.5*$step
+    box-sizing: border-box
+    font-size: 14px
+    height: 20*$step
+    line-height: 3*$step
+    padding: $step 2*$step
+    resize: none
+    width: 100%
+  &.with-errors
+    textarea
+      border: 1px solid $error-color
+    .apptimizm-ui-default-textarea-placeholder
+      color: $error-color
+.apptimizm-ui-default-textarea-placeholder
+  background: white
+  color: $placeholder-gray
+  font-size: 12px
+  left: 2*$step
+  position: absolute
+  top: -$step
+.apptimizm-ui-default-errors
+.apptimizm-ui-default-error
+  color: $error-color
+  font-size: 12px
+  line-height: 24px
+  height: 24px
+    

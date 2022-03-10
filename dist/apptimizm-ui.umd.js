@@ -25666,6 +25666,13 @@ module.exports = Object.keys || function keys(O) {
 
 /***/ }),
 
+/***/ "dfae":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
 /***/ "e01a":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -27713,6 +27720,7 @@ __webpack_require__.d(__webpack_exports__, "DefaultTableContext", function() { r
 __webpack_require__.d(__webpack_exports__, "DefaultTableExposed", function() { return /* reexport */ /* Cannot get final name for export "DefaultTableExposed" in "./src/ui/default-table/default-table.tsx" (known exports: SearchTypes default, known reexports: ) */ undefined; });
 __webpack_require__.d(__webpack_exports__, "DefaultTableHeader", function() { return /* reexport */ /* Cannot get final name for export "TableHeader" in "./src/ui/default-table/default-table.tsx" (known exports: SearchTypes default, known reexports: ) */ undefined; });
 __webpack_require__.d(__webpack_exports__, "DefaultTableSearchTypes", function() { return /* reexport */ SearchTypes; });
+__webpack_require__.d(__webpack_exports__, "DefaultTextarea", function() { return /* reexport */ default_textarea; });
 __webpack_require__.d(__webpack_exports__, "EnumSelect", function() { return /* reexport */ enum_select; });
 __webpack_require__.d(__webpack_exports__, "Entity", function() { return /* reexport */ types_Entity; });
 __webpack_require__.d(__webpack_exports__, "EntityMeta", function() { return /* reexport */ types_EntityMeta; });
@@ -31475,6 +31483,65 @@ function paramIsBoolean(param) {
         "class": "default-table-add-button",
         "onClick": removeChecked
       }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])("\u0423\u0434\u0430\u043B\u0438\u0442\u044C")])])])]);
+    };
+  }
+}));
+// EXTERNAL MODULE: ./src/ui/default-textarea/style.sass
+var style = __webpack_require__("dfae");
+
+// CONCATENATED MODULE: ./src/ui/default-textarea/index.tsx
+
+
+
+
+/* harmony default export */ var default_textarea = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    errors: {
+      type: Array,
+      default: function _default() {
+        return [];
+      }
+    },
+    modelValue: {
+      type: String,
+      required: true
+    },
+    onValueChange: {
+      type: Function,
+      required: true
+    },
+    placeholder: {
+      type: String,
+      default: ''
+    },
+    showPlaceholder: {
+      type: Boolean,
+      default: true
+    }
+  },
+  setup: function setup(props) {
+    var update = function update(e) {
+      props.onValueChange(e.target.value);
+    };
+
+    return function () {
+      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-default-textarea ".concat(props.errors.length > 0 ? 'with-errors' : '')
+      }, [props.showPlaceholder && props.placeholder && Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-default-textarea-placeholder"
+      }, [props.placeholder]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("textarea", {
+        "value": props.modelValue,
+        "placeholder": !props.showPlaceholder && props.placeholder ? props.placeholder : '',
+        "onInput": function onInput(e) {
+          return update(e);
+        }
+      }, null), props.errors.length > 0 && Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-default-errors"
+      }, [props.errors.map(function (e) {
+        return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+          "class": "apptimizm-ui-default-error"
+        }, [e]);
+      })])]);
     };
   }
 }));
@@ -36020,6 +36087,7 @@ function useForm(api, meta, redirect) {
 }
 // CONCATENATED MODULE: ./src/lib.ts
 // Календари
+
 
 
 

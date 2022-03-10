@@ -13,6 +13,7 @@ import DefaultTable, {
   SearchTypes as DefaultTableSearchTypes,
   DefaultTableExposed
 } from './ui/default-table/default-table'
+import DefaultTextarea from './ui/default-textarea'
 import EnumSelect from './ui/relation-select/enum-select'
 import HiddenInput from './ui/hidden-input.vue'
 import LineLoader from './ui/line-loader.vue'
@@ -50,6 +51,7 @@ export {
   DefaultTableExposed,
   DefaultTableHeader,
   DefaultTableSearchTypes,
+  DefaultTextarea,
   EnumSelect,
   Entity,
   EntityMeta,
