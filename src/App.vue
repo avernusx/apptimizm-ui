@@ -2,7 +2,7 @@
 import { Vue } from 'vue-class-component'
 import axios from 'axios'
 import DefaultTable from './ui/default-table/default-table'
-import RelationSelect from './ui/relation-select/relation-select'
+import MultipleRelationSelect from './ui/relation-select/multiple-relation-select'
 
 export default class App extends Vue {
   text: string = ''
@@ -14,7 +14,7 @@ export default class App extends Vue {
     }
     return (
       <div>
-        <RelationSelect
+        <MultipleRelationSelect
           axios={axios}
           endpoint='https://api.instantwebtools.net/v1/passenger'
           itemConverter={(i: any) => ({ id: i._id, name: i.name })}
@@ -23,6 +23,8 @@ export default class App extends Vue {
           onValueChange={(i: any) => { this.item = i }}
           responseItemsKey='data'
           responseTotalKey='totalPages'
+          requestPageKey='page'
+          requestPerPageKey='size'
         />
       </div>
     )

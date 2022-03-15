@@ -55,6 +55,14 @@ export default defineComponent({
       type: Boolean,
       default: false
     },
+    requestPageKey: {
+      type: String,
+      default: 'page'
+    },
+    requestPerPageKey: {
+      type: String,
+      default: 'per_page'
+    },
     responseItemsKey: {
       type: String,
       default: 'results'
@@ -102,7 +110,10 @@ export default defineComponent({
       props.itemConverter,
       true,
       props.responseItemsKey,
-      props.responseTotalKey
+      props.responseTotalKey,
+      'ordering',
+      props.requestPageKey,
+      props.requestPerPageKey
     )
 
     if (props.preselected) {

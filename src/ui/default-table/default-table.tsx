@@ -378,6 +378,14 @@ export default defineComponent({
       type: Number,
       default: 10
     },
+    requestPageKey: {
+      type: String,
+      default: 'page'
+    },
+    requestPerPageKey: {
+      type: String,
+      default: 'per_page'
+    },
     responseItemsKey: {
       type: String,
       default: 'items'
@@ -466,7 +474,10 @@ export default defineComponent({
       props.itemConverter,
       props.scrollPagination,
       props.responseItemsKey,
-      props.responseTotalKey
+      props.responseTotalKey,
+      'ordering',
+      props.requestPageKey,
+      props.requestPerPageKey
     )
 
     // Загружаем первую страницу при создании компонента
