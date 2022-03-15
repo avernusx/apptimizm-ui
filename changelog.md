@@ -5,5 +5,6 @@
 - RelationSelect, MultipleRelationSelect, EnumSelect - добавлен props preselected для автоматического выбора первого элемента при отрисовке компонента
 - DefaultTable, RelationSelect, MultipleRelationSelect - добавлены параметры requestPageKey и requestPerPageKey, отвечающие за подмену ключей page и per_page на кастомные значения при запросе на бекенд
 - PaginationElement - исправить баг, когда смена страницы через поле ввода изменяла так же и количество элементов на странице
+- MultipleRelationSelect - добавить props showChips для отображения выбранных элементов
 ## 0.1.30:
 - usePaginatedApi - исправлен баг со сбросом номера текущей страницы к 0 вместо 1 при вызове reload

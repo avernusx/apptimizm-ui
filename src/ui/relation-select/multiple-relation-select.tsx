@@ -74,6 +74,10 @@ export default defineComponent({
     searchKey: {
       type: String,
       default: 'search'
+    },
+    showChips: {
+      type: Boolean,
+      default: false
     }
   },
 
@@ -145,6 +149,18 @@ export default defineComponent({
 
     const isSelected = (item: ListElement) => props.modelValue.find(i => i.id === item.id)
 
+    const showChips = () => {
+      return (
+        <div class="apptimizm-ui-relation-select-chips">
+          { props.modelValue.map(chip => (
+            <div class="apptimizm-ui-relation-select-chip" onClick={() => toggleItem(chip)}>
+              { chip.name }
+            </div>
+          )) }
+        </div>
+      )
+    }
+
     return () => {
       return (
         <div>
@@ -154,16 +170,19 @@ export default defineComponent({
           >
             <div class="apptimizm-ui-relation-select-header">
               { isOpened.value ? (
-                <input
-                  type='text'
-                  placeholder={props.placeholder}
-                  value={search.value}
-                  onInput={(v: Event) => { search.value = (v.target as HTMLFormElement).value; reload() }}
-                />
+                <div class="apptimizm-ui-relation-select-selected">
+                  <div>{ props.showChips && props.modelValue.length > 0 && showChips() }</div>
+                  <input
+                    type='text'
+                    placeholder={props.placeholder}
+                    value={search.value}
+                    onInput={(v: Event) => { search.value = (v.target as HTMLFormElement).value; reload() }}
+                  />
+                </div>
               ) : (
                 <div class="apptimizm-ui-relation-select-selected" onClick={() => { isOpened.value = true }}>
                   { props.modelValue.length > 0 ? (
-                    <span onClick={(e) => { e.stopPropagation(); clear() }}>Выбрано: { props.modelValue.length }</span>
+                    props.showChips ? showChips() : <span onClick={(e) => { e.stopPropagation(); clear() }}>Выбрано: { props.modelValue.length }</span>
                   ) : props.placeholder }
                 </div>
               ) }

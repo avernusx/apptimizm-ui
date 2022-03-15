@@ -24,14 +24,13 @@
       transform: rotate(180deg)
   input
     background: white
-    border: 1px solid $border-light-gray
-    border-radius: 0.5*$step
+    border: none
     box-sizing: border-box
     font-size: 14px
-    height: 5*$step
     line-height: 3*$step
-    padding: $step 2*$step
     width: 100%
+    &:focus
+      outline: none
   .apptimizm-ui-relation-select-placeholder
     background: white
     color: $placeholder-gray
@@ -62,10 +61,12 @@
     width: 100%
     z-index: 100
   .apptimizm-ui-relation-select-selected
+    align-items: center
     border: 1px solid $border-light-gray
     border-radius: 0.5*$step
     box-sizing: border-box
     cursor: pointer
+    display: flex
     font-size: 14px
     height: 5*$step
     line-height: 3*$step
@@ -83,3 +84,13 @@
         background: rgba(36, 42, 47, 0.04)
       &.is-selected
         background: rgba(100, 208, 218, 0.2)
+  .apptimizm-ui-relation-select-chips, .apptimizm-ui-relation-select-chips-with-input
+    display: flex
+    .apptimizm-ui-relation-select-chip
+      background: url(./assets/cross.svg) right 4px center no-repeat $primary-color
+      border-radius: 4px
+      cursor: pointer
+      line-height: 16px
+      margin-right: 4px
+      padding: 2px 24px 2px 4px
+      white-space: nowrap
