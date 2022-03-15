@@ -8,9 +8,19 @@ export default class App extends Vue {
   text: string = ''
   item: any = { id: '', name: '' }
 
+  headers = [
+    { name: 'Имя' }
+  ]
+
   render () {
-    const line = () => {
-      return (<div/>)
+    const line = (item: any) => {
+      return (
+        <div class="apptimizm-ui-default-table-row">
+          <div class="apptimizm-ui-default-table-cell">
+            {item.name}
+          </div>
+        </div>
+      )
     }
     return (
       <div>
@@ -21,6 +31,17 @@ export default class App extends Vue {
           preselected={true}
           modelValue={this.item}
           onValueChange={(i: any) => { this.item = i }}
+          responseItemsKey='data'
+          responseTotalKey='totalPages'
+          requestPageKey='page'
+          requestPerPageKey='size'
+        />
+        <DefaultTable
+          axios={axios}
+          endpoint='https://api.instantwebtools.net/v1/passenger'
+          itemConverter={(i: any) => ({ id: i._id, name: i.name })}
+          headers={this.headers}
+          line={line}
           responseItemsKey='data'
           responseTotalKey='totalPages'
           requestPageKey='page'

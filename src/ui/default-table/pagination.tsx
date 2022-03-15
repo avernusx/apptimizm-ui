@@ -93,6 +93,10 @@ const PaginationElement = (props: IPaginationElementProps, context: any) => {
     if (isEventsPaginationElementProps(props)) return <div class="apptimizm-ui-pagination-next" onClick={() => context.emit('pageChange', page + 1)}/>
   }
 
+  const setPage = (e: Event) => {
+    if (isEventsPaginationElementProps(props)) props.onPageChange(Number((e.target as HTMLInputElement).value))
+  }
+
   return (
     <div>
       <div class="apptimizm-ui-pagination">
@@ -117,7 +121,8 @@ const PaginationElement = (props: IPaginationElementProps, context: any) => {
             <span>Перейти:</span>
             <input
               type="number"
-              onBlur={(e: Event) => props.onPerPageChange(Number((e.target as HTMLInputElement).value))}
+              onBlur={setPage}
+              onKeypress={(e: KeyboardEvent) => { if (e.keyCode === 13) setPage(e) }}
             />
           </div>
         ) }
