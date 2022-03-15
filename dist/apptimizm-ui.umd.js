@@ -31016,6 +31016,7 @@ function paramIsBoolean(param) {
 
     var remove = /*#__PURE__*/function () {
       var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(id) {
+        var checkedIndex;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -31025,25 +31026,30 @@ function paramIsBoolean(param) {
                 return props.axios.delete(addTrailingSlash(props.endpoint) + id + '/');
 
               case 3:
+                checkedIndex = checkedItems.value.find(function (i) {
+                  return i.id === id;
+                });
+                if (checkedIndex) checkedItems.value.splice(checkedItems.value.indexOf(checkedIndex), 1);
+
                 if (!props.scrollPagination) {
-                  _context.next = 7;
+                  _context.next = 9;
                   break;
                 }
 
                 items.value.splice(items.value.indexOf(items.value.find(function (i) {
                   return i.id === id;
                 })), 1);
-                _context.next = 9;
+                _context.next = 11;
                 break;
 
-              case 7:
-                _context.next = 9;
+              case 9:
+                _context.next = 11;
                 return load();
 
-              case 9:
+              case 11:
                 isLoading.value = false;
 
-              case 10:
+              case 12:
               case "end":
                 return _context.stop();
             }
@@ -31120,13 +31126,15 @@ function paramIsBoolean(param) {
                 });
 
               case 3:
+                checkedItems.value = [];
+
                 if (checkedItems.value.length === props.perPage) {
                   loadPrev();
                 } else {
                   load();
                 }
 
-              case 4:
+              case 5:
               case "end":
                 return _context3.stop();
             }

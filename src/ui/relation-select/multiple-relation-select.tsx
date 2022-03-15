@@ -44,7 +44,7 @@ export default defineComponent({
       default: 'page'
     },
     params: {
-      type: Object as PropType<{ [code: string] : string }>,
+      type: Object as PropType<{ [code: string] : string|string[] }>,
       default: () => ({})
     },
     placeholder: {

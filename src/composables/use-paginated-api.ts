@@ -5,7 +5,7 @@ import IAxiosInterface from '../IAxiosInterface'
 export default function usePaginatedBackend (
   endpoint: string,
   api: IAxiosInterface,
-  params: Ref<{ [code: string]: string }>,
+  params: Ref<{ [code: string]: string|string[] }>,
   perPage: Ref<number>,
   paginationType: string = 'page',
   itemConverter: (item: any) => any = (item: any) => item,

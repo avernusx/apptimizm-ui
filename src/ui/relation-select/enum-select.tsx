@@ -38,7 +38,7 @@ export default defineComponent({
       default: () => () => {}
     },
     params: {
-      type: Object as PropType<{ [code: string] : string }>,
+      type: Object as PropType<{ [code: string] : string|string[] }>,
       default: () => ({})
     },
     placeholder: {

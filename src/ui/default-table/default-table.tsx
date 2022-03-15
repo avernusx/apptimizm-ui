@@ -347,7 +347,7 @@ export default defineComponent({
       default: ''
     },
     defaultFilter: {
-      type: Object as PropType<{ [code: string]: string }>,
+      type: Object as PropType<{ [code: string]: string|string[] }>,
       default: () => ({})
     },
     endpoint: {
@@ -438,7 +438,7 @@ export default defineComponent({
 
     const smartFilterParams = computed(() => props.smartFilter ? queryParams.value : {})
 
-    const getSmartFilterParams = (search: string, params: { [code: string]: string }) => {
+    const getSmartFilterParams = (search: string, params: { [code: string]: string|string[] }) => {
       const result = { ...params }
       delete result[search]
       return result

@@ -1,15 +1,24 @@
 <script lang="tsx">
 import { Vue } from 'vue-class-component'
 import axios from 'axios'
-import DefaultTextarea from './ui/default-textarea'
-import EnumSelect from './ui/relation-select/enum-select'
+import DefaultTable from './ui/default-table/default-table'
 
 export default class App extends Vue {
   text: string = ''
 
   render () {
+    const line = () => {
+      return (<div/>)
+    }
     return (
-      <DefaultTextarea modelValue={this.text} onValueChange={(v: string) => { this.text = v; console.log(v) }} placeholder='Текст'/>
+      <DefaultTable
+        axios={axios}
+        endpoint='https://rusradio/api/news/news'
+        itemConverter={(i: any) => ({ id: i.id, name: i.name })}
+        line={line}
+        headers={[]}
+        defaultFilter={{ code: ['x1', 'x2'] }}
+      />
     )
   }
 }
