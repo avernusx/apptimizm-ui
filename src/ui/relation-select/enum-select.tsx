@@ -44,7 +44,11 @@ export default defineComponent({
     placeholder: {
       type: String,
       default: ''
-    }
+    },
+    preselected: {
+      type: Boolean,
+      default: false
+    },
   },
 
   setup (props) {
@@ -55,6 +59,7 @@ export default defineComponent({
     const load = debounce(async function () {
       const response = (await props.axios.get(props.endpoint, { params: props.params })).data
       items.value = response.map((i: any) => props.itemConverter(i))
+      if (props.preselected && items.value.length > 0) props.onValueChange(items.value[0])
     }, 500)
 
     const setValue = (item: ListElement) => {

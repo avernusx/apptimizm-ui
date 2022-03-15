@@ -1,4 +1,4 @@
-import { defineComponent, ref, Ref, PropType, watch, computed } from 'vue'
+import { defineComponent, ref, Ref, PropType, watch, computed, onMounted } from 'vue'
 import usePaginatedApi from '../../composables/use-paginated-api'
 import useScrollPagination from '../../composables/use-scroll-pagination'
 import useClickOutside from '../../composables/use-click-outside'
@@ -51,6 +51,10 @@ export default defineComponent({
       type: String,
       default: ''
     },
+    preselected: {
+      type: Boolean,
+      default: false
+    },
     responseItemsKey: {
       type: String,
       default: 'results'
@@ -100,6 +104,19 @@ export default defineComponent({
       props.responseItemsKey,
       props.responseTotalKey
     )
+
+    if (props.preselected) {
+      const preselectedCallback = () => {
+        if (items.value.length > 0) {
+          props.onValueChange(items.value[0])
+          page.value++
+        }
+      }
+
+      onMounted(() => {
+        load(preselectedCallback)
+      })
+    }
 
     useScrollPagination(() => pages.value === 0 ? load() : loadNext(), trigger, root)
 

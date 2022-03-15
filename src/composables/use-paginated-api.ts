@@ -22,7 +22,7 @@ export default function usePaginatedBackend (
   const isLoading = ref(false)
   const items: Ref<any[]> = ref([])
 
-  const load = debounce(async function () {
+  const load = debounce(async function (callback?: () => void) {
     const queryParams: { [code: string]: string|number } = (paginationType === 'page' ? {
       ...params.value, per_page: perPage.value, page: page.value
     } : {
@@ -40,6 +40,7 @@ export default function usePaginatedBackend (
     items.value = scrollPagination ? [...items.value, ...responseItems] : responseItems
     pages.value = Math.ceil(count.value / perPage.value)
     isLoading.value = false
+    if (callback) callback()
   }, 500)
 
   const reload = async () => {
