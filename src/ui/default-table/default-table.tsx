@@ -510,6 +510,8 @@ export default defineComponent({
     const remove = async (id: string) => {
       isLoading.value = true
       await props.axios.delete(addTrailingSlash(props.endpoint) + id + '/')
+      const checkedIndex = checkedItems.value.find(i => i.id === id)
+      if (checkedIndex) checkedItems.value.splice(checkedItems.value.indexOf(checkedIndex), 1)
       props.scrollPagination ? items.value.splice(items.value.indexOf(items.value.find(i => i.id === id)), 1) : await load()
       isLoading.value = false
     }
@@ -543,6 +545,7 @@ export default defineComponent({
     const removeChecked = async () => {
       const endpoint = addTrailingSlash(props.endpoint) + 'delete-batch/'
       await props.axios.post(endpoint, { items: checkedItems.value.map(i => i.id) })
+      checkedItems.value = []
 
       if (checkedItems.value.length === props.perPage) {
         loadPrev()
