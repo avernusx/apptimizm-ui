@@ -29611,6 +29611,10 @@ var pagination_PaginationElement = function PaginationElement(props, context) {
     }, null);
   };
 
+  var setPage = function setPage(e) {
+    if (isEventsPaginationElementProps(props)) props.onPageChange(Number(e.target.value));
+  };
+
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
     "class": "apptimizm-ui-pagination"
   }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
@@ -29636,8 +29640,9 @@ var pagination_PaginationElement = function PaginationElement(props, context) {
     "class": "apptimizm-ui-pagination-to-page"
   }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("span", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])("\u041F\u0435\u0440\u0435\u0439\u0442\u0438:")]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("input", {
     "type": "number",
-    "onBlur": function onBlur(e) {
-      return props.onPerPageChange(Number(e.target.value));
+    "onBlur": setPage,
+    "onKeypress": function onKeypress(e) {
+      if (e.keyCode === 13) setPage(e);
     }
   }, null)])])]);
 };
@@ -29681,6 +29686,8 @@ function usePaginatedBackend(endpoint, api, params, perPage) {
   var responseItemsKey = arguments.length > 7 && arguments[7] !== undefined ? arguments[7] : 'items';
   var responseTotalKey = arguments.length > 8 && arguments[8] !== undefined ? arguments[8] : 'total';
   var orderingKey = arguments.length > 9 && arguments[9] !== undefined ? arguments[9] : 'ordering';
+  var requestPageKey = arguments.length > 10 && arguments[10] !== undefined ? arguments[10] : 'page';
+  var requestPerPageKey = arguments.length > 11 && arguments[11] !== undefined ? arguments[11] : 'per_page';
   var page = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(1);
   var count = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(0);
   var pages = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(0);
@@ -29688,47 +29695,76 @@ function usePaginatedBackend(endpoint, api, params, perPage) {
   var sortDir = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(true);
   var isLoading = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(false);
   var items = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])([]);
-  var load = debounce_default()( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-    var queryParams, response, responseItems;
-    return regeneratorRuntime.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            queryParams = paginationType === 'page' ? objectSpread2_objectSpread2(objectSpread2_objectSpread2({}, params.value), {}, {
-              per_page: perPage.value,
-              page: page.value
-            }) : objectSpread2_objectSpread2(objectSpread2_objectSpread2({}, params.value), {}, {
-              limit: perPage.value,
-              offset: (page.value - 1) * perPage.value
-            });
+  var load = debounce_default()( /*#__PURE__*/function () {
+    var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(callback) {
+      var queryParams, response, _error$response, error, _error$response2, event, responseItems;
 
-            if (sort.value !== '') {
-              queryParams[orderingKey] = (sortDir.value ? '' : '-') + sort.value;
-            }
+      return regeneratorRuntime.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              queryParams = objectSpread2_objectSpread2({}, params.value);
 
-            isLoading.value = true;
-            _context.next = 5;
-            return api.get(endpoint, {
-              params: queryParams
-            });
+              if (paginationType === 'page') {
+                queryParams[requestPageKey] = page.value;
+                queryParams[requestPerPageKey] = perPage.value;
+              } else {
+                queryParams.limit = perPage.value;
+                queryParams.offset = (page.value - 1) * perPage.value;
+              }
 
-          case 5:
-            response = _context.sent.data;
-            count.value = response[responseTotalKey];
-            responseItems = response[responseItemsKey].map(function (i) {
-              return itemConverter(i);
-            });
-            items.value = scrollPagination ? [].concat(toConsumableArray_toConsumableArray(items.value), toConsumableArray_toConsumableArray(responseItems)) : responseItems;
-            pages.value = Math.ceil(count.value / perPage.value);
-            isLoading.value = false;
+              if (sort.value !== '') {
+                queryParams[orderingKey] = (sortDir.value ? '' : '-') + sort.value;
+              }
 
-          case 11:
-          case "end":
-            return _context.stop();
+              isLoading.value = true;
+              _context.prev = 4;
+              _context.next = 7;
+              return api.get(endpoint, {
+                params: queryParams
+              });
+
+            case 7:
+              response = _context.sent.data;
+              _context.next = 15;
+              break;
+
+            case 10:
+              _context.prev = 10;
+              _context.t0 = _context["catch"](4);
+              error = _context.t0;
+
+              if ((_error$response = error.response) !== null && _error$response !== void 0 && _error$response.status && typeof window !== 'undefined') {
+                event = new Event("Error ".concat((_error$response2 = error.response) === null || _error$response2 === void 0 ? void 0 : _error$response2.status), {
+                  bubbles: true
+                });
+                window.dispatchEvent(event);
+              }
+
+              return _context.abrupt("return");
+
+            case 15:
+              count.value = response[responseTotalKey];
+              responseItems = response[responseItemsKey].map(function (i) {
+                return itemConverter(i);
+              });
+              items.value = scrollPagination ? [].concat(toConsumableArray_toConsumableArray(items.value), toConsumableArray_toConsumableArray(responseItems)) : responseItems;
+              pages.value = Math.ceil(count.value / perPage.value);
+              isLoading.value = false;
+              if (callback) callback();
+
+            case 21:
+            case "end":
+              return _context.stop();
+          }
         }
-      }
-    }, _callee);
-  })), 500);
+      }, _callee, null, [[4, 10]]);
+    }));
+
+    return function (_x) {
+      return _ref.apply(this, arguments);
+    };
+  }(), 500);
 
   var reload = /*#__PURE__*/function () {
     var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
@@ -29832,7 +29868,7 @@ function usePaginatedBackend(endpoint, api, params, perPage) {
       }, _callee5);
     }));
 
-    return function loadPage(_x) {
+    return function loadPage(_x2) {
       return _ref5.apply(this, arguments);
     };
   }();
@@ -29982,6 +30018,18 @@ var relation_select = __webpack_require__("d02f");
       type: String,
       default: ''
     },
+    preselected: {
+      type: Boolean,
+      default: false
+    },
+    requestPageKey: {
+      type: String,
+      default: 'page'
+    },
+    requestPerPageKey: {
+      type: String,
+      default: 'per_page'
+    },
     responseItemsKey: {
       type: String,
       default: 'results'
@@ -30009,7 +30057,7 @@ var relation_select = __webpack_require__("d02f");
       return params;
     });
 
-    var _usePaginatedApi = usePaginatedBackend(props.endpoint, props.axios, queryParams, perPage, props.paginationType, props.itemConverter, true, props.responseItemsKey, props.responseTotalKey),
+    var _usePaginatedApi = usePaginatedBackend(props.endpoint, props.axios, queryParams, perPage, props.paginationType, props.itemConverter, true, props.responseItemsKey, props.responseTotalKey, 'ordering', props.requestPageKey, props.requestPerPageKey),
         page = _usePaginatedApi.page,
         pages = _usePaginatedApi.pages,
         count = _usePaginatedApi.count,
@@ -30020,6 +30068,19 @@ var relation_select = __webpack_require__("d02f");
         loadPrev = _usePaginatedApi.loadPrev,
         loadNext = _usePaginatedApi.loadNext,
         loadPage = _usePaginatedApi.loadPage;
+
+    if (props.preselected) {
+      var preselectedCallback = function preselectedCallback() {
+        if (items.value.length > 0) {
+          props.onValueChange(items.value[0]);
+          page.value++;
+        }
+      };
+
+      Object(external_commonjs_vue_commonjs2_vue_root_Vue_["onMounted"])(function () {
+        load(preselectedCallback);
+      });
+    }
 
     useScrollPagination(function () {
       return pages.value === 0 ? load() : loadNext();
@@ -30149,6 +30210,18 @@ var relation_select = __webpack_require__("d02f");
       type: String,
       default: ''
     },
+    preselected: {
+      type: Boolean,
+      default: false
+    },
+    requestPageKey: {
+      type: String,
+      default: 'page'
+    },
+    requestPerPageKey: {
+      type: String,
+      default: 'per_page'
+    },
     responseItemsKey: {
       type: String,
       default: 'results'
@@ -30160,6 +30233,10 @@ var relation_select = __webpack_require__("d02f");
     searchKey: {
       type: String,
       default: 'search'
+    },
+    showChips: {
+      type: Boolean,
+      default: false
     }
   },
   setup: function setup(props) {
@@ -30176,13 +30253,27 @@ var relation_select = __webpack_require__("d02f");
       return params;
     });
 
-    var _usePaginatedApi = usePaginatedBackend(props.endpoint, props.axios, queryParams, perPage, props.paginationType, props.itemConverter, true, props.responseItemsKey, props.responseTotalKey),
+    var _usePaginatedApi = usePaginatedBackend(props.endpoint, props.axios, queryParams, perPage, props.paginationType, props.itemConverter, true, props.responseItemsKey, props.responseTotalKey, 'ordering', props.requestPageKey, props.requestPerPageKey),
+        page = _usePaginatedApi.page,
         pages = _usePaginatedApi.pages,
         isLoading = _usePaginatedApi.isLoading,
         items = _usePaginatedApi.items,
         load = _usePaginatedApi.load,
         reload = _usePaginatedApi.reload,
         loadNext = _usePaginatedApi.loadNext;
+
+    if (props.preselected) {
+      var preselectedCallback = function preselectedCallback() {
+        if (items.value.length > 0) {
+          props.onValueChange([items.value[0]]);
+          page.value++;
+        }
+      };
+
+      Object(external_commonjs_vue_commonjs2_vue_root_Vue_["onMounted"])(function () {
+        load(preselectedCallback);
+      });
+    }
 
     useScrollPagination(function () {
       return pages.value === 0 ? load() : loadNext();
@@ -30214,13 +30305,28 @@ var relation_select = __webpack_require__("d02f");
       });
     };
 
+    var showChips = function showChips() {
+      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-relation-select-chips"
+      }, [props.modelValue.map(function (chip) {
+        return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+          "class": "apptimizm-ui-relation-select-chip",
+          "onClick": function onClick() {
+            return toggleItem(chip);
+          }
+        }, [chip.name]);
+      })]);
+    };
+
     return function () {
       return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
         "class": isOpened.value ? 'apptimizm-ui-relation-select opened' : 'apptimizm-ui-relation-select',
         "ref": select
       }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
         "class": "apptimizm-ui-relation-select-header"
-      }, [isOpened.value ? Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("input", {
+      }, [isOpened.value ? Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-relation-select-selected"
+      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", null, [props.showChips && props.modelValue.length > 0 && showChips()]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("input", {
         "type": 'text',
         "placeholder": props.placeholder,
         "value": search.value,
@@ -30228,12 +30334,12 @@ var relation_select = __webpack_require__("d02f");
           search.value = v.target.value;
           reload();
         }
-      }, null) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+      }, null)]) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
         "class": "apptimizm-ui-relation-select-selected",
         "onClick": function onClick() {
           isOpened.value = true;
         }
-      }, [props.modelValue.length > 0 ? Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("span", {
+      }, [props.modelValue.length > 0 ? props.showChips ? showChips() : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("span", {
         "onClick": function onClick(e) {
           e.stopPropagation();
           clear();
@@ -30321,6 +30427,10 @@ var relation_select = __webpack_require__("d02f");
     placeholder: {
       type: String,
       default: ''
+    },
+    preselected: {
+      type: Boolean,
+      default: false
     }
   },
   setup: function setup(props) {
@@ -30343,8 +30453,9 @@ var relation_select = __webpack_require__("d02f");
               items.value = response.map(function (i) {
                 return props.itemConverter(i);
               });
+              if (props.preselected && items.value.length > 0) props.onValueChange(items.value[0]);
 
-            case 4:
+            case 5:
             case "end":
               return _context.stop();
           }
@@ -30886,6 +30997,14 @@ function paramIsBoolean(param) {
       type: Number,
       default: 10
     },
+    requestPageKey: {
+      type: String,
+      default: 'page'
+    },
+    requestPerPageKey: {
+      type: String,
+      default: 'per_page'
+    },
     responseItemsKey: {
       type: String,
       default: 'items'
@@ -30959,7 +31078,7 @@ function paramIsBoolean(param) {
     }; // Обращение к АПИ бекенда
 
 
-    var _usePaginatedApi = usePaginatedBackend(props.endpoint, props.axios, queryParams, perPage, props.paginationType, props.itemConverter, props.scrollPagination, props.responseItemsKey, props.responseTotalKey),
+    var _usePaginatedApi = usePaginatedBackend(props.endpoint, props.axios, queryParams, perPage, props.paginationType, props.itemConverter, props.scrollPagination, props.responseItemsKey, props.responseTotalKey, 'ordering', props.requestPageKey, props.requestPerPageKey),
         page = _usePaginatedApi.page,
         pages = _usePaginatedApi.pages,
         count = _usePaginatedApi.count,

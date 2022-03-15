@@ -40,7 +40,22 @@ export default function usePaginatedBackend (
     }
 
     isLoading.value = true
-    const response = (await api.get(endpoint, { params: queryParams })).data
+
+    let response
+
+    try {
+      response = (await api.get(endpoint, { params: queryParams })).data
+    } catch (e) {
+      const error = e as any
+
+      if (error.response?.status && typeof (window) !== 'undefined') {
+        const event = new Event(`Error ${error.response?.status}`, { bubbles: true })
+        window.dispatchEvent(event)
+      }
+
+      return
+    }
+
     count.value = response[responseTotalKey]
     const responseItems = response[responseItemsKey].map((i: any) => itemConverter(i))
     items.value = scrollPagination ? [...items.value, ...responseItems] : responseItems

@@ -48,7 +48,7 @@ export default defineComponent({
     preselected: {
       type: Boolean,
       default: false
-    },
+    }
   },
 
   setup (props) {
