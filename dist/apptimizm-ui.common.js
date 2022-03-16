@@ -31641,6 +31641,7 @@ var pagination_PaginationElement = function PaginationElement(props, context) {
 
   var getPage = function getPage(i) {
     if (isRoutesPaginationElementProps(props)) return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("router-link"), {
+      "class": pageClass(Number(i)),
       "to": {
         name: props.routeName,
         query: objectSpread2_objectSpread2(objectSpread2_objectSpread2({}, props.params), {}, {

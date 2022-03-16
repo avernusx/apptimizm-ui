@@ -1,4 +1,5 @@
-
+## 0.1.33
+- PaginationElement - добавлены классы apptimizm-ui-pagination-page и active при пажинации ссылками
 ## 0.1.32
 - добавлена composable-функция useAxios для получения настроенного инстанса axios в проекте
 - добавлено всплывающее окно AutomaticErrorPopup для отображения ошибок запроса при использовании useAxios
