@@ -19,27 +19,32 @@ import HiddenInput from './ui/hidden-input.vue'
 import LineLoader from './ui/line-loader.vue'
 import LineLoaderSmall from './ui/line-loader-small.vue'
 import ListSelect from './ui/list-select.vue'
-import ModalForm from './ui/modal-form.vue'
 import MultipleRelationSelect from './ui/relation-select/multiple-relation-select'
 import MultipleFileUpload from './ui/multiple-file-upload/multiple-file-upload'
 import NumberInput from './ui/number-input.vue'
 import PaginationElement from './ui/pagination-element.vue'
-import PopupWindow from './ui/popup-window.vue'
 import RadioButton from './ui/radio-button.vue'
 import RelationSelect from './ui/relation-select/relation-select'
 import SlideBar from './ui/slide-bar.vue'
 import UploadFile from './ui/upload-file.vue'
 
+// модальные формы
+import AutomaticErrorPopup from './ui/automatic-error-popup'
+import ModalForm from './ui/modal-form.vue'
+import PopupWindow from './ui/popup-window.vue'
+
 // composable-функции
-import usePaginatedApi from './composables/use-paginated-api'
-import useScrollPagination from './composables/use-scroll-pagination'
+import useAxios from './composables/use-axios'
 import useClickOutside from './composables/use-click-outside'
 import useForm from './composables/use-form'
+import usePaginatedApi from './composables/use-paginated-api'
+import useScrollPagination from './composables/use-scroll-pagination'
 
 // типы
 import { Entity, EntityMeta, FormErrors } from './types'
 
 export {
+  AutomaticErrorPopup,
   BooleanSelect,
   Calendar,
   Checkbox,
@@ -71,6 +76,7 @@ export {
   RelationSelect,
   SlideBar,
   UploadFile,
+  useAxios,
   useClickOutside,
   useForm,
   usePaginatedApi,

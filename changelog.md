@@ -1,4 +1,7 @@
 
+## 0.1.32
+- добавлена composable-функция useAxios для получения настроенного инстанса axios в проекте
+- добавлено всплывающее окно AutomaticErrorPopup для отображения ошибок запроса при использовании useAxios
 ## 0.1.31
 - DefaultTable - удалять элемент из выбранных элементов при его удалении из таблицы
 - DefaultTable, RelationSelect, MultipleRelationSelect, EnumSelect - добавлена возможность пробрасывать в params / defaultFilter массив строк для запроса на бек в формате param1[]=1&param1[]=2

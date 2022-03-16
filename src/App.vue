@@ -1,9 +1,9 @@
 <script lang="tsx">
 import { Vue } from 'vue-class-component'
-import axios from 'axios'
 import DefaultTable from './ui/default-table/default-table'
 import MultipleRelationSelect from './ui/relation-select/multiple-relation-select'
-import PopupWindow from './ui/popup-window.vue'
+import AutomaticErrorPopup from './ui/automatic-error-popup'
+import axios from './api'
 
 export default class App extends Vue {
   text: string = ''
@@ -14,21 +14,6 @@ export default class App extends Vue {
   headers = [
     { name: 'Имя' }
   ]
-
-  mounted () {
-    if (typeof (window) === 'undefined') return
-
-    window.addEventListener('Error 404', () => {
-      console.log('Error 404')
-      this.showPopup = true
-      this.popupMessage = 'Ошибка 404'
-    })
-
-    window.addEventListener('Error 500', () => {
-      this.showPopup = true
-      this.popupMessage = 'Ошибка 500'
-    })
-  }
 
   render () {
     const line = (item: any) => {
@@ -65,14 +50,7 @@ export default class App extends Vue {
           requestPageKey='page'
           requestPerPageKey='size'
         />
-        { this.showPopup && (
-          <PopupWindow
-            header='Ошибка'
-            close={() => { this.showPopup = false }}
-          >
-            { this.popupMessage }
-          </PopupWindow>
-        ) }
+        <AutomaticErrorPopup/>
       </div>
     )
   }
