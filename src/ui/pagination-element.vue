@@ -53,7 +53,7 @@ const PaginationElement = (props: IPaginationElementProps, context: any) => {
   const pageClass = (i: number) => i === page ? 'page active' : 'page'
 
   const getPage = (i: number) => {
-    if (isRoutesPaginationElementProps(props)) return <router-link to={{ name: props.routeName, query: { ...props.params, page: i } }}>{i}</router-link>
+    if (isRoutesPaginationElementProps(props)) return <router-link class={pageClass(Number(i))} to={{ name: props.routeName, query: { ...props.params, page: i } }}>{i}</router-link>
     if (isSlotsPaginationElementProps(props)) return context.slots.default ? context.slots.default({ page: i, params: props.params }) : null
     if (isEventsPaginationElementProps(props)) return <div class={pageClass(Number(i))} onClick={() => context.emit('pageChange', i)}>{i}</div>
   }

@@ -1,3 +1,5 @@
+## 0.1.34
+- Старый PaginationElement - добавлены классы apptimizm-ui-pagination-page и active при пажинации ссылками
 ## 0.1.33
 - PaginationElement - добавлены классы apptimizm-ui-pagination-page и active при пажинации ссылками
 ## 0.1.32
