@@ -1,3 +1,5 @@
+import './default-styles.sass'
+
 // Календари
 import Calendar from './ui/calendars/calendar/calendar'
 import Checkbox from './ui/checkbox/checkbox'

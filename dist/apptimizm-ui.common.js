@@ -15868,6 +15868,13 @@ exports.f = DESCRIPTORS ? $defineProperty : function defineProperty(O, P, Attrib
 
 /***/ }),
 
+/***/ "9e25":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
 /***/ "9e69":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -29865,6 +29872,9 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
+// EXTERNAL MODULE: ./src/default-styles.sass
+var default_styles = __webpack_require__("9e25");
+
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
@@ -38545,7 +38555,8 @@ function useForm(api, meta, redirect) {
   };
 }
 // CONCATENATED MODULE: ./src/lib.ts
-// Календари
+ // Календари
+
 
 
 

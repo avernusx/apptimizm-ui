@@ -93,3 +93,37 @@
     padding-left: $i*$step
   .pr-#{$i}
     padding-right: $i*$step
+
+.line-loader
+  background: #DCDDE7
+  height: 4px
+  position: relative
+  overflow: hidden
+.line-loader-runner
+  width: 50%
+  height: 100%
+  background: repeating-linear-gradient(125deg, $primary-color 0px, darken($primary-color, 20%) 11px, $primary-color 11px, darken($primary-color, 20%) 22px)
+  position: absolute
+  top: 0
+  animation: moving 1.5s infinite linear
+
+.apptimizm-ui-page-switch
+  background: #F0F0F0
+  border-radius: 2px
+  display: flex
+  > .apptimizm-ui-page-switch-button
+    border-radius: 2px
+    color: $secondary-color
+    display: block
+    min-width: 150px
+    padding: 8px
+    text-align: center
+    &.router-link-active
+      background: $ternary-color
+      color: white
+
+@keyframes moving
+  0%
+    left: -50%
+  100%
+    left: 100%
