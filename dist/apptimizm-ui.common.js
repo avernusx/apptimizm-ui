@@ -28739,6 +28739,13 @@ module.exports = function (it) {
 
 /***/ }),
 
+/***/ "eb41":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
 /***/ "ebe4":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -29813,6 +29820,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.d(__webpack_exports__, "AutomaticErrorPopup", function() { return /* reexport */ automatic_error_popup; });
 __webpack_require__.d(__webpack_exports__, "BooleanSelect", function() { return /* reexport */ boolean_select_DefaultSelect; });
 __webpack_require__.d(__webpack_exports__, "Calendar", function() { return /* reexport */ calendar_calendar; });
+__webpack_require__.d(__webpack_exports__, "CalendarInput", function() { return /* reexport */ calendars_calendar_input; });
 __webpack_require__.d(__webpack_exports__, "Checkbox", function() { return /* reexport */ ui_checkbox_checkbox; });
 __webpack_require__.d(__webpack_exports__, "DefaultInput", function() { return /* reexport */ default_input; });
 __webpack_require__.d(__webpack_exports__, "DefaultSelect", function() { return /* reexport */ default_select_DefaultSelect; });
@@ -30032,6 +30040,61 @@ var calendar = __webpack_require__("1be3");
           "class": "apptimizm-ui-calendar-day-border"
         }, [day.date.format('D')])]);
       })])])]);
+    };
+  }
+}));
+// EXTERNAL MODULE: ./src/ui/calendars/calendar-input.sass
+var calendar_input = __webpack_require__("eb41");
+
+// CONCATENATED MODULE: ./src/ui/calendars/calendar-input.tsx
+
+
+
+
+/* harmony default export */ var calendars_calendar_input = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    format: {
+      type: String,
+      default: 'DD.MM.YYYY'
+    },
+    modelValue: {
+      type: Object,
+      required: true
+    },
+    onValueChange: {
+      type: Function,
+      required: true
+    },
+    placeholder: {
+      type: String,
+      default: 'Дата'
+    }
+  },
+  setup: function setup(props) {
+    var showCalendar = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(false);
+    return function () {
+      var _props$modelValue;
+
+      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": 'apptimizm-ui-calendar-input'
+      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": 'apptimizm-ui-calendar-input-overlap',
+        "onClick": function onClick() {
+          showCalendar.value = !showCalendar.value;
+        }
+      }, null), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("input", {
+        "type": 'text',
+        "value": (_props$modelValue = props.modelValue) === null || _props$modelValue === void 0 ? void 0 : _props$modelValue.format(props.format),
+        "placeholder": props.placeholder
+      }, null), showCalendar.value && Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": 'apptimizm-ui-calendar-input-calendar-container'
+      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(calendar_calendar, {
+        "day": props.modelValue,
+        "onSetDay": function onSetDay(v) {
+          props.onValueChange(v);
+          showCalendar.value = false;
+        }
+      }, null)])]);
     };
   }
 }));
@@ -32067,6 +32130,10 @@ var relation_select = __webpack_require__("d02f");
       type: Object,
       required: true
     },
+    clearable: {
+      type: Boolean,
+      default: false
+    },
     constantPlaceholder: {
       type: Boolean,
       default: true
@@ -32193,7 +32260,13 @@ var relation_select = __webpack_require__("d02f");
       isOpened.value = false;
     };
 
+    var clear = function clear() {
+      props.onValueChange(null);
+    };
+
     return function () {
+      var _props$modelValue;
+
       return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
         "class": isOpened.value ? 'apptimizm-ui-relation-select opened' : 'apptimizm-ui-relation-select',
         "ref": select
@@ -32212,12 +32285,15 @@ var relation_select = __webpack_require__("d02f");
         "onClick": function onClick() {
           isOpened.value = true;
         }
-      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("span", null, [props.modelValue.name || !props.constantPlaceholder && props.placeholder])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("span", null, [((_props$modelValue = props.modelValue) === null || _props$modelValue === void 0 ? void 0 : _props$modelValue.name) || !props.constantPlaceholder && props.placeholder])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
         "class": "apptimizm-ui-relation-select-arrow",
         "onClick": function onClick() {
           isOpened.value = !isOpened.value;
         }
-      }, null)]), props.placeholder && props.constantPlaceholder && Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+      }, null), props.clearable ? Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-relation-select-clear",
+        "onClick": clear
+      }, null) : null]), props.placeholder && props.constantPlaceholder && Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
         "class": "apptimizm-ui-relation-select-placeholder"
       }, [props.placeholder]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
         "class": "apptimizm-ui-relation-select-dropdown",
@@ -32226,8 +32302,10 @@ var relation_select = __webpack_require__("d02f");
         "class": "apptimizm-ui-relation-select-items-list",
         "ref": root
       }, [items.value.map(function (item) {
+        var _props$modelValue2;
+
         return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
-          "class": "apptimizm-ui-relation-select-item ".concat(item.id === props.modelValue.id ? 'is-selected' : ''),
+          "class": "apptimizm-ui-relation-select-item ".concat(item.id === ((_props$modelValue2 = props.modelValue) === null || _props$modelValue2 === void 0 ? void 0 : _props$modelValue2.id) ? 'is-selected' : ''),
           "onClick": function onClick() {
             return setValue(item);
           }
@@ -32261,6 +32339,10 @@ var relation_select = __webpack_require__("d02f");
     axios: {
       type: Object,
       required: true
+    },
+    clearable: {
+      type: Boolean,
+      default: false
     },
     constantPlaceholder: {
       type: Boolean,
@@ -32440,7 +32522,15 @@ var relation_select = __webpack_require__("d02f");
           e.stopPropagation();
           clear();
         }
-      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])("\u0412\u044B\u0431\u0440\u0430\u043D\u043E: "), props.modelValue.length]) : props.placeholder])]), props.constantPlaceholder && props.placeholder && Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])("\u0412\u044B\u0431\u0440\u0430\u043D\u043E: "), props.modelValue.length]) : props.placeholder]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-relation-select-arrow",
+        "onClick": function onClick() {
+          isOpened.value = !isOpened.value;
+        }
+      }, null), props.clearable ? Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-relation-select-clear",
+        "onClick": clear
+      }, null) : null]), props.constantPlaceholder && props.placeholder && Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
         "class": "apptimizm-ui-relation-select-placeholder"
       }, [props.placeholder]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
         "class": "apptimizm-ui-relation-select-dropdown",
@@ -32450,7 +32540,7 @@ var relation_select = __webpack_require__("d02f");
         "ref": root
       }, [items.value.map(function (item) {
         return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
-          "class": "apptimizm-ui-relation-select-item ".concat(isSelected(item) ? 'selected' : ''),
+          "class": "apptimizm-ui-relation-select-item ".concat(isSelected(item) ? 'is-selected' : ''),
           "onClick": function onClick() {
             return toggleItem(item);
           }
@@ -33522,7 +33612,10 @@ function paramIsBoolean(param) {
         if (!paramIsObject(param)) throw new Error("\u0422\u0438\u043F \u043F\u043E\u0438\u0441\u043A\u0430 \u0432 \u0437\u0430\u0433\u043E\u043B\u043E\u0432\u043A\u0435 ".concat(header.name, " \u043D\u0435 \u0441\u043E\u0432\u043F\u0430\u0434\u0430\u0435\u0442 \u0441 \u0442\u0438\u043F\u043E\u043C \u043F\u0430\u0440\u0430\u043C\u0435\u0442\u0440\u0430 \u0432\u043E \u0432\u043D\u0443\u0442\u0440\u0435\u043D\u043D\u0435\u043C \u0441\u043E\u0441\u0442\u043E\u044F\u043D\u0438\u0438 \u0442\u0430\u0431\u043B\u0438\u0446\u044B"));
 
         var setFilter = function setFilter(e) {
-          param.value = e;
+          param.value = e !== null && e !== void 0 ? e : {
+            id: '',
+            name: ''
+          };
           reload();
         };
 
@@ -38556,6 +38649,7 @@ function useForm(api, meta, redirect) {
 }
 // CONCATENATED MODULE: ./src/lib.ts
  // Календари
+
 
 
 

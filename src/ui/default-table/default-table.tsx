@@ -690,8 +690,8 @@ export default defineComponent({
         const param = getTableSearchParam(header)
         if (!paramIsObject(param)) throw new Error(`Тип поиска в заголовке ${header.name} не совпадает с типом параметра во внутреннем состоянии таблицы`)
 
-        const setFilter = (e: TableParamElement) => {
-          param.value = e
+        const setFilter = (e: TableParamElement|null) => {
+          param.value = e ?? { id: '', name: '' }
           reload()
         }
 

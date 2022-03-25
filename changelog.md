@@ -1,6 +1,8 @@
 ## 0.1.36
 - исправить баг с отмечанием выбранных пунктов в MultipleRelationSelect
+- добавить стрелочку открыто/закрыто MultipleRelationSelect
 - добавить props clearable в RelationSelect, MultipleRelationSelect
+- добавить компонент CalendarInput (инпут, по клику на который появляется календарь)
 ## 0.1.35
 - изменена сборка стилей
 ## 0.1.34
