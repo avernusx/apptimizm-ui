@@ -1,11 +1,11 @@
 import { onMounted, onBeforeUnmount, Ref } from 'vue'
 
-export default function useClickOutside (element: Ref<HTMLElement>, callback: () => void) {
+export default function useClickOutside (element: Ref<HTMLElement|null>, callback: () => void) {
   const clickOutside = (event: any) => {
     const path = event.path || (event.composedPath && event.composedPath())
     const isClickOutside = path
       ? path.indexOf(element.value) < 0
-      : !element.value.contains(event.target)
+      : !element.value?.contains(event.target)
 
     if (isClickOutside) callback()
   }

@@ -1,6 +1,10 @@
 ## 0.1.37
 - добавить props disableDeselect в DefaultSelect
-
+- добавить props errors в CalendarInput
+- добавить props constantPlaceholder для переключения отображения плейсхолдеров в CalendarInput
+- добавить скрытие по клику вне элемента в CalendarInput
+- добавить props clearable в CalendarInput
+- не отображать иконку сброса в MultipleRelationSelect при пустом содержимом
 ## 0.1.36
 - исправить баг с отмечанием выбранных пунктов в MultipleRelationSelect
 - добавить стрелочку открыто/закрыто MultipleRelationSelect

@@ -107,6 +107,7 @@ const PaginationElement = (props: IPaginationElementProps, context: any) => {
             items={perPageOptions}
             modelValue={{ id: String(props.perPage), name: String(props.perPage) }}
             onValueChange={(i: { id: string }) => props.onPerPageChange(Number(i.id))}
+            disableDeselect={true}
           />
         </div>
         <div class="apptimizm-ui-pagination-pages">

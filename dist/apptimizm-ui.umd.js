@@ -29953,7 +29953,7 @@ function useCalendar(currentDate) {
   };
 }
 // EXTERNAL MODULE: ./src/ui/calendars/calendar.sass
-var calendar = __webpack_require__("1be3");
+var calendars_calendar = __webpack_require__("1be3");
 
 // CONCATENATED MODULE: ./src/ui/calendars/calendar/calendar.tsx
 
@@ -30052,6 +30052,24 @@ var calendar = __webpack_require__("1be3");
     };
   }
 }));
+// CONCATENATED MODULE: ./src/composables/use-click-outside.ts
+
+function useClickOutside(element, callback) {
+  var clickOutside = function clickOutside(event) {
+    var _element$value;
+
+    var path = event.path || event.composedPath && event.composedPath();
+    var isClickOutside = path ? path.indexOf(element.value) < 0 : !((_element$value = element.value) !== null && _element$value !== void 0 && _element$value.contains(event.target));
+    if (isClickOutside) callback();
+  };
+
+  Object(external_commonjs_vue_commonjs2_vue_root_Vue_["onMounted"])(function () {
+    document.addEventListener('click', clickOutside);
+  });
+  Object(external_commonjs_vue_commonjs2_vue_root_Vue_["onBeforeUnmount"])(function () {
+    document.removeEventListener('click', clickOutside);
+  });
+}
 // EXTERNAL MODULE: ./src/ui/calendars/calendar-input.sass
 var calendar_input = __webpack_require__("eb41");
 
@@ -30060,8 +30078,24 @@ var calendar_input = __webpack_require__("eb41");
 
 
 
+
+
 /* harmony default export */ var calendars_calendar_input = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
+    clearable: {
+      type: Boolean,
+      default: false
+    },
+    constantPlaceholder: {
+      type: Boolean,
+      default: true
+    },
+    errors: {
+      type: Array,
+      default: function _default() {
+        return [];
+      }
+    },
     format: {
       type: String,
       default: 'DD.MM.YYYY'
@@ -30076,26 +30110,45 @@ var calendar_input = __webpack_require__("eb41");
     },
     placeholder: {
       type: String,
-      default: 'Дата'
+      default: ''
     }
   },
   setup: function setup(props) {
     var showCalendar = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(false);
+    var calendar = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null);
+    useClickOutside(calendar, function () {
+      showCalendar.value = false;
+    });
+
+    var clear = function clear() {
+      props.onValueChange(null);
+    };
+
     return function () {
       var _props$modelValue;
 
       return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
-        "class": 'apptimizm-ui-calendar-input'
-      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": 'apptimizm-ui-calendar-input',
+        "ref": calendar
+      }, [props.placeholder && props.constantPlaceholder && Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": "apptimizm-ui-calendar-input-placeholder"
+      }, [props.placeholder]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
         "class": 'apptimizm-ui-calendar-input-overlap',
         "onClick": function onClick() {
           showCalendar.value = !showCalendar.value;
         }
-      }, null), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("input", {
+      }, null), props.clearable && props.modelValue ? Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "class": 'apptimizm-ui-calendar-input-clear',
+        "onClick": clear
+      }, null) : null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("input", {
         "type": 'text',
         "value": (_props$modelValue = props.modelValue) === null || _props$modelValue === void 0 ? void 0 : _props$modelValue.format(props.format),
-        "placeholder": props.placeholder
-      }, null), showCalendar.value && Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+        "placeholder": !props.constantPlaceholder ? props.placeholder : ''
+      }, null), props.errors.map(function (error) {
+        return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+          "class": 'apptimizm-ui-calendar-input-error'
+        }, [error]);
+      }), showCalendar.value && Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
         "class": 'apptimizm-ui-calendar-input-calendar-container'
       }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(calendar_calendar, {
         "day": props.modelValue,
@@ -31149,6 +31202,9 @@ var default_select_Props = function Props() {
   this.constantPlaceholder = prop({
     default: true
   });
+  this.disableDeselect = prop({
+    default: false
+  });
 };
 
 var default_select_DefaultSelect = /*#__PURE__*/function (_Vue$with) {
@@ -31182,6 +31238,7 @@ var default_select_DefaultSelect = /*#__PURE__*/function (_Vue$with) {
   }, {
     key: "deselect",
     value: function deselect() {
+      if (this.disableDeselect) return;
       this.$emit('input', {});
       this.$emit('update:modelValue', {});
       this.onValueChange && this.onValueChange({});
@@ -31817,7 +31874,8 @@ var pagination_PaginationElement = function PaginationElement(props, context) {
     },
     "onValueChange": function onValueChange(i) {
       return props.onPerPageChange(Number(i.id));
-    }
+    },
+    "disableDeselect": true
   }, null)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
     "class": "apptimizm-ui-pagination-pages"
   }, [page > 1 ? getPrevPage() : null, getFirstPage(), items.map(function (i) {
@@ -32079,22 +32137,6 @@ function useScrollPagination(callback, trigger, root) {
   });
   Object(external_commonjs_vue_commonjs2_vue_root_Vue_["onUnmounted"])(function () {
     observer.disconnect();
-  });
-}
-// CONCATENATED MODULE: ./src/composables/use-click-outside.ts
-
-function useClickOutside(element, callback) {
-  var clickOutside = function clickOutside(event) {
-    var path = event.path || event.composedPath && event.composedPath();
-    var isClickOutside = path ? path.indexOf(element.value) < 0 : !element.value.contains(event.target);
-    if (isClickOutside) callback();
-  };
-
-  Object(external_commonjs_vue_commonjs2_vue_root_Vue_["onMounted"])(function () {
-    document.addEventListener('click', clickOutside);
-  });
-  Object(external_commonjs_vue_commonjs2_vue_root_Vue_["onBeforeUnmount"])(function () {
-    document.removeEventListener('click', clickOutside);
   });
 }
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/ts-loader??ref--15-3!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/ui/line-loader-small.vue?vue&type=script&lang=tsx
@@ -32536,7 +32578,7 @@ var relation_select = __webpack_require__("d02f");
         "onClick": function onClick() {
           isOpened.value = !isOpened.value;
         }
-      }, null), props.clearable ? Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
+      }, null), props.clearable && props.modelValue.length ? Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {
         "class": "apptimizm-ui-relation-select-clear",
         "onClick": clear
       }, null) : null]), props.constantPlaceholder && props.placeholder && Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", {

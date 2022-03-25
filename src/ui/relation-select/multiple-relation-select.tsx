@@ -191,7 +191,7 @@ export default defineComponent({
                 </div>
               ) }
               <div class="apptimizm-ui-relation-select-arrow" onClick={() => { isOpened.value = !isOpened.value }}/>
-              { props.clearable ? <div class="apptimizm-ui-relation-select-clear" onClick={clear}/> : null }
+              { props.clearable && props.modelValue.length ? <div class="apptimizm-ui-relation-select-clear" onClick={clear}/> : null }
             </div>
             { props.constantPlaceholder && props.placeholder && <div class="apptimizm-ui-relation-select-placeholder">{props.placeholder}</div> }
             <div class="apptimizm-ui-relation-select-dropdown" style={isOpened.value ? 'display: block;' : 'display: none;'}>

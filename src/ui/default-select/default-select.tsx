@@ -12,6 +12,7 @@ class Props {
   items = prop<any>({ required: true })
   resetable = prop<boolean>({ default: false })
   constantPlaceholder = prop<boolean>({ default: true })
+  disableDeselect = prop<boolean>({ default: false })
 }
 
 export default class DefaultSelect extends Vue.with(Props) {
@@ -29,6 +30,7 @@ export default class DefaultSelect extends Vue.with(Props) {
   }
 
   deselect () {
+    if (this.disableDeselect) return
     this.$emit('input', {})
     this.$emit('update:modelValue', {})
     this.onValueChange && this.onValueChange({})

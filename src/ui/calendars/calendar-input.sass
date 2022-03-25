@@ -1,7 +1,9 @@
+@import '../../variables.sass'
+
 .apptimizm-ui-calendar-input
   position: relative
   input
-    background: url(./assets/calendar.svg) right 16px center no-repeat white
+    background: url(./assets/calendar.svg) right 16px top 13px no-repeat white
     border: 1px solid #f0f0f0
     border-radius: 4px
     box-sizing: border-box
@@ -22,3 +24,23 @@
     position: absolute
     top: 0px
     width: 100%
+  .apptimizm-ui-calendar-input-error
+    color: $error-color
+    font-size: 12px
+    line-height: 24px
+    height: 24px
+  .apptimizm-ui-calendar-input-placeholder
+    background: white
+    color: $placeholder-gray
+    font-size: 12px
+    left: 2*$step
+    position: absolute
+    top: -$step
+  .apptimizm-ui-calendar-input-clear
+    background: url(./assets/cross.svg) center center no-repeat
+    cursor: pointer
+    height: 16px
+    position: absolute
+    top: 12px
+    right: 32px
+    width: 16px
