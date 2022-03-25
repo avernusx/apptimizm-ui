@@ -15,6 +15,10 @@ export default defineComponent({
       type: Object as PropType<IAxiosInterface>,
       required: true
     },
+    clearable: {
+      type: Boolean,
+      default: false
+    },
     constantPlaceholder: {
       type: Boolean,
       default: true
@@ -186,13 +190,15 @@ export default defineComponent({
                   ) : props.placeholder }
                 </div>
               ) }
+              <div class="apptimizm-ui-relation-select-arrow" onClick={() => { isOpened.value = !isOpened.value }}/>
+              { props.clearable ? <div class="apptimizm-ui-relation-select-clear" onClick={clear}/> : null }
             </div>
             { props.constantPlaceholder && props.placeholder && <div class="apptimizm-ui-relation-select-placeholder">{props.placeholder}</div> }
             <div class="apptimizm-ui-relation-select-dropdown" style={isOpened.value ? 'display: block;' : 'display: none;'}>
               { isLoading.value && <LineLoader/> }
               <div class="apptimizm-ui-relation-select-items-list" ref={root}>
                 { items.value.map((item: ListElement) => (
-                  <div class={`apptimizm-ui-relation-select-item ${isSelected(item) ? 'selected' : ''}`} onClick={() => toggleItem(item)}>
+                  <div class={`apptimizm-ui-relation-select-item ${isSelected(item) ? 'is-selected' : ''}`} onClick={() => toggleItem(item)}>
                     <span>{ item.name }</span>
                   </div>
                 )) }

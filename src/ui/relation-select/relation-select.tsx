@@ -15,6 +15,10 @@ export default defineComponent({
       type: Object as PropType<IAxiosInterface>,
       required: true
     },
+    clearable: {
+      type: Boolean,
+      default: false
+    },
     constantPlaceholder: {
       type: Boolean,
       default: true
@@ -32,11 +36,11 @@ export default defineComponent({
       required: true
     },
     modelValue: {
-      type: Object as PropType<ListElement>,
+      type: Object as PropType<ListElement|null>,
       default: () => ({ id: '', name: '' })
     },
     onValueChange: {
-      type: Function as PropType<(v: ListElement) => void>,
+      type: Function as PropType<(v: ListElement|null) => void>,
       default: () => () => {}
     },
     paginationType: {
@@ -140,6 +144,10 @@ export default defineComponent({
       isOpened.value = false
     }
 
+    const clear = () => {
+      props.onValueChange(null)
+    }
+
     return () => {
       return (
         <div>
@@ -157,10 +165,11 @@ export default defineComponent({
                 />
               ) : (
                 <div class="apptimizm-ui-relation-select-selected" onClick={() => { isOpened.value = true }}>
-                  <span>{ props.modelValue.name || (!props.constantPlaceholder && props.placeholder) }</span>
+                  <span>{ props.modelValue?.name || (!props.constantPlaceholder && props.placeholder) }</span>
                 </div>
               ) }
               <div class="apptimizm-ui-relation-select-arrow" onClick={() => { isOpened.value = !isOpened.value }}/>
+              { props.clearable ? <div class="apptimizm-ui-relation-select-clear" onClick={clear}/> : null }
             </div>
             { props.placeholder && props.constantPlaceholder && <div class="apptimizm-ui-relation-select-placeholder">{props.placeholder}</div> }
             <div class="apptimizm-ui-relation-select-dropdown" style={isOpened.value ? 'display: block;' : 'display: none;'}>
@@ -168,7 +177,7 @@ export default defineComponent({
               <div class="apptimizm-ui-relation-select-items-list" ref={root}>
                 { items.value.map((item: any) => (
                   <div
-                    class={`apptimizm-ui-relation-select-item ${item.id === props.modelValue.id ? 'is-selected' : ''}`}
+                    class={`apptimizm-ui-relation-select-item ${item.id === props.modelValue?.id ? 'is-selected' : ''}`}
                     onClick={() => setValue(item)}
                   >
                     <span>{ item.name }</span>
