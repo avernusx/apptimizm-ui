@@ -1,3 +1,6 @@
+## 0.1.36
+- исправить баг с отмечанием выбранных пунктов в MultipleRelationSelect
+- добавить props clearable в RelationSelect, MultipleRelationSelect
 ## 0.1.35
 - изменена сборка стилей
 ## 0.1.34

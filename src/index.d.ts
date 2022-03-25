@@ -1,5 +1,6 @@
 // Календари
 import Calendar from './ui/calendars/calendar/calendar'
+import CalendarInput from './ui/calendars/calendar-input'
 import Checkbox from './ui/checkbox/checkbox'
 import PeriodCalendar from './ui/calendars/period-calendar/period-calendar'
 
@@ -47,6 +48,7 @@ export {
   AutomaticErrorPopup,
   BooleanSelect,
   Calendar,
+  CalendarInput,
   Checkbox,
   DefaultInput,
   DefaultSelect,
