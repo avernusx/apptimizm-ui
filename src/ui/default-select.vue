@@ -8,6 +8,7 @@ class Props {
   titleKey = prop<string>({ default: 'name' })
   onValueChange = prop<(v: any) => void>({})
   items = prop<any>({ default: () => [] })
+  disableDeselect = prop<boolean>({ default: false })
 }
 
 export default class DefaultSelect extends Vue.with(Props) {
@@ -25,6 +26,7 @@ export default class DefaultSelect extends Vue.with(Props) {
   }
 
   deselect () {
+    if (this.disableDeselect) return
     this.$emit('input', {})
     this.$emit('update:modelValue', {})
     this.onValueChange && this.onValueChange({})

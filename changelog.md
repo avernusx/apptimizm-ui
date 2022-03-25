@@ -1,3 +1,6 @@
+## 0.1.37
+- добавить props disableDeselect в DefaultSelect
+
 ## 0.1.36
 - исправить баг с отмечанием выбранных пунктов в MultipleRelationSelect
 - добавить стрелочку открыто/закрыто MultipleRelationSelect
